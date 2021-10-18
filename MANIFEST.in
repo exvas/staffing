@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include staffing *.css
+recursive-include staffing *.csv
+recursive-include staffing *.html
+recursive-include staffing *.ico
+recursive-include staffing *.js
+recursive-include staffing *.json
+recursive-include staffing *.md
+recursive-include staffing *.png
+recursive-include staffing *.py
+recursive-include staffing *.svg
+recursive-include staffing *.txt
+recursive-exclude staffing *.pyc
