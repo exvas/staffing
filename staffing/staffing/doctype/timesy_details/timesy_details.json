@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2021-10-18 23:21:11.781837",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "staffing_type",
+  "costing_hour",
+  "billing_hour",
+  "staffing_project",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "staffing_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Staffing Type",
+   "options": "Staffing Type"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "staffing_type.default_costing_rate",
+   "fetch_if_empty": 1,
+   "fieldname": "costing_hour",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Costing Hour"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "staffing_type.default_billing_rate",
+   "fieldname": "billing_hour",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Billing Hour"
+  },
+  {
+   "fieldname": "staffing_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Staffing Project",
+   "options": "Staffing Project"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Working\nAbsent\nMedical"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2021-10-21 00:48:53.697277",
+ "modified_by": "Administrator",
+ "module": "Staffing",
+ "name": "Timesy Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

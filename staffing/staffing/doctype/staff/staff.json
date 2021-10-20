@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2021-10-18 23:10:35.610427",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "disable",
+  "employee",
+  "employee_name",
+  "department",
+  "emergency_contact_number",
+  "email_id",
+  "office_number",
+  "other_details",
+  "column_break_9",
+  "status_section",
+  "date_of_join",
+  "nationality",
+  "iqama_number",
+  "iqama_date",
+  "passport_number",
+  "passport_date"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "disable",
+   "fieldtype": "Check",
+   "label": "DIsable"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "emergency_contact_number",
+   "fieldtype": "Data",
+   "label": "Emergency Contact Number"
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email ID"
+  },
+  {
+   "fieldname": "office_number",
+   "fieldtype": "Data",
+   "label": "Office Number"
+  },
+  {
+   "fieldname": "other_details",
+   "fieldtype": "Data",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "date_of_join",
+   "fieldtype": "Data",
+   "label": "Date of Join"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality"
+  },
+  {
+   "fieldname": "iqama_number",
+   "fieldtype": "Data",
+   "label": "Iqama Number"
+  },
+  {
+   "fieldname": "iqama_date",
+   "fieldtype": "Date",
+   "label": "Iqama Date"
+  },
+  {
+   "fieldname": "passport_number",
+   "fieldtype": "Data",
+   "label": "Passport Number"
+  },
+  {
+   "fieldname": "passport_date",
+   "fieldtype": "Date",
+   "label": "Passport Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-10-21 00:48:33.155926",
+ "modified_by": "Administrator",
+ "module": "Staffing",
+ "name": "Staff",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

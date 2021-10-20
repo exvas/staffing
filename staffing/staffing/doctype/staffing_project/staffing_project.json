@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:staffing_project",
+ "creation": "2021-10-18 23:16:50.567542",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "disabled",
+  "staffing_project",
+  "sub_project_code",
+  "sub_project_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "staffing_project",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Staffing Project",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "sub_project_code",
+   "fieldtype": "Data",
+   "label": "Sub Project Code"
+  },
+  {
+   "fieldname": "sub_project_name",
+   "fieldtype": "Data",
+   "label": "Sub Project Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-10-21 00:56:30.063454",
+ "modified_by": "Administrator",
+ "module": "Staffing",
+ "name": "Staffing Project",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

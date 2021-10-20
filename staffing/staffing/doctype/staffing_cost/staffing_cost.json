@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2021-10-18 23:16:00.289295",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "trading_type",
+  "default_cost_rate",
+  "column_break_3",
+  "employee",
+  "default_billing_rate",
+  "absent_deduction"
+ ],
+ "fields": [
+  {
+   "fieldname": "trading_type",
+   "fieldtype": "Data",
+   "label": "Trading Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_cost_rate",
+   "fieldtype": "Currency",
+   "label": "Default Cost Rate"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_billing_rate",
+   "fieldtype": "Currency",
+   "label": "Default Billing Rate"
+  },
+  {
+   "fieldname": "absent_deduction",
+   "fieldtype": "Data",
+   "label": "Absent Deduction"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-10-21 00:48:38.979872",
+ "modified_by": "Administrator",
+ "module": "Staffing",
+ "name": "Staffing Cost",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
