@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "disabled",
+  "naming_series",
   "staffing_type",
   "default_costing_rate",
   "default_billing_rate"
@@ -38,11 +39,18 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ST-.YY.-",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 00:56:18.252067",
+ "modified": "2021-10-21 22:08:14.936447",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Type",

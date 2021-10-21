@@ -1,11 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2021-10-21 01:34:17.901439",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "ref_doctype",
   "staffing_project",
   "timesy_batch_details_section",
@@ -57,12 +59,19 @@
    "options": "Timesy Batch",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "TB-.YY.-",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-21 01:38:05.908047",
+ "modified": "2021-10-21 22:08:42.928048",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Batch",

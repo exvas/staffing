@@ -1,55 +1,73 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2021-10-18 23:16:00.289295",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "trading_type",
-  "default_cost_rate",
+  "default_cost_rate_per_hour",
   "column_break_3",
-  "employee",
-  "default_billing_rate",
-  "absent_deduction"
+  "reference_type",
+  "reference",
+  "default_billing_rate_per_hour",
+  "absent_deduction_per_hour"
  ],
  "fields": [
   {
    "fieldname": "trading_type",
-   "fieldtype": "Data",
-   "label": "Trading Type"
-  },
-  {
-   "default": "0",
-   "fieldname": "default_cost_rate",
-   "fieldtype": "Currency",
-   "label": "Default Cost Rate"
+   "fieldtype": "Link",
+   "label": "Staffing Type",
+   "options": "Staffing Type"
   },
   {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "employee",
+   "fieldname": "reference_type",
    "fieldtype": "Link",
-   "label": "Employee",
-   "options": "Employee"
+   "label": "Reference Type",
+   "options": "DocType"
+  },
+  {
+   "fetch_from": "reference_type",
+   "fieldname": "reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference",
+   "options": "reference_type"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "SC-.YY.-",
+   "read_only": 1
   },
   {
    "default": "0",
-   "fieldname": "default_billing_rate",
+   "fieldname": "default_cost_rate_per_hour",
    "fieldtype": "Currency",
-   "label": "Default Billing Rate"
+   "label": "Default Cost Rate Per Hour"
   },
   {
-   "fieldname": "absent_deduction",
-   "fieldtype": "Data",
-   "label": "Absent Deduction"
+   "default": "0",
+   "fieldname": "default_billing_rate_per_hour",
+   "fieldtype": "Currency",
+   "label": "Default Billing Rate Per Hour"
+  },
+  {
+   "fieldname": "absent_deduction_per_hour",
+   "fieldtype": "Currency",
+   "label": "Absent Deduction Per Hour"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 00:48:38.979872",
+ "modified": "2021-10-21 22:23:49.220144",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

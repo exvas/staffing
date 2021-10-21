@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "disabled",
+  "naming_series",
   "staffing_project",
   "sub_project_code",
   "sub_project_name"
@@ -36,11 +37,18 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "SP-.YY.-",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 00:56:30.063454",
+ "modified": "2021-10-21 22:08:28.648330",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Project",

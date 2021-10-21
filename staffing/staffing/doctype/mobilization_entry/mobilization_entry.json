@@ -1,11 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2021-10-18 23:17:27.192118",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "mobilization_ref_name",
   "mobilization_ref_code"
  ],
@@ -19,11 +21,18 @@
    "fieldname": "mobilization_ref_code",
    "fieldtype": "Data",
    "label": "Mobilization Ref Code"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ME-.YY.-",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 00:48:44.487440",
+ "modified": "2021-10-21 22:07:59.254768",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Mobilization Entry",

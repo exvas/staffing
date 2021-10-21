@@ -1,47 +1,38 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2021-10-18 23:10:35.610427",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "disable",
-  "employee",
+  "image",
+  "status",
+  "naming_series",
   "employee_name",
   "department",
+  "mobilization_date",
+  "demobilization_date",
+  "column_break_9",
   "emergency_contact_number",
   "email_id",
   "office_number",
   "other_details",
-  "column_break_9",
   "status_section",
   "date_of_join",
   "nationality",
   "iqama_number",
+  "column_break_16",
   "iqama_date",
   "passport_number",
   "passport_date"
  ],
  "fields": [
   {
-   "default": "0",
-   "fieldname": "disable",
-   "fieldtype": "Check",
-   "label": "DIsable"
-  },
-  {
-   "fieldname": "employee",
-   "fieldtype": "Link",
-   "label": "Employee",
-   "options": "Employee"
-  },
-  {
-   "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name",
-   "read_only": 1
+   "label": "Staff Name"
   },
   {
    "fieldname": "department",
@@ -107,11 +98,48 @@
    "fieldname": "passport_date",
    "fieldtype": "Date",
    "label": "Passport Date"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "SF-.YY.-",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "mobilization_date",
+   "fieldtype": "Date",
+   "label": "Mobilization Date"
+  },
+  {
+   "default": "Today",
+   "fieldname": "demobilization_date",
+   "fieldtype": "Date",
+   "label": "Demobilization Date"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Attach Image"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nLeft"
   }
  ],
+ "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 00:48:33.155926",
+ "modified": "2021-10-21 22:56:42.269273",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staff",

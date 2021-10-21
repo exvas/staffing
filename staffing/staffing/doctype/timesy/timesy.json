@@ -1,25 +1,32 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2021-10-18 23:19:19.784575",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "company",
-  "employee_type",
+  "reference_type",
+  "reference",
   "department",
   "column_break_4",
   "status",
   "start_date",
   "end_date",
   "if_subcontractor",
-  "amended_from",
   "section_break_10",
   "timesy_details",
   "section_break_12",
   "total_costing_hour",
-  "total_billing_hour"
+  "column_break_15",
+  "total_billing_hour",
+  "column_break_14",
+  "total_absent_hour",
+  "section_break_19",
+  "amended_from"
  ],
  "fields": [
   {
@@ -27,12 +34,6 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
-  },
-  {
-   "fieldname": "employee_type",
-   "fieldtype": "Select",
-   "label": "Employee Type",
-   "options": "Staff\nEmployee"
   },
   {
    "fieldname": "department",
@@ -45,9 +46,12 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "In Progress",
    "fieldname": "status",
-   "fieldtype": "Data",
-   "label": "Status"
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "In Progress\nCompleted",
+   "read_only": 1
   },
   {
    "fieldname": "start_date",
@@ -88,20 +92,60 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "0",
    "fieldname": "total_costing_hour",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Costing Hour"
   },
   {
+   "default": "0",
    "fieldname": "total_billing_hour",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Billing Hour"
+  },
+  {
+   "fieldname": "reference_type",
+   "fieldtype": "Link",
+   "label": "Reference Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference",
+   "options": "reference_type"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "TS-.YY.-",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_absent_hour",
+   "fieldtype": "Float",
+   "label": "Total Absent Hour",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-21 00:48:58.235159",
+ "modified": "2021-10-21 22:36:08.900308",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
