@@ -10,8 +10,8 @@
   "image",
   "status",
   "naming_series",
-  "employee_name",
-  "department",
+  "staff_name",
+  "designation",
   "mobilization_date",
   "demobilization_date",
   "column_break_9",
@@ -19,6 +19,8 @@
   "email_id",
   "office_number",
   "other_details",
+  "staffing_type",
+  "staffing_project",
   "status_section",
   "date_of_join",
   "nationality",
@@ -29,17 +31,6 @@
   "passport_date"
  ],
  "fields": [
-  {
-   "fieldname": "employee_name",
-   "fieldtype": "Data",
-   "label": "Staff Name"
-  },
-  {
-   "fieldname": "department",
-   "fieldtype": "Link",
-   "label": "Department",
-   "options": "Department"
-  },
   {
    "fieldname": "emergency_contact_number",
    "fieldtype": "Data",
@@ -134,12 +125,35 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Active\nLeft"
+  },
+  {
+   "fieldname": "staff_name",
+   "fieldtype": "Data",
+   "label": "Staff Name"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "staffing_type",
+   "fieldtype": "Link",
+   "label": "Staffing Type",
+   "options": "Staffing Cost"
+  },
+  {
+   "fieldname": "staffing_project",
+   "fieldtype": "Link",
+   "label": "Staffing Project",
+   "options": "Staffing Project"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-21 22:56:42.269273",
+ "modified": "2021-10-22 23:52:54.302246",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staff",

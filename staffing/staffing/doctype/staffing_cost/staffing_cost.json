@@ -8,21 +8,27 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "trading_type",
-  "default_cost_rate_per_hour",
+  "staffing_type",
+  "mobilization_date",
+  "demobilization_date",
+  "staffing_project",
   "column_break_3",
   "reference_type",
-  "reference",
+  "staff_code",
+  "staff_name",
+  "employee_code",
+  "employee_name",
+  "section_break_10",
+  "default_cost_rate_per_hour",
+  "friday_working_costing_rate",
+  "absent_deduction_per_hour",
+  "column_break_14",
   "default_billing_rate_per_hour",
-  "absent_deduction_per_hour"
+  "friday_working_billing_rate",
+  "project_type",
+  "amended_from"
  ],
  "fields": [
-  {
-   "fieldname": "trading_type",
-   "fieldtype": "Link",
-   "label": "Staffing Type",
-   "options": "Staffing Type"
-  },
   {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
@@ -32,13 +38,6 @@
    "fieldtype": "Link",
    "label": "Reference Type",
    "options": "DocType"
-  },
-  {
-   "fetch_from": "reference_type",
-   "fieldname": "reference",
-   "fieldtype": "Dynamic Link",
-   "label": "Reference",
-   "options": "reference_type"
   },
   {
    "fieldname": "naming_series",
@@ -63,11 +62,97 @@
    "fieldname": "absent_deduction_per_hour",
    "fieldtype": "Currency",
    "label": "Absent Deduction Per Hour"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Staffing Cost",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "mobilization_date",
+   "fieldtype": "Date",
+   "label": "Mobilization Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "demobilization_date",
+   "fieldtype": "Date",
+   "label": "Demobilization Date"
+  },
+  {
+   "depends_on": "eval: doc.reference_type == \"Staff\"",
+   "fieldname": "staff_code",
+   "fieldtype": "Link",
+   "label": "Staff Code",
+   "options": "Staff"
+  },
+  {
+   "depends_on": "eval: doc.reference_type == \"Staff\"",
+   "fetch_from": "staff_code.staff_name",
+   "fieldname": "staff_name",
+   "fieldtype": "Data",
+   "label": "Staff Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "friday_working_costing_rate",
+   "fieldtype": "Currency",
+   "label": "Friday Working Costing Rate"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "friday_working_billing_rate",
+   "fieldtype": "Currency",
+   "label": "Friday Working Billing Rate"
+  },
+  {
+   "fieldname": "project_type",
+   "fieldtype": "Currency",
+   "label": "Project Type"
+  },
+  {
+   "fieldname": "staffing_type",
+   "fieldtype": "Link",
+   "label": "Staffing Type",
+   "options": "Staffing Cost"
+  },
+  {
+   "depends_on": "eval: doc.reference_type == \"Employee\"",
+   "fieldname": "employee_code",
+   "fieldtype": "Link",
+   "label": "Employee Code",
+   "options": "Employee"
+  },
+  {
+   "depends_on": "eval: doc.reference_type == \"Employee\"",
+   "fetch_from": "employee_code.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "staffing_project",
+   "fieldtype": "Link",
+   "label": "Staffing Project",
+   "options": "Staffing Project"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2021-10-21 22:23:49.220144",
+ "modified": "2021-10-23 00:15:00.899526",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

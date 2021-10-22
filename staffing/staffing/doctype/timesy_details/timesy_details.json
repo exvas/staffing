@@ -7,12 +7,11 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
-  "staffing_type",
   "working_hour",
   "costing_hour",
   "billing_hour",
   "absent_hour",
-  "staffing_project",
+  "friday_hour",
   "status"
  ],
  "fields": [
@@ -24,14 +23,6 @@
    "label": "Date"
   },
   {
-   "fieldname": "staffing_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Staffing Type",
-   "options": "Staffing Cost"
-  },
-  {
-   "columns": 1,
    "fetch_if_empty": 1,
    "fieldname": "costing_hour",
    "fieldtype": "Float",
@@ -48,22 +39,14 @@
    "read_only": 1
   },
   {
-   "fieldname": "staffing_project",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Staffing Project",
-   "options": "Staffing Project"
-  },
-  {
    "columns": 1,
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Working\nAbsent\nMedical"
+   "options": "Working\nAbsent\nMedical\nFriday\nFriday Working"
   },
   {
-   "columns": 1,
    "fieldname": "working_hour",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -77,12 +60,21 @@
    "in_list_view": 1,
    "label": "Absent Hour",
    "read_only": 1
+  },
+  {
+   "columns": 2,
+   "default": "0",
+   "fieldname": "friday_hour",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Friday Hour",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-21 22:31:25.774627",
+ "modified": "2021-10-22 23:34:54.128160",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
