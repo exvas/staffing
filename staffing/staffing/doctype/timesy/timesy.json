@@ -33,6 +33,8 @@
   "total_absent_hour",
   "total_friday_hour",
   "section_break_19",
+  "item",
+  "salary_component",
   "amended_from"
  ],
  "fields": [
@@ -202,12 +204,24 @@
    "fieldname": "demobilization_date",
    "fieldtype": "Date",
    "label": "Demobilization Date"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "salary_component",
+   "fieldtype": "Link",
+   "label": "Salary Component",
+   "options": "Salary Component"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-23 22:34:11.152339",
+ "modified": "2021-10-23 23:01:15.916050",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

@@ -1,4 +1,4 @@
-frappe.ui.form.on("Sales Invoice", {
+frappe.ui.form.on("Purchase Invoice", {
     refresh: function () {
         cur_frm.add_custom_button(__('Timesy'),
 				function() {

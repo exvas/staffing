@@ -32,7 +32,8 @@ app_license = "MIT"
 
 # include js in doctype views
 doctype_js = {
-	"Sales Invoice" : "public/js/sales_invoice.js"
+	"Sales Invoice" : "public/js/sales_invoice.js",
+	"Purchase Invoice" : "public/js/purchase_invoice.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -175,3 +176,20 @@ user_data_fields = [
 # 	"staffing.auth.validate"
 # ]
 
+fixtures = [
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Purchase Invoice-timesy",
+                    "Purchase Invoice-timesy_reference",
+                    "Sales Invoice-timesy",
+                    "Sales Invoice-timesy_reference",
+				]
+			]
+		]
+	}
+]
