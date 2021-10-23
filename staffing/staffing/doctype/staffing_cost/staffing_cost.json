@@ -7,6 +7,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "status",
   "naming_series",
   "staffing_type",
   "mobilization_date",
@@ -157,12 +158,18 @@
    "fieldname": "default_working_rate",
    "fieldtype": "Data",
    "label": "Default Working Rate"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nExpired"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-23 22:32:10.894006",
+ "modified": "2021-10-23 22:50:17.106576",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

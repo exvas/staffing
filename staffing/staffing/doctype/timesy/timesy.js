@@ -2,6 +2,27 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Timesy', {
+    demobilization_date: function () {
+        if(cur_frm.doc.demobilization_date){
+            frappe.confirm('Update Demobilization Date in Staffing Cost?',
+                    () => {
+
+                      cur_frm.call({
+                            doc: cur_frm.doc,
+                            method: 'change_date',
+                            args: {},
+                            freeze: true,
+                            freeze_message: "Changing Date...",
+                             async: false,
+                            callback: (r) => {
+                                cur_frm.reload_doc()
+                          }
+                        })
+
+        }, () => {})
+        }
+
+    },
 	refresh: function(frm) {
         if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress"){
          cur_frm.add_custom_button(__('Completed'),
@@ -58,7 +79,8 @@ frappe.ui.form.on('Timesy', {
 	    if(cur_frm.doc.staff_code){
 	         var obj = {
                     staff_code: cur_frm.doc.staff_code,
-                    docstatus: 1
+                    docstatus: 1,
+                 status: "Active"
                 }
 	        get_designation(cur_frm, obj)
         } else {
@@ -71,7 +93,8 @@ frappe.ui.form.on('Timesy', {
       if(cur_frm.doc.employee_code){
           var obj = {
               employee_code: cur_frm.doc.employee_code,
-                    docstatus: 1
+                    docstatus: 1,
+              status: "Active"
           }
 	        get_designation(cur_frm, obj)
         } else {
