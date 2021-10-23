@@ -96,13 +96,13 @@
   {
    "default": "0",
    "fieldname": "total_costing_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Costing Hour"
   },
   {
    "default": "0",
    "fieldname": "total_billing_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Billing Hour"
   },
   {
@@ -121,7 +121,7 @@
   {
    "default": "0",
    "fieldname": "total_absent_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Absent Hour",
    "read_only": 1
   },
@@ -194,7 +194,7 @@
   {
    "default": "0",
    "fieldname": "total_friday_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Friday Hour"
   },
   {
@@ -207,7 +207,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-23 00:25:13.345760",
+ "modified": "2021-10-23 22:34:11.152339",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

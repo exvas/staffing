@@ -25,7 +25,7 @@
   {
    "fetch_if_empty": 1,
    "fieldname": "costing_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Costing Hour",
    "read_only": 1
@@ -33,7 +33,7 @@
   {
    "columns": 1,
    "fieldname": "billing_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Billing Hour",
    "read_only": 1
@@ -56,7 +56,7 @@
    "columns": 1,
    "default": "0",
    "fieldname": "absent_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Absent Hour",
    "read_only": 1
@@ -65,7 +65,7 @@
    "columns": 2,
    "default": "0",
    "fieldname": "friday_hour",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Friday Hour",
    "read_only": 1
@@ -74,7 +74,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-22 23:34:54.128160",
+ "modified": "2021-10-23 22:33:52.506084",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",

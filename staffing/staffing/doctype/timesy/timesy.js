@@ -4,10 +4,10 @@
 frappe.ui.form.on('Timesy', {
 	refresh: function(frm) {
         if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress"){
-            frappe.confirm('Are you sure you want to proceed?',
+         cur_frm.add_custom_button(__('Completed'),
+                                function() {   frappe.confirm('Are you sure you want to proceed?',
                     () => {
-                         cur_frm.add_custom_button(__('Completed'),
-                                function() {
+
                                   cur_frm.call({
                                         doc: cur_frm.doc,
                                         method: 'change_status',
@@ -21,9 +21,9 @@ frappe.ui.form.on('Timesy', {
                                             cur_frm.reload_doc()
                                       }
                                     })
-                            });
-                    }, () => {})
 
+                    }, () => {})
+ });
         }
          cur_frm.set_query("employee_code", () => {
             return {
@@ -87,14 +87,13 @@ function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
             .then(count => {
                if(count > 0){
-                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project", "demobilization_date"])
+                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project"])
                         .then(r => {
                             let values = r.message;
                             console.log(values)
                             cur_frm.doc.staffing_type = values.name
                             cur_frm.doc.staffing_project = values.staffing_project
-                            cur_frm.doc.demobilization_date = values.demobilization_date
-                            cur_frm.refresh_fields(["staffing_type","staffing_project", "demobilization_date"])
+                            cur_frm.refresh_fields(["staffing_type","staffing_project"])
 
 
                         })
@@ -130,7 +129,7 @@ function compute_hours(d,cur_frm) {
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
-                d.friday_hour = doc.friday_working_costing_rate * d.working_hour
+                d.friday_hour =0
 
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
