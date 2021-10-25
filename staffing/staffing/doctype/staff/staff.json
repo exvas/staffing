@@ -13,7 +13,6 @@
   "staff_name",
   "designation",
   "mobilization_date",
-  "demobilization_date",
   "column_break_9",
   "emergency_contact_number",
   "email_id",
@@ -22,11 +21,10 @@
   "staffing_type",
   "staffing_project",
   "status_section",
-  "date_of_join",
   "nationality",
   "iqama_number",
-  "column_break_16",
   "iqama_date",
+  "column_break_16",
   "passport_number",
   "passport_date"
  ],
@@ -61,14 +59,10 @@
    "label": "Status"
   },
   {
-   "fieldname": "date_of_join",
-   "fieldtype": "Data",
-   "label": "Date of Join"
-  },
-  {
    "fieldname": "nationality",
-   "fieldtype": "Data",
-   "label": "Nationality"
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
   },
   {
    "fieldname": "iqama_number",
@@ -102,12 +96,6 @@
    "fieldname": "mobilization_date",
    "fieldtype": "Date",
    "label": "Mobilization Date"
-  },
-  {
-   "default": "Today",
-   "fieldname": "demobilization_date",
-   "fieldtype": "Date",
-   "label": "Demobilization Date"
   },
   {
    "fieldname": "column_break_16",
@@ -153,7 +141,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-22 23:52:54.302246",
+ "modified": "2021-10-25 21:46:41.575967",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staff",
@@ -172,6 +160,7 @@
    "write": 1
   }
  ],
+ "search_fields": "staff_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

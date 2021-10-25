@@ -22,7 +22,6 @@
   "end_date",
   "staffing_type",
   "staffing_project",
-  "if_subcontractor",
   "demobilization_date",
   "section_break_10",
   "timesy_details",
@@ -65,12 +64,6 @@
    "fieldname": "end_date",
    "fieldtype": "Date",
    "label": "End Date"
-  },
-  {
-   "default": "0",
-   "fieldname": "if_subcontractor",
-   "fieldtype": "Check",
-   "label": "If Subcontractor"
   },
   {
    "fieldname": "amended_from",
@@ -200,7 +193,6 @@
    "label": "Total Friday Hour"
   },
   {
-   "default": "Today",
    "fieldname": "demobilization_date",
    "fieldtype": "Date",
    "label": "Demobilization Date"
@@ -221,7 +213,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-23 23:01:15.916050",
+ "modified": "2021-10-25 21:42:46.852985",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

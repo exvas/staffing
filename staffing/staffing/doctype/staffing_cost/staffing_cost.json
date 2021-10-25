@@ -154,9 +154,9 @@
    "label": "Default Overtime Rate"
   },
   {
-   "depends_on": "eval: doc.reference_type == \"Employee\"",
    "fieldname": "default_working_rate",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Default Working Rate"
   },
   {
@@ -169,7 +169,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-23 22:50:17.106576",
+ "modified": "2021-10-25 21:45:40.948662",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",
