@@ -3,8 +3,14 @@
 
 import frappe
 from frappe.model.document import Document
-
+from frappe.model.mapper import get_mapped_doc
 class Timesy(Document):
+    @frappe.whitelist()
+    def check_invoices(self):
+        si = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabSales Invoice` SI INNER JOIN `tabTimesy List` TL ON TL.parent = SI.name WHERE TL.timesy = %s and SI.docstatus=1""", self.name,as_dict=1)
+        pi = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabPurchase Invoice` PI INNER JOIN `tabTimesy List` TL ON TL.parent = PI.name WHERE TL.timesy = %s and PI.docstatus=1""", self.name,as_dict=1)
+
+        return si[0].count > 0,pi[0].count > 0
     @frappe.whitelist()
     def change_status(self, status):
         frappe.db.sql(""" UPDATE `tabTimesy` SET status=%s WHERE name=%s""",(status, self.name))
@@ -20,3 +26,79 @@ class Timesy(Document):
         query = """ UPDATE `tabStaffing Cost` SET demobilization_date=%s, status='Expired' WHERE docstatus = 1 {0}""".format(condition)
         frappe.db.sql(query)
         frappe.db.commit()
+
+@frappe.whitelist()
+def generate_si(source_name, target_doc=None):
+    # obj = {
+    #     "doctype": doctype,
+    #     "posting_date": self.start_date,
+    #     "due_date": self.end_date,
+    #     "timesy": [{
+    #         "timesy": self.name
+    #     }],
+    #     "items": [{
+    #         "item_code": self.item
+    #     }]
+    # }
+    # doc = frappe.get_doc(doctype, obj).insert()
+    # return doc.name
+    timesy = frappe.get_doc("Timesy", source_name)
+    doc = get_mapped_doc("Timesy", source_name, {
+        "Timesy": {
+            "doctype": "Sales Invoice",
+            "validation": {
+                "docstatus": ["=", 1]
+            },
+            "field_map": {
+                "start_date": "posting_date",
+                "end_date": "due_date",
+            }
+        }
+    }, ignore_permissions=True)
+
+    doc.append("timesy", {
+        "timesy": source_name
+    })
+    doc.append("items", {
+        "item_code": timesy.item
+    })
+    return doc
+
+
+@frappe.whitelist()
+def generate_pi(source_name, target_doc=None):
+    # obj = {
+    #     "doctype": doctype,
+    #     "posting_date": self.start_date,
+    #     "due_date": self.end_date,
+    #     "timesy": [{
+    #         "timesy": self.name
+    #     }],
+    #     "items": [{
+    #         "item_code": self.item
+    #     }]
+    # }
+    # doc = frappe.get_doc(doctype, obj).insert()
+    # return doc.name
+    timesy = frappe.get_doc("Timesy", source_name)
+    doc = get_mapped_doc("Timesy", source_name, {
+        "Timesy": {
+            "doctype": "Purchase Invoice",
+            "validation": {
+                "docstatus": ["=", 1]
+            },
+            "field_map": {
+                "start_date": "posting_date",
+                "end_date": "due_date",
+            }
+        }
+    }, ignore_permissions=True)
+
+    doc.append("timesy", {
+        "timesy": source_name
+    })
+    doc.append("items", {
+        "item_code": timesy.item,
+        "qty": 1
+    })
+    return doc

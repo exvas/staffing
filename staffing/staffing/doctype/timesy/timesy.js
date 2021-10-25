@@ -1,6 +1,7 @@
 // Copyright (c) 2021, jan and contributors
 // For license information, please see license.txt
-
+var has_si = false
+var has_pi = false
 frappe.ui.form.on('Timesy', {
     demobilization_date: function () {
         if(cur_frm.doc.demobilization_date){
@@ -24,27 +25,60 @@ frappe.ui.form.on('Timesy', {
 
     },
 	refresh: function(frm) {
+         cur_frm.call({
+            doc: cur_frm.doc,
+            method: 'check_invoices',
+            args: {},
+            freeze: true,
+            freeze_message: "Checking Sales Order...",
+            async:false,
+            callback: (r) => {
+                has_si= r.message[0]
+                has_pi= r.message[1]
+            }
+        })
         if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress"){
          cur_frm.add_custom_button(__('Completed'),
-                                function() {   frappe.confirm('Are you sure you want to proceed?',
+                                function() {
+             frappe.confirm('Are you sure you want to proceed?',
                     () => {
 
-                                  cur_frm.call({
-                                        doc: cur_frm.doc,
-                                        method: 'change_status',
-                                        args: {
-                                          status: "Completed"
-                                        },
-                                        freeze: true,
-                                        freeze_message: "Changing Status...",
-                                         async: false,
-                                        callback: (r) => {
-                                            cur_frm.reload_doc()
-                                      }
-                                    })
+                      cur_frm.call({
+                            doc: cur_frm.doc,
+                            method: 'change_status',
+                            args: {
+                              status: "Completed"
+                            },
+                            freeze: true,
+                            freeze_message: "Changing Status...",
+                             async: false,
+                            callback: (r) => {
+                                cur_frm.reload_doc()
+                          }
+                        })
 
                     }, () => {})
- });
+            });
+        }
+        if(cur_frm.doc.docstatus && cur_frm.doc.reference_type === 'Staff'){
+            if(!has_si){
+                cur_frm.add_custom_button(__('Sales Invoice'), function() {
+                        frappe.model.open_mapped_doc({
+                            method: "staffing.staffing.doctype.timesy.timesy.generate_si",
+                            frm: cur_frm
+                        })
+                    });
+            }
+                            if(!has_pi){
+                 cur_frm.add_custom_button(__('Purchase Invoice'), function() {
+                        frappe.model.open_mapped_doc({
+                            method: "staffing.staffing.doctype.timesy.timesy.generate_pi",
+                            frm: cur_frm
+                        })
+                    });
+                            }
+
+
         }
          cur_frm.set_query("employee_code", () => {
             return {

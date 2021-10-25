@@ -33,15 +33,33 @@ frappe.ui.form.on("Sales Invoice", {
 
 function add_timesy(selections, cur_frm) {
     for(var x=0;x<selections.length;x+=1){
+
         cur_frm.add_child("timesy", {
             timesy: selections[x]
         })
         cur_frm.refresh_field("timesy")
         frappe.db.get_doc("Timesy", selections[x])
             .then(doc => {
-                cur_frm.add_child("items",{item_code: doc.item})
-                cur_frm.refresh_field("items")
+                 if(!check_items(doc.item, cur_frm)) {
+                    cur_frm.add_child("items",{
+                        item_code: doc.item,
+                        qty: 1
+                    })
+                    cur_frm.refresh_field("items")
+                 }
+
 
         })
     }
+}
+function check_items(item, cur_frm) {
+        for(var x=0;x<cur_frm.doc.items.length;x+=1){
+            var item_row = cur_frm.doc.items[x]
+            if(item_row.item_code === item){
+                item_row.qty += 1
+                cur_frm.refresh_field("items")
+                return true
+            }
+        }
+        return false
 }
