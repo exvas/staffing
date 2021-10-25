@@ -9,6 +9,7 @@
   "date",
   "working_hour",
   "costing_hour",
+  "overtime_hour",
   "billing_hour",
   "absent_hour",
   "friday_hour",
@@ -16,13 +17,14 @@
  ],
  "fields": [
   {
-   "columns": 1,
+   "columns": 2,
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Date"
   },
   {
+   "columns": 1,
    "fetch_if_empty": 1,
    "fieldname": "costing_hour",
    "fieldtype": "Currency",
@@ -47,6 +49,7 @@
    "options": "Working\nAbsent\nMedical\nFriday\nFriday Working"
   },
   {
+   "columns": 1,
    "fieldname": "working_hour",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -62,19 +65,26 @@
    "read_only": 1
   },
   {
-   "columns": 2,
+   "columns": 1,
    "default": "0",
    "fieldname": "friday_hour",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Friday Hour",
    "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "overtime_hour",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Overtime Hour"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-23 22:33:52.506084",
+ "modified": "2021-10-26 00:08:52.262360",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
