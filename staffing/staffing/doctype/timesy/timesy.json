@@ -228,18 +228,21 @@
    "default": "0",
    "fieldname": "total_friday_costing_hour",
    "fieldtype": "Currency",
-   "label": "Total Friday Costing Hour"
+   "label": "Total Friday Costing Hour",
+   "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_friday_billing_hour",
    "fieldtype": "Currency",
-   "label": "Total Friday Billing Hour"
+   "label": "Total Friday Billing Hour",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-27 17:36:49.374306",
+ "modified": "2021-10-27 17:39:51.867601",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
