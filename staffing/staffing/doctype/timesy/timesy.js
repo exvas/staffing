@@ -28,6 +28,8 @@ frappe.ui.form.on('Timesy', {
         if(cur_frm.is_new()){
             cur_frm.doc.status = 'In Progress'
             cur_frm.refresh_field('status')
+            cur_frm.doc.normal_working_hour = 8
+            cur_frm.refresh_field('normal_working_hour')
         }
          cur_frm.call({
             doc: cur_frm.doc,
@@ -64,7 +66,7 @@ frappe.ui.form.on('Timesy', {
                     }, () => {})
             });
         }
-        if(cur_frm.doc.docstatus && cur_frm.doc.reference_type === 'Staff'){
+        if(cur_frm.doc.docstatus && cur_frm.doc.reference_type === 'Staff' && cur_frm.doc.status==='Completed'){
             if(!has_si){
                 cur_frm.add_custom_button(__('Sales Invoice'), function() {
                         frappe.model.open_mapped_doc({
@@ -193,7 +195,7 @@ function compute_hours(d,cur_frm) {
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
                 d.friday_hour =0
-                                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? d.working_hour - cur_frm.doc.normal_working_hour: 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? d.working_hour - cur_frm.doc.normal_working_hour: 0
 
 
                 cur_frm.refresh_field(d.parentfield)
@@ -202,8 +204,9 @@ function compute_hours(d,cur_frm) {
                 d.costing_hour =0
                 d.billing_hour = 0
                 d.absent_hour = 0
-                        d.friday_hour = doc.friday_working_costing_rate * d.working_hour
-                             d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? d.working_hour - cur_frm.doc.normal_working_hour: 0
+                d.friday_costing_hour = doc.friday_working_costing_rate * d.working_hour
+                d.friday_billing_hour = doc.friday_working_billing_rate * d.working_hour
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? d.working_hour - cur_frm.doc.normal_working_hour: 0
 
 
                 cur_frm.refresh_field(d.parentfield)
@@ -212,10 +215,8 @@ function compute_hours(d,cur_frm) {
                 d.costing_hour = 0
                 d.billing_hour = 0
                 d.absent_hour = 0
-                                d.friday_hour = 0
-                                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? d.working_hour - cur_frm.doc.normal_working_hour: 0
-
-
+                d.friday_costing_hour = 0
+                d.overtime_hour = 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(d.status === "Working"){
@@ -235,19 +236,22 @@ function total_costing(cur_frm) {
     var total_costing_hour = 0
     var total_billing_hour = 0
     var total_absent_hour = 0
-    var total_friday_hour = 0
+    var total_friday_costing_hour = 0
+    var total_friday_billing_hour = 0
     var total_overtime_hour = 0
     for(var x=0;x<cur_frm.doc.timesy_details.length;x+=1){
         total_costing_hour += cur_frm.doc.timesy_details[x].costing_hour
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
-        total_friday_hour += cur_frm.doc.timesy_details[x].friday_hour
+        total_friday_costing_hour += cur_frm.doc.timesy_details[x].friday_costing_hour
+        total_friday_billing_hour += cur_frm.doc.timesy_details[x].friday_billing_hour
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
     }
     cur_frm.doc.total_costing_hour = total_costing_hour
     cur_frm.doc.total_billing_hour = total_billing_hour
     cur_frm.doc.total_absent_hour = total_absent_hour
-    cur_frm.doc.total_friday_hour = total_friday_hour
+    cur_frm.doc.total_friday_costing_hour = total_friday_costing_hour
+    cur_frm.doc.total_friday_billing_hour = total_friday_billing_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
-    cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour'])
+    cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour', 'total_friday_costing_hour','total_friday_billing_hour'])
 }

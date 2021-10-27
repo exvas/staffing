@@ -12,18 +12,22 @@
   "overtime_hour",
   "billing_hour",
   "absent_hour",
-  "friday_hour",
+  "friday_costing_hour",
+  "friday_billing_hour",
   "status"
  ],
  "fields": [
   {
+   "allow_on_submit": 1,
    "columns": 2,
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Date"
+   "label": "Date",
+   "read_only_depends_on": "eval: parent.status == 'Completed'"
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fetch_if_empty": 1,
    "fieldname": "costing_hour",
@@ -33,6 +37,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "billing_hour",
    "fieldtype": "Currency",
@@ -41,21 +46,26 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Working\nAbsent\nMedical\nFriday\nFriday Working"
+   "options": "Working\nAbsent\nMedical\nFriday\nFriday Working",
+   "read_only_depends_on": "eval: parent.status == 'Completed'"
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "working_hour",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Working Hour"
+   "label": "Working Hour",
+   "read_only_depends_on": "eval: parent.status == 'Completed'"
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "default": "0",
    "fieldname": "absent_hour",
@@ -65,26 +75,34 @@
    "read_only": 1
   },
   {
-   "columns": 1,
-   "default": "0",
-   "fieldname": "friday_hour",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Friday Hour",
-   "read_only": 1
-  },
-  {
+   "allow_on_submit": 1,
    "columns": 2,
    "fieldname": "overtime_hour",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Overtime Hour"
+   "label": "Overtime Hour",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "columns": 1,
+   "default": "0",
+   "fieldname": "friday_costing_hour",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Friday Costing Hour",
+   "read_only": 1
+  },
+  {
+   "fieldname": "friday_billing_hour",
+   "fieldtype": "Data",
+   "label": "Friday Billing Hour"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-26 00:08:52.262360",
+ "modified": "2021-10-27 09:38:03.019649",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
