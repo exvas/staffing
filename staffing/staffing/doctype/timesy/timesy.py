@@ -28,7 +28,7 @@ class Timesy(Document):
             condition += " and employee_code='{0}' ".format(self.employee_code)
         if self.reference_type == "Staff":
             condition += " and staff_code='{0}' ".format(self.staff_code)
-        query = """ UPDATE `tabStaffing Cost` SET demobilization_date=%s, status='Expired' WHERE docstatus = 1 {0}""".format(condition)
+        query = """ UPDATE `tabStaffing Cost` SET demobilization_date='{0}', status='Expired' WHERE docstatus = 1 {1}""".format(self.demobilization_date,condition)
         frappe.db.sql(query)
         frappe.db.commit()
 

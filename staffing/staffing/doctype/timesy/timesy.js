@@ -24,7 +24,7 @@ frappe.ui.form.on('Timesy', {
                             freeze_message: "Changing Date...",
                              async: false,
                             callback: (r) => {
-                                cur_frm.reload_doc()
+                                cur_frm.save_or_update()
                           }
                         })
 
