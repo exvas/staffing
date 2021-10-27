@@ -19,7 +19,7 @@
  "fields": [
   {
    "allow_on_submit": 1,
-   "columns": 2,
+   "columns": 1,
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -76,7 +76,7 @@
   },
   {
    "allow_on_submit": 1,
-   "columns": 2,
+   "columns": 1,
    "fieldname": "overtime_hour",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -94,15 +94,17 @@
    "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "friday_billing_hour",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Friday Billing Hour"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-27 09:38:03.019649",
+ "modified": "2021-10-27 09:57:19.874042",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
