@@ -188,6 +188,8 @@ fixtures = [
                     "Purchase Invoice-timesy_reference",
                     "Sales Invoice-timesy",
                     "Sales Invoice-timesy_reference",
+					"Additional Salary-timesy",
+                    "Additional Salary-timesy_reference",
 				]
 			]
 		]

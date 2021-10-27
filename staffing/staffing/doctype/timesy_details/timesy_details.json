@@ -24,7 +24,8 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Date",
-   "read_only_depends_on": "eval: parent.status == 'Completed'"
+   "read_only": 1,
+   "read_only_depends_on": "eval: parent.status == 'Completed' || doc.custom_idx > 1"
   },
   {
    "allow_on_submit": 1,
@@ -104,7 +105,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-27 09:57:19.874042",
+ "modified": "2021-10-27 17:22:59.522143",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",

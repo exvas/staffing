@@ -2,7 +2,15 @@
 // For license information, please see license.txt
 var has_si = false
 var has_pi = false
+var additional_salary = false
 frappe.ui.form.on('Timesy', {
+    start_date: function () {
+        if(cur_frm.doc.timesy_details && !cur_frm.doc.timesy_details[0].date){
+            cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
+            cur_frm.refresh_field("timesy_details")
+        }
+
+    },
     demobilization_date: function () {
         if(cur_frm.doc.demobilization_date){
             frappe.confirm('Update Demobilization Date in Staffing Cost?',
@@ -41,6 +49,7 @@ frappe.ui.form.on('Timesy', {
             callback: (r) => {
                 has_si= r.message[0]
                 has_pi= r.message[1]
+                additional_salary= r.message[2]
             }
         })
         if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress"){
@@ -84,6 +93,25 @@ frappe.ui.form.on('Timesy', {
                     });
                             }
 
+
+        }
+        if(cur_frm.doc.docstatus && cur_frm.doc.reference_type === 'Employee' && cur_frm.doc.status==='Completed'){
+             if(!has_si){
+                cur_frm.add_custom_button(__('Sales Invoice'), function() {
+                        frappe.model.open_mapped_doc({
+                            method: "staffing.staffing.doctype.timesy.timesy.generate_si",
+                            frm: cur_frm
+                        })
+                    });
+            }
+            if(!additional_salary){
+                cur_frm.add_custom_button(__('Additional Salary'), function() {
+                        frappe.model.open_mapped_doc({
+                            method: "staffing.staffing.doctype.timesy.timesy.generate_as",
+                            frm: cur_frm
+                        })
+                    });
+            }
 
         }
          cur_frm.set_query("employee_code", () => {
@@ -175,6 +203,26 @@ frappe.ui.form.on('Timesy Details', {
         var d = locals[cdt][cdn]
         if(cur_frm.doc.staffing_type){
            compute_hours(d,cur_frm)
+        }
+	},
+    timesy_details_add: function(frm, cdt, cdn) {
+      var d = locals[cdt][cdn]
+        cur_frm.refresh_field(d.parentfield)
+        if(d.idx > 1){
+          const date = new Date(cur_frm.doc.timesy_details[d.idx - 2].date);
+            var newdate = date.setDate(date.getDate() + 1);
+            const new_date = new Date(newdate)
+            const mm = new_date.getMonth() + 1
+            const dd = new_date.getDate()
+            const yy = new_date.getFullYear()
+            console.log(mm + "-" + dd + "-" + yy)
+            d.date = yy + "-" + mm + "-" + dd
+            cur_frm.refresh_field(d.parentfield)
+
+        } else {
+            d.date = cur_frm.doc.start_date
+                        cur_frm.refresh_field(d.parentfield)
+
         }
 	}
 });
