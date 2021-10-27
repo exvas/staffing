@@ -203,12 +203,14 @@
    "label": "Demobilization Date"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "item",
    "fieldtype": "Link",
    "label": "Item",
    "options": "Item"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "salary_component",
    "fieldtype": "Link",
    "label": "Salary Component",
@@ -237,7 +239,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-10-27 15:04:14.042195",
+ "modified": "2021-10-27 17:36:49.374306",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
