@@ -1,4 +1,5 @@
 {
+ "cards_label": "Staffing",
  "category": "Modules",
  "charts": [],
  "creation": "2021-10-21 07:10:33.096939",
@@ -13,8 +14,61 @@
  "is_default": 0,
  "is_standard": 1,
  "label": "Staffing",
- "links": [],
- "modified": "2021-10-21 07:12:10.970031",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales ",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quotation",
+   "link_to": "Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Order",
+   "link_to": "Sales Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Invoice",
+   "link_to": "Purchase Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2021-10-29 21:34:27.514167",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing",
@@ -48,14 +102,14 @@
   },
   {
    "doc_view": "List",
-   "label": "Mobilization",
-   "link_to": "Mobilization Entry",
+   "label": "Time Sheet",
+   "link_to": "Timesy",
    "type": "DocType"
   },
   {
    "doc_view": "List",
-   "label": "Timesy",
-   "link_to": "Timesy",
+   "label": "Staffing Project",
+   "link_to": "Staffing Project",
    "type": "DocType"
   }
  ],
