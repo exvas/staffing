@@ -230,6 +230,7 @@ function compute_hours(d,cur_frm) {
     frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
         .then(doc => {
             if(d.status === "Absent"){
+                d.working_hour = 0
                 d.costing_hour = 0
                 d.billing_hour = 0
                 d.absent_hour = doc.absent_deduction_per_hour * d.working_hour
@@ -239,6 +240,8 @@ function compute_hours(d,cur_frm) {
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(d.status === "Medical"){
+                                d.working_hour = 0
+
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
