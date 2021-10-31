@@ -74,13 +74,14 @@
    "fieldname": "absent_hour",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Absent Rate"
+   "label": "Absent Rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-11-01 00:50:06.390092",
+ "modified": "2021-11-01 01:17:59.666373",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
