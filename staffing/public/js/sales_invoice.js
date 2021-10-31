@@ -9,12 +9,12 @@ frappe.ui.form.on("Sales Invoice", {
 					 var d = new frappe.ui.form.MultiSelectDialog({
                                 doctype: "Timesy",
                                 target: cur_frm,
-                                setters: {},
+                                setters: {
+                                    staffing_project: null,
+                                    staffing_type: null,
+                                },
                                 add_filters_group: 1,
                                 date_field: "start_date",
-                                allow_child_item_selection: 1,
-                                child_fieldname: "timesy_details",
-                                child_columns: ["staffing_type", "staffing_project"],
                                 get_query() {
                                     return {
                                         filters: { docstatus: ['!=', 2] }

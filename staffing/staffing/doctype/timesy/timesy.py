@@ -99,7 +99,8 @@ def generate_si(source_name, target_doc=None):
         "timesy": source_name
     })
     doc.append("items", {
-        "item_code": timesy.item
+        "item_code": timesy.item,
+        "rate": timesy.total_costing_hour
     })
     return doc
 
@@ -138,6 +139,8 @@ def generate_pi(source_name, target_doc=None):
     })
     doc.append("items", {
         "item_code": timesy.item,
-        "qty": 1
+        "qty": 1,
+        "rate": timesy.total_billing_hour
+
     })
     return doc
