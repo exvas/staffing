@@ -176,7 +176,7 @@ frappe.ui.form.on('Timesy', {
     total_working_hour: function(frm) {
           frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
-              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour * cur_frm.doc.working_days
+              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
             if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
               cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
               cur_frm.doc.working_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
@@ -192,7 +192,7 @@ frappe.ui.form.on('Timesy', {
     working_days: function(frm) {
           frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
-              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour * cur_frm.doc.working_days
+              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
                if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
               cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
               cur_frm.doc.working_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
