@@ -172,6 +172,22 @@ frappe.ui.form.on('Timesy', {
             cur_frm.refresh_field("designation")
         }
 
+	},
+    total_working_hour: function(frm) {
+          frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
+              .then(doc => {
+              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour * cur_frm.doc.working_days
+              cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
+             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour'])
+        })
+	},
+    working_days: function(frm) {
+          frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
+              .then(doc => {
+              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour * cur_frm.doc.working_days
+              cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
+             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour'])
+        })
 	}
 })
 function get_designation(cur_frm, obj) {
@@ -253,18 +269,7 @@ function compute_hours(d,cur_frm) {
 
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
-            } else  if(d.status === "Friday Working"){
-                d.costing_hour =0
-                d.billing_hour = 0
-                d.absent_hour = 0
-                d.friday_costing_hour = doc.friday_working_costing_rate * d.working_hour
-                d.friday_billing_hour = doc.friday_working_billing_rate * d.working_hour
-                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
-
-
-                cur_frm.refresh_field(d.parentfield)
-                total_costing(cur_frm)
-            } else  if(d.status === "Friday"){
+            }  else  if(d.status === "Friday"){
                 d.costing_hour = 0
                 d.billing_hour = 0
                 d.absent_hour = 0
@@ -272,7 +277,7 @@ function compute_hours(d,cur_frm) {
                 d.overtime_hour = 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
-            } else  if(d.status === "Working"){
+            } else  if(['Working', 'Holiday Working', 'Friday Working'].includes(d.status)){
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
@@ -300,12 +305,11 @@ function total_costing(cur_frm) {
     var total_absent_hour = 0
     var total_overtime_hour = 0
     for(var x=0;x<cur_frm.doc.timesy_details.length;x+=1){
-        if(cur_frm.doc.timesy_details[x].status === 'Absent'){
-            total_absent_hour += absent_deduction
-        }
+
         total_costing_hour += cur_frm.doc.timesy_details[x].costing_hour
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
+        total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
     cur_frm.doc.total_costing_hour = total_costing_hour
     cur_frm.doc.total_billing_hour = total_billing_hour
