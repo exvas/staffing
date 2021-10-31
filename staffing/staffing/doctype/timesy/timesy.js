@@ -267,7 +267,7 @@ function compute_hours(d,cur_frm) {
                 d.working_hour = 0
                 d.costing_hour = 0
                 d.billing_hour = 0
-                d.absent_hour = doc.absent_deduction_per_hour * d.working_hour
+                d.absent_hour = doc.absent_deduction_per_hour
                 d.friday_hour = 0
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
 
