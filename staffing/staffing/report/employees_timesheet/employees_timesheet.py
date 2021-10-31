@@ -52,11 +52,14 @@ def execute(filters=None):
 			sum = 0
 			absent = 0
 			for xx in timesy_details:
-				if xx.status != "Absent":
+				if xx.working_hour == 0:
+					if xx.status == "Absent":
+						absent += 1
+					x[str(xx.day_of_the_month)] = xx.status[0]
+				else:
 					sum += xx.working_hour
 					x[str(xx.day_of_the_month)] = xx.working_hour
-				if xx.status == "Absent":
-					absent += 1
+
 			x['total_hour'] = sum
 			x['amount'] = x.default_cost_rate_per_hour * sum
 			x['absent'] = absent

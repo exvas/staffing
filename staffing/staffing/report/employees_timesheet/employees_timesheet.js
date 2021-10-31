@@ -14,8 +14,8 @@ frappe.query_reports["Employees Timesheet"] = {
 			fieldname: "type",
             label: __("Type"),
             fieldtype: "Select",
-            default: "Employee",
-			options: ['','Employee', "Staff"]
+            default: "Staff",
+			options: ["Staff"]
 		},
 		{
 			fieldname: "staff",

@@ -226,9 +226,11 @@ frappe.ui.form.on('Timesy Details', {
         }
 	}
 });
+var absent_deduction = 0
 function compute_hours(d,cur_frm) {
     frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
         .then(doc => {
+            absent_deduction = doc.absent_deduction_per_hour
             if(d.status === "Absent"){
                 d.working_hour = 0
                 d.costing_hour = 0
@@ -240,7 +242,7 @@ function compute_hours(d,cur_frm) {
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(d.status === "Medical"){
-                                d.working_hour = 0
+                d.working_hour = 0
 
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
@@ -279,6 +281,15 @@ function compute_hours(d,cur_frm) {
 
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
+            } else  if(d.status === "Holiday"){
+                d.costing_hour = 0
+                d.billing_hour = 0
+                d.absent_hour = 0
+                d.friday_costing_hour = 0
+                d.overtime_hour = 0
+                d.working_hour = 0
+                cur_frm.refresh_field(d.parentfield)
+                total_costing(cur_frm)
             }
 
     })
@@ -287,22 +298,18 @@ function total_costing(cur_frm) {
     var total_costing_hour = 0
     var total_billing_hour = 0
     var total_absent_hour = 0
-    var total_friday_costing_hour = 0
-    var total_friday_billing_hour = 0
     var total_overtime_hour = 0
     for(var x=0;x<cur_frm.doc.timesy_details.length;x+=1){
+        if(cur_frm.doc.timesy_details[x].status === 'Absent'){
+            total_absent_hour += absent_deduction
+        }
         total_costing_hour += cur_frm.doc.timesy_details[x].costing_hour
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
-        total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
-        total_friday_costing_hour += cur_frm.doc.timesy_details[x].friday_costing_hour
-        total_friday_billing_hour += cur_frm.doc.timesy_details[x].friday_billing_hour
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
     }
     cur_frm.doc.total_costing_hour = total_costing_hour
     cur_frm.doc.total_billing_hour = total_billing_hour
     cur_frm.doc.total_absent_hour = total_absent_hour
-    cur_frm.doc.total_friday_costing_hour = total_friday_costing_hour
-    cur_frm.doc.total_friday_billing_hour = total_friday_billing_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
-    cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour', 'total_friday_costing_hour','total_friday_billing_hour'])
+    cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour'])
 }
