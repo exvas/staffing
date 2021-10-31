@@ -179,14 +179,14 @@ frappe.ui.form.on('Timesy', {
               cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
             if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
               cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
-              cur_frm.doc.working_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
+              cur_frm.doc.overtime_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
 
             }else {
                     cur_frm.doc.total_overtime_hour = 0
-                   cur_frm.doc.working_hours = 0
+                   cur_frm.doc.overtime_hours = 0
 
                }
-             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','working_hours'])
+             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','overtime_hours'])
         })
 	},
     working_days: function(frm) {
@@ -195,14 +195,14 @@ frappe.ui.form.on('Timesy', {
               cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
                if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
               cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
-              cur_frm.doc.working_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
+              cur_frm.doc.overtime_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
 
             } else {
                     cur_frm.doc.total_overtime_hour = 0
-                   cur_frm.doc.working_hours = 0
+                   cur_frm.doc.overtime_hours = 0
 
                }
-             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','working_hours'])
+             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','overtime_hours'])
         })
 	}
 })
