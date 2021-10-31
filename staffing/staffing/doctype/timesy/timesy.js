@@ -335,7 +335,7 @@ function total_costing(cur_frm) {
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
-    cur_frm.doc.total_costing_hour = total_costing_hour
+    cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour
     cur_frm.doc.total_billing_hour = total_billing_hour
     cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
