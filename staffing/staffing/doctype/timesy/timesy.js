@@ -225,6 +225,14 @@ function get_designation(cur_frm, obj) {
             })
 }
 frappe.ui.form.on('Timesy Details', {
+    absent_hour: function(frm, cdt, cdn) {
+                        total_costing(cur_frm)
+
+	},
+    timesy_details_remove: function(frm, cdt, cdn) {
+                              total_costing(cur_frm)
+
+	},
     working_hour: function(frm, cdt, cdn) {
         var d = locals[cdt][cdn]
         if(cur_frm.doc.staffing_type){
