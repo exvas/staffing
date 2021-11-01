@@ -6,7 +6,10 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "timesy"
+  "timesy",
+  "staff_name",
+  "staffing_project",
+  "total_costing_rate"
  ],
  "fields": [
   {
@@ -15,12 +18,31 @@
    "in_list_view": 1,
    "label": "Timesy",
    "options": "Timesy"
+  },
+  {
+   "fieldname": "staff_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Staff Name"
+  },
+  {
+   "fieldname": "staffing_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Staffing Project",
+   "options": "Staffing Project"
+  },
+  {
+   "fieldname": "total_costing_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Costing Rate"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-10-21 01:42:52.301422",
+ "modified": "2021-11-01 19:42:47.931375",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy List",

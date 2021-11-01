@@ -190,6 +190,9 @@ fixtures = [
                     "Sales Invoice-timesy_reference",
 					"Additional Salary-timesy_list",
                     "Additional Salary-timesy_reference",
+					"Purchase Invoice-grand_costing_rate",
+                    "Sales Invoice-grand_costing_rate",
+
 				]
 			]
 		]
