@@ -85,6 +85,7 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
     for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
         if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
             normal_working_hour += cur_frm.doc.monthly_timesheet[x].working_hour
+
             overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour >  (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) ? cur_frm.doc.monthly_timesheet[x].working_hour - (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) : 0
              friday_value = w_fridays > 0 && fridays > 0 && (d.type === "Fridays" || d.type === 'Working Fridays') ? fridays - w_fridays : fridays
            cur_frm.doc.monthly_timesheet[x].number = (working_days - friday_value - absent - holiday) + h_working
@@ -116,6 +117,8 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
 
         }
     }
+    cur_frm.doc.overtime_hours = overtime_hour
+    cur_frm.refresh_field("overtime_hours")
     compute_total_values(cur_frm, normal_working_hour, absent,overtime_hour)
 }
 function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour) {
