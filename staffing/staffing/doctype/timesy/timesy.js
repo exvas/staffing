@@ -3,7 +3,116 @@
 var has_si = false
 var has_pi = false
 var additional_salary = false
+var type = ""
+frappe.ui.form.on('Monthly Timesheet', {
+    type: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn]
+        var from_date = new Date(cur_frm.doc.start_date)
+        var end_date = new Date(cur_frm.doc.end_date)
+        var number_of_days = (new Date(end_date - from_date)).getDate()
+
+        if(d.type === 'Working Days'){
+          d.number = number_of_days
+          cur_frm.refresh_field("monthly_timesheet")
+        }
+
+    },
+    number: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn]
+        var from_date = new Date(cur_frm.doc.start_date)
+        var end_date = new Date(cur_frm.doc.end_date)
+        var number_of_days = (new Date(end_date - from_date)).getDate()
+
+        if (d.type !== "Working Days"){
+           compute_working_days(cur_frm,number_of_days)
+        }
+    },
+    monthly_timesheet_remove: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn]
+        var from_date = new Date(cur_frm.doc.start_date)
+        var end_date = new Date(cur_frm.doc.end_date)
+        var number_of_days = (new Date(end_date - from_date)).getDate()
+        cur_frm.refresh_field("monthly_timesheet")
+        if (type !== "Working Days"){
+           compute_working_days(cur_frm,number_of_days)
+        }
+    },
+    before_monthly_timesheet_remove: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn]
+       type = d.type
+    },
+})
+function compute_working_days(cur_frm,number_of_days) {
+    var working_days = number_of_days
+    var fridays = 0
+    var w_fridays = 0
+    var absent = 0
+    var h_working = 0
+    var holiday = 0
+    console.log(cur_frm.doc.monthly_timesheet)
+    for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
+        if(cur_frm.doc.monthly_timesheet[x].type === 'Fridays'){
+           fridays = cur_frm.doc.monthly_timesheet[x].number
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Working Fridays'){
+           w_fridays = cur_frm.doc.monthly_timesheet[x].number
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Absent'){
+           absent = cur_frm.doc.monthly_timesheet[x].number
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Holiday Working'){
+           h_working = cur_frm.doc.monthly_timesheet[x].number
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Holiday'){
+           holiday = cur_frm.doc.monthly_timesheet[x].number
+        }
+    }
+    console.log(working_days)
+    console.log(fridays)
+    console.log(w_fridays)
+    console.log(absent)
+    console.log(h_working)
+    console.log(holiday)
+    update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm)
+}
+function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm) {
+    var friday_value = 0
+    for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
+        if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
+             friday_value = w_fridays > 0 && fridays > 0? fridays - w_fridays : fridays
+           cur_frm.doc.monthly_timesheet[x].number = (working_days - friday_value - absent - h_working - holiday)
+          cur_frm.refresh_field("monthly_timesheet")
+
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Fridays'){
+           cur_frm.doc.monthly_timesheet[x].number = fridays
+          cur_frm.refresh_field("monthly_timesheet")
+
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Working Fridays'){
+           cur_frm.doc.monthly_timesheet[x].number = w_fridays
+          cur_frm.refresh_field("monthly_timesheet")
+
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Absent'){
+           cur_frm.doc.monthly_timesheet[x].number = absent
+          cur_frm.refresh_field("monthly_timesheet")
+
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Holiday Working'){
+           cur_frm.doc.monthly_timesheet[x].number = h_working
+          cur_frm.refresh_field("monthly_timesheet")
+
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Holiday'){
+           cur_frm.doc.monthly_timesheet[x].number = holiday
+          cur_frm.refresh_field("monthly_timesheet")
+
+        }
+    }
+    compute_total_values(cur_frm, (working_days - friday_value - absent - h_working - holiday), absent)
+}
+function compute_total_values(cur_frm, working_days, absent) {
+     frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
+              .then(doc => {
+            cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.normal_working_hour * working_days
+           cur_frm.doc.total_absent_hour = doc.absent_deduction_per_hour * absent
+             cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour'])
+        })
+}
 frappe.ui.form.on('Timesy', {
+
     start_date: function () {
         if(cur_frm.doc.timesy_details && !cur_frm.doc.timesy_details[0].date){
             cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
@@ -173,38 +282,6 @@ frappe.ui.form.on('Timesy', {
         }
 
 	},
-    total_working_hour: function(frm) {
-          frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
-              .then(doc => {
-              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
-            if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
-              cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
-              cur_frm.doc.overtime_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
-
-            }else {
-                    cur_frm.doc.total_overtime_hour = 0
-                   cur_frm.doc.overtime_hours = 0
-
-               }
-             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','overtime_hours'])
-        })
-	},
-    working_days: function(frm) {
-          frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
-              .then(doc => {
-              cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * cur_frm.doc.total_working_hour
-               if((cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) > 0 && cur_frm.doc.total_working_hour > 0 && cur_frm.doc.working_days > 0){
-              cur_frm.doc.total_overtime_hour = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days)) * doc.default_overtime_rate
-              cur_frm.doc.overtime_hours = (cur_frm.doc.total_working_hour - (cur_frm.doc.normal_working_hour * cur_frm.doc.working_days))
-
-            } else {
-                    cur_frm.doc.total_overtime_hour = 0
-                   cur_frm.doc.overtime_hours = 0
-
-               }
-             cur_frm.refresh_fields(["total_costing_hour",'total_overtime_hour','overtime_hours'])
-        })
-	}
 })
 function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
