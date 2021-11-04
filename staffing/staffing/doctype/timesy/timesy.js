@@ -87,7 +87,7 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
             normal_working_hour += cur_frm.doc.monthly_timesheet[x].working_hour
             overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour >  (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) ? cur_frm.doc.monthly_timesheet[x].working_hour - (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) : 0
              friday_value = w_fridays > 0 && fridays > 0 && (d.type === "Fridays" || d.type === 'Working Fridays') ? fridays - w_fridays : fridays
-           cur_frm.doc.monthly_timesheet[x].number = (working_days - friday_value - absent - h_working - holiday)
+           cur_frm.doc.monthly_timesheet[x].number = (working_days - friday_value - absent - holiday) + h_working
           cur_frm.refresh_field("monthly_timesheet")
 
         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Fridays'){
