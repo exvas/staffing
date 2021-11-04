@@ -24,7 +24,7 @@ frappe.ui.form.on('Monthly Timesheet', {
         var number_of_days = (new Date(end_date - from_date)).getDate()
 
         if (d.type !== "Working Days"){
-           compute_working_days(cur_frm,number_of_days)
+           compute_working_days(cur_frm,number_of_days, d)
         }
     },
     monthly_timesheet_remove: function (frm, cdt, cdn) {
@@ -34,7 +34,7 @@ frappe.ui.form.on('Monthly Timesheet', {
         var number_of_days = (new Date(end_date - from_date)).getDate()
         cur_frm.refresh_field("monthly_timesheet")
         if (type !== "Working Days"){
-           compute_working_days(cur_frm,number_of_days)
+           compute_working_days(cur_frm,number_of_days, d)
         }
     },
     before_monthly_timesheet_remove: function (frm, cdt, cdn) {
@@ -46,10 +46,10 @@ frappe.ui.form.on('Monthly Timesheet', {
         var from_date = new Date(cur_frm.doc.start_date)
         var end_date = new Date(cur_frm.doc.end_date)
         var number_of_days = (new Date(end_date - from_date)).getDate()
-       compute_working_days(cur_frm,number_of_days)
+       compute_working_days(cur_frm,number_of_days, d)
     },
 })
-function compute_working_days(cur_frm,number_of_days) {
+function compute_working_days(cur_frm,number_of_days, d) {
     var working_days = number_of_days
     var fridays = 0
     var w_fridays = 0
@@ -76,22 +76,22 @@ function compute_working_days(cur_frm,number_of_days) {
     console.log(absent)
     console.log(h_working)
     console.log(holiday)
-    update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm)
+    update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d)
 }
-function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm) {
+function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d) {
     var friday_value = 0
     var normal_working_hour = 0
     var overtime_hour = 0
     for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
         if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
             normal_working_hour += cur_frm.doc.monthly_timesheet[x].working_hour
-            overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour - (cur_frm.doc.monthly_timesheet[x].working_days * cur_frm.doc.normal_working_hour)
-             friday_value = w_fridays > 0 && fridays > 0? fridays - w_fridays : fridays
+            overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour >  (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) ? cur_frm.doc.monthly_timesheet[x].working_hour - (cur_frm.doc.monthly_timesheet[x].number * cur_frm.doc.normal_working_hour) : 0
+             friday_value = w_fridays > 0 && fridays > 0 && (d.type === "Fridays" || d.type === 'Working Fridays') ? fridays - w_fridays : fridays
            cur_frm.doc.monthly_timesheet[x].number = (working_days - friday_value - absent - h_working - holiday)
           cur_frm.refresh_field("monthly_timesheet")
 
         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Fridays'){
-           cur_frm.doc.monthly_timesheet[x].number = fridays - w_fridays
+           cur_frm.doc.monthly_timesheet[x].number = d.type === "Fridays" || d.type === 'Working Fridays' ? fridays - w_fridays: fridays
           cur_frm.refresh_field("monthly_timesheet")
 
         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Working Fridays'){
@@ -119,11 +119,13 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
     compute_total_values(cur_frm, normal_working_hour, absent,overtime_hour)
 }
 function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour) {
+    console.log(normal_working_hour)
+    console.log(overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
                 cur_frm.doc.total_costing_hour = doc.default_cost_rate_per_hour * normal_working_hour
                cur_frm.doc.total_absent_hour = doc.absent_deduction_per_hour * absent
-               cur_frm.doc.total_overtime_hour = doc.default_overtime_rate * overtime_hour
+               cur_frm.doc.total_overtime_hour = doc.default_overtime_rate && doc.default_overtime_rate > 0 ? doc.default_overtime_rate * overtime_hour : 0
              cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour'])
         })
 }
@@ -273,7 +275,9 @@ frappe.ui.form.on('Timesy', {
 	         var obj = {
                     staff_code: cur_frm.doc.staff_code,
                     docstatus: 1,
-                 status: "Active"
+                 status: "Active",
+                                 reference_type: 'Staff',
+
                 }
 	        get_designation(cur_frm, obj)
         } else {
@@ -286,7 +290,8 @@ frappe.ui.form.on('Timesy', {
       if(cur_frm.doc.employee_code){
           var obj = {
               employee_code: cur_frm.doc.employee_code,
-                    docstatus: 1,
+                docstatus: 1,
+                reference_type: 'Employee',
               status: "Active"
           }
 	        get_designation(cur_frm, obj)
@@ -303,6 +308,7 @@ function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
             .then(count => {
                if(count > 0){
+                   console.log(obj)
                     frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project"])
                         .then(r => {
                             let values = r.message;
