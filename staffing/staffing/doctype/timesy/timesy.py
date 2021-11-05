@@ -9,6 +9,13 @@ class Timesy(Document):
     @frappe.whitelist()
     def check_date(self, date):
         pass
+
+    @frappe.whitelist()
+    def validate(self):
+        if self.skip_timesheet:
+            for i in self.monthly_timesheet:
+                if i.type in ['Working Days', 'Working Fridays', 'Working Holidays'] and (not i.working_hour or not i.number):
+                    frappe.throw("Working Hours and Working Days is mandatory for " + i.type)
     @frappe.whitelist()
     def check_invoices(self):
         si = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabSales Invoice` SI INNER JOIN `tabTimesy List` TL ON TL.parent = SI.name WHERE TL.timesy = %s and SI.docstatus=1""", self.name,as_dict=1)
