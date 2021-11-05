@@ -4,12 +4,27 @@
 import frappe
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
-from datetime import date
+from datetime import *
 class Timesy(Document):
     @frappe.whitelist()
-    def check_date(self, date):
-        pass
+    def get_holiday(self):
+        if not self.holiday_list:
+            return
 
+        holidays = frappe.get_doc("Holiday List", self.holiday_list)
+
+        fridays = 0
+        holidays_count = 0
+        for i in holidays.holidays:
+            print(i.holiday_date)
+            if i.description == 'Friday' and datetime.strptime(str(i.holiday_date), '%Y-%m-%d') >= datetime.strptime(self.start_date, '%Y-%m-%d') and datetime.strptime(str(i.holiday_date), '%Y-%m-%d') <= datetime.strptime(self.end_date, '%Y-%m-%d'):
+                fridays += 1
+            elif datetime.strptime(str(i.holiday_date), '%Y-%m-%d') >= datetime.strptime(self.start_date, '%Y-%m-%d') and datetime.strptime(str(i.holiday_date), '%Y-%m-%d') <= datetime.strptime(self.end_date, '%Y-%m-%d'):
+                holidays_count += 1
+        print("HOLIIIIDAYS")
+        print(holidays_count)
+        print(fridays)
+        return holidays_count,fridays
     @frappe.whitelist()
     def validate(self):
         if self.skip_timesheet:

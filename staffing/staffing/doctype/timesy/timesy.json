@@ -16,6 +16,7 @@
   "designation",
   "normal_working_hour",
   "skip_timesheet",
+  "holiday_list",
   "column_break_4",
   "status",
   "start_date",
@@ -253,12 +254,20 @@
    "fieldname": "monthly_timesheet_section_break",
    "fieldtype": "Section Break",
    "label": "Monthly Timesheet"
+  },
+  {
+   "depends_on": "eval: doc.skip_timesheet",
+   "fieldname": "holiday_list",
+   "fieldtype": "Link",
+   "label": "Holiday List",
+   "mandatory_depends_on": "eval: doc.skip_timesheet",
+   "options": "Holiday List"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-04 19:18:04.309642",
+ "modified": "2021-11-05 22:13:21.416129",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

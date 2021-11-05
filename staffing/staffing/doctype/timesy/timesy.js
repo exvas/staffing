@@ -136,7 +136,64 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
         })
 }
 frappe.ui.form.on('Timesy', {
+    skip_timesheet: function () {
+      if(cur_frm.doc.monthly_timesheet.length === 0 && cur_frm.doc.holiday_list){
+          var from_date = new Date(cur_frm.doc.start_date)
+          var end_date = new Date(cur_frm.doc.end_date)
+          var number_of_days = (new Date(end_date - from_date)).getDate()
 
+           cur_frm.call({
+                doc: cur_frm.doc,
+                method: 'get_holiday',
+                args: {},
+                freeze: true,
+                freeze_message: "Changing Date...",
+                 async: false,
+                callback: (r) => {
+                  var data = ['Working Days', 'Fridays','Holiday']
+                    for(var x=0;x<data.length;x+=1){
+                      cur_frm.add_child("monthly_timesheet", {
+                          type: data[x],
+                          number: data[x] === "Working Days" ? number_of_days - r.message[0] - r.message[1] : data[x] === 'Holidays' ? r.message[0] : data[x] === 'Fridays' ? r.message[1] : 0
+                      })
+                      cur_frm.refresh_field("monthly_timesheet")
+                  }
+                  compute_working_days(cur_frm,number_of_days, d)
+              }
+            })
+
+      }
+
+    },
+    holiday_list: function () {
+      if(cur_frm.doc.monthly_timesheet.length === 0 && cur_frm.doc.holiday_list){
+          var from_date = new Date(cur_frm.doc.start_date)
+          var end_date = new Date(cur_frm.doc.end_date)
+          var number_of_days = (new Date(end_date - from_date)).getDate()
+
+           cur_frm.call({
+                doc: cur_frm.doc,
+                method: 'get_holiday',
+                args: {},
+                freeze: true,
+                freeze_message: "Changing Date...",
+                 async: false,
+                callback: (r) => {
+                  var data = ['Working Days', 'Fridays','Holiday']
+                    for(var x=0;x<data.length;x+=1){
+                      cur_frm.add_child("monthly_timesheet", {
+                          type: data[x],
+                          number: data[x] === "Working Days" ? number_of_days - r.message[0] - r.message[1] : data[x] === 'Holiday' ? r.message[0] : data[x] === 'Fridays' ? r.message[1] : 0
+                      })
+                      cur_frm.refresh_field("monthly_timesheet")
+                  }
+                  compute_working_days(cur_frm,number_of_days, d)
+              }
+            })
+
+      }
+
+    },
     start_date: function () {
         if(cur_frm.doc.timesy_details && !cur_frm.doc.timesy_details[0].date){
             cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
