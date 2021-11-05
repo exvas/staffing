@@ -12,7 +12,7 @@ frappe.ui.form.on('Monthly Timesheet', {
         var number_of_days = (new Date(end_date - from_date)).getDate()
 
         if(d.type === 'Working Days'){
-            type = d.type
+            type = ""
           d.number = number_of_days
           cur_frm.refresh_field("monthly_timesheet")
         }
