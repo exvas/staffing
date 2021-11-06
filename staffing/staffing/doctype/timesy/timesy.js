@@ -51,7 +51,13 @@ frappe.ui.form.on('Monthly Timesheet', {
         var from_date = new Date(cur_frm.doc.start_date)
         var end_date = new Date(cur_frm.doc.end_date)
         var number_of_days = (new Date(end_date - from_date)).getDate()
-       compute_working_days(cur_frm,number_of_days, d)
+        if(d.type === 'Working Days'){
+            compute_working_days(cur_frm,number_of_days, d)
+
+        } else {
+            d.working_hour = 0
+            cur_frm.refresh_field("monthly_timesheet")
+        }
     },
 })
 function compute_working_days(cur_frm,number_of_days, d) {
