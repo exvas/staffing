@@ -143,7 +143,7 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
                   var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
                 cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - absent_hours_rate
                cur_frm.doc.total_absent_hour = absent_hours_rate
-            cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_cost_rate_per_hour) - absent_hours_rate
+            cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_overtime_rate) - absent_hours_rate
 
              cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour', 'total_overtime_hour'])
         })
