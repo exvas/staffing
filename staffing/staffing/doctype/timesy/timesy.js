@@ -141,9 +141,9 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
                   var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
-                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - absent_hours_rate
-               cur_frm.doc.total_absent_hour = absent_hours_rate
-            cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_overtime_rate) - absent_hours_rate
+                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour
+               // cur_frm.doc.total_absent_hour = absent_hours_rate
+            cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_overtime_rate) - cur_frm.doc.total_absent_hour
 
              cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour', 'total_overtime_hour'])
         })
@@ -164,7 +164,7 @@ frappe.ui.form.on('Timesy', {
                 freeze_message: "Changing Date...",
                  async: false,
                 callback: (r) => {
-                  var data = ['Working Days', 'Fridays','Holiday', 'Absent']
+                  var data = ['Working Days', 'Fridays','Holiday']
                     for(var x=0;x<data.length;x+=1){
                       cur_frm.add_child("monthly_timesheet", {
                           type: data[x],
@@ -195,7 +195,7 @@ frappe.ui.form.on('Timesy', {
                 freeze_message: "Changing Date...",
                  async: false,
                 callback: (r) => {
-                  var data = ['Working Days', 'Fridays','Holiday', 'Absent']
+                  var data = ['Working Days', 'Fridays','Holiday']
                     for(var x=0;x<data.length;x+=1){
                       cur_frm.add_child("monthly_timesheet", {
                           type: data[x],
@@ -384,6 +384,17 @@ frappe.ui.form.on('Timesy', {
         }
 
 	},
+    total_absent_hour: function(frm) {
+        frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
+              .then(doc => {
+
+            cur_frm.doc.total_overtime_hour = (cur_frm.doc.overtime_hours * doc.default_overtime_rate) - cur_frm.doc.total_absent_hour
+
+             cur_frm.refresh_fields(['total_overtime_hour'])
+        })
+
+	},
+
 })
 function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
