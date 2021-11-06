@@ -135,7 +135,7 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
                   var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
-                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - doc.absent_deduction_per_hour
+                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - absent_hours_rate
                cur_frm.doc.total_absent_hour = absent_hours_rate
             cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_cost_rate_per_hour) - absent_hours_rate
 
