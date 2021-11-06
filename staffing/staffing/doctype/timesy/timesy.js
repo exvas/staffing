@@ -233,6 +233,8 @@ frappe.ui.form.on('Timesy', {
 
     },
 	refresh: function(frm) {
+         cur_frm.get_field("monthly_timesheet").grid.cannot_add_rows = true;
+            cur_frm.refresh_field("monthly_timesheet")
         if(cur_frm.is_new()){
             cur_frm.doc.status = 'In Progress'
             cur_frm.refresh_field('status')

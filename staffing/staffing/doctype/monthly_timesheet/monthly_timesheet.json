@@ -16,7 +16,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "\nWorking Days\nFridays\nWorking Fridays\nAbsent\nWorking Holidays\nHoliday"
+   "options": "\nWorking Days\nFridays\nWorking Fridays\nAbsent\nWorking Holidays\nHoliday",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -38,7 +39,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-11-05 11:59:00.504646",
+ "modified": "2021-11-06 17:21:47.682217",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Monthly Timesheet",
