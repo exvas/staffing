@@ -134,19 +134,12 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
     console.log(overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
+                  var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
                 cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - doc.absent_deduction_per_hour
-    console.log("ABSSSSSSSSENT")
-    console.log(type)
-               cur_frm.doc.total_absent_hour = type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
-             var overtime_rate = 0
-            if(absent > 0){
-                    cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_cost_rate_per_hour) - doc.absent_deduction_per_hour
-            } else {
-                 cur_frm.doc.total_overtime_hour = doc.default_overtime_rate && doc.default_overtime_rate > 0 ?
-                   (doc.default_overtime_rate * overtime_hour) - (doc.absent_deduction_per_hour * absent) : 0
-            }
+               cur_frm.doc.total_absent_hour = absent_hours_rate
+            cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_cost_rate_per_hour) - absent_hours_rate
 
-             cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour'])
+             cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour', 'total_overtime_hour'])
         })
 }
 frappe.ui.form.on('Timesy', {
