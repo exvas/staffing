@@ -48,14 +48,6 @@ function add_timesy(selections, cur_frm) {
                 })
                 cur_frm.refresh_field("timesy_list")
                 compute_grand_costing(cur_frm)
-                 if(!check_items(doc.item, cur_frm)) {
-                    cur_frm.add_child("items",{
-                        item_code: doc.item,
-                        qty: 1
-                    })
-                    cur_frm.refresh_field("items")
-                 }
-
 
         })
     }

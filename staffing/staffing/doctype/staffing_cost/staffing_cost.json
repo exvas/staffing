@@ -52,14 +52,14 @@
    "default": "0",
    "fieldname": "default_cost_rate_per_hour",
    "fieldtype": "Currency",
-   "label": "Default Cost Rate Per Hour"
+   "label": "Default Cost Rate Per Hour (Client Rate)"
   },
   {
    "default": "0",
    "depends_on": "eval: doc.reference_type == \"Staff\"",
    "fieldname": "default_billing_rate_per_hour",
    "fieldtype": "Currency",
-   "label": "Default Billing Rate Per Hour"
+   "label": "Default Billing Rate Per Hour (Supplier Rate)"
   },
   {
    "fieldname": "absent_deduction_per_hour",
@@ -166,7 +166,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-01 00:18:55.582475",
+ "modified": "2021-11-08 23:15:29.850385",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

@@ -394,7 +394,14 @@ frappe.ui.form.on('Timesy', {
         })
 
 	},
+    total_costing_rate_deduction: function(frm) {
+       total_costing(cur_frm)
 
+	},
+    total_billing_rate_deduction: function(frm) {
+       total_costing(cur_frm)
+
+	},
 })
 function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
@@ -526,8 +533,8 @@ function total_costing(cur_frm) {
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
-    cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour
-    cur_frm.doc.total_billing_hour = total_billing_hour
+    cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
+    cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
     cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
     cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour'])
