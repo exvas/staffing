@@ -118,7 +118,10 @@ def generate_si(source_name, target_doc=None):
     }, ignore_permissions=True)
 
     doc.append("timesy_list", {
-        "timesy": source_name
+        "timesy": source_name,
+        "staff_name": timesy.staff_name if timesy.reference_type == 'Staff' else timesy.employee_name,
+        "staffing_project": timesy.staffing_project,
+        "total_costing_rate": timesy.total_costing_hour,
     })
     doc.append("items", {
         "item_code": timesy.item,
@@ -157,7 +160,10 @@ def generate_pi(source_name, target_doc=None):
     }, ignore_permissions=True)
 
     doc.append("timesy_list", {
-        "timesy": source_name
+        "timesy": source_name,
+        "staff_name": timesy.staff_name if timesy.reference_type == 'Staff' else timesy.employee_name,
+        "staffing_project": timesy.staffing_project,
+        "total_costing_rate": timesy.total_costing_hour,
     })
     doc.append("items", {
         "item_code": timesy.item,

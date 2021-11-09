@@ -141,7 +141,7 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
                   var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
-                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour
+                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour - cur_frm.doc.total_costing_rate_deduction
                // cur_frm.doc.total_absent_hour = absent_hours_rate
             cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_overtime_rate) - cur_frm.doc.total_absent_hour
 
@@ -395,7 +395,16 @@ frappe.ui.form.on('Timesy', {
 
 	},
     total_costing_rate_deduction: function(frm) {
-       total_costing(cur_frm)
+        if(cur_frm.doc.skip_timesheet){
+            var from_date = new Date(cur_frm.doc.start_date)
+            var end_date = new Date(cur_frm.doc.end_date)
+            var number_of_days = (new Date(end_date - from_date)).getDate()
+
+           compute_working_days(cur_frm,number_of_days, {})
+        } else {
+            total_costing(cur_frm)
+        }
+
 
 	},
     total_billing_rate_deduction: function(frm) {

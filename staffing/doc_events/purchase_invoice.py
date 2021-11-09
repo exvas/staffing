@@ -10,5 +10,5 @@ def get_staffing(doctype, target,setters,d,e,filter):
     print(e)
     print(filter)
 
-    staffing = frappe.db.sql(""" SELECT * FROM `tabTimesy` WHERE docstatus=1 and status='Completed' """, as_dict=1)
+    staffing = frappe.db.sql(""" SELECT * FROM `tabTimesy` WHERE docstatus=1 and reference_type='Staff' and status='Completed' """, as_dict=1)
     return staffing

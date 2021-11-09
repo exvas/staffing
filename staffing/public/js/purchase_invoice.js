@@ -3,7 +3,7 @@ frappe.ui.form.on("Purchase Invoice", {
         cur_frm.add_custom_button(__('Timesy'),
 				function() {
                     var query_args = {
-                       query:"staffing.doc_events.sales_invoice.get_staffing",
+                       query:"staffing.doc_events.purchase_invoice.get_staffing",
                         filters: {}
                     }
 					 var d = new frappe.ui.form.MultiSelectDialog({
