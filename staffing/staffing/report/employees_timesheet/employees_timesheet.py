@@ -8,7 +8,7 @@ def get_columns(filters):
 	columns = [
 		{"fieldname": "employee", "fieldtype": "Data", "width": "150"},
 		{"label": "Name", "fieldname": "employee_staff_name", "fieldtype": "Data", "width": "150"},
-		{"label": "Position", "fieldname": "designation", "fieldtype": "Data", "width": "150"},
+		{"label": "Trade", "fieldname": "designation", "fieldtype": "Data", "width": "150"},
 	]
 	columns[0]['label'] = "EmpID" if filters.get("type") == "Employee" else "StaffID"
 	return columns
@@ -27,9 +27,9 @@ def execute(filters=None):
 			"width": "50",
 		})
 	columns.append({"label": "Total Hours", "fieldname": "total_hour", "fieldtype": "Data", "width": "100"},)
-	columns.append({"label": "Rate/hr", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Data", "width": "90"},)
+	columns.append({"label": "Rate Hours", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "No of Absent", "fieldname": "absent", "fieldtype": "Data", "width": "120"},)
-	columns.append({"label": "Amount", "fieldname": "amount", "fieldtype": "Data", "width": "100"},)
+	columns.append({"label": "Total Amount", "fieldname": "amount", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "Total Absent Deduction", "fieldname": "total_absent_deduction_per_hour", "fieldtype": "Data", "width": "200"},)
 	columns.append({"label": "Net Total", "fieldname": "net_total", "fieldtype": "Data", "width": "120"},)
 	# select_fields =
