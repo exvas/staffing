@@ -211,6 +211,14 @@ frappe.ui.form.on('Timesy', {
 
     },
     start_date: function () {
+        var today = new Date(cur_frm.doc.start_date);
+        var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
+         const mm = lastDayOfMonth.getMonth() + 1
+            const dd = lastDayOfMonth.getDate()
+            const yy = lastDayOfMonth.getFullYear()
+            console.log(mm + "-" + dd + "-" + yy)
+            cur_frm.doc.end_date = yy + "-" + mm + "-" + dd
+        cur_frm.refresh_field('end_date')
         if(cur_frm.doc.timesy_details && !cur_frm.doc.timesy_details[0].date){
             cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
             cur_frm.refresh_field("timesy_details")
