@@ -121,69 +121,87 @@
     </tr>
 
 </table>
-<table style="width: 100%;margin-top: 1%">
-    <tr>
-         <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
-         <b> Sub Total حاصل الجمع</b>
 
+    <table style="margin-top: 1%;width: 100% !important;">
+        <tr style="border: 1px solid black;">
+            <td class="text-left" style="width: 1%;font-size: small">
+                <b>SI</b><br>
+                <b>الرقم </b>
+            </td>
+        <td class="text-left" style="border: 1px solid black;width: 45%;font-size: small">
+            <b>DESCRIPTION</b><br>
+            <b>البيان </b>
         </td>
-        <td class="text-center" style="border:1px solid black;width: 65%;font-size: small;background-color: white">
-            <b>Description    وصف</b>
+        <td class="text-left" style="border: 1px solid black;width: 4%;font-size: small">
+            <b>UNIT</b><br>
+            <b>الوحدة</b>
         </td>
-        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
-            <b>Sl No. رقم</b>
+        <td class="text-left" style="border: 1px solid black;width: 4%;font-size: small">
+            <b>QTY</b><br>
+            <b> الكمية</b>
+        </td>
+        <td class="text-left" style="border: 1px solid black;width:10%;font-size: small">
+            <b>UNIT PRICE</b><br>
+            <b> سعر الوحدة</b>
+        </td>
+
+        <td class="text-left" style="border: 1px solid black;width: 6%;font-size: small">
+            <b>TOTAL SAR</b><br>
+            <b>مجموع</b>
         </td>
     </tr>
+    {%set new_item_array = []%}
     {%for i in doc.items%}
-        <tr>
-             <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
-             {{ frappe.utils.fmt_money(i.amount,currency=doc.currency) }}
 
-            </td>
-            <td class="text-center" style="border:1px solid black;width: 65%;font-size: small;background-color: white">
-                {{i.description}}
-            </td>
-            <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
-               {{i.idx}}
-            </td>
-        </tr>
-    {%endfor%}
-    <tr>
-         <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
-             <b>{{ frappe.utils.fmt_money(doc.total_taxes_and_charges,currency=doc.currency) }}</b>
-
-
-        </td>
-        <td colspan="2" class="text-center" style="border:1px solid black;width: 80%;font-size: small;background-color: white"><b>
-            ضريبة القيمة المضافة   % 15  Vat Value</b>
-        </td>
-
-    </tr>
-    <tr>
-         <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
-            <b>{{ frappe.utils.fmt_money(doc.grand_total,currency=doc.currency) }}</b>
-
-        </td>
-        <td colspan="2" class="text-center" style="border:1px solid black;width: 80%;font-size: small;background-color: white">
-<b>          المجموع شامل ضريبة القيمة المضافة  Subtotal with Vat ValueVat Value</b>
-        </td>
-
-    </tr>
-    <tr>
-         <td colspan="3" class="text-left" style="border:1px solid black; width: 100%;font-size: small;background-color: white">
-        <b>In Words: </b> {{ doc.in_words }}
-        </td>
-
-
-    </tr>
      <tr>
-         <td colspan="3" class="text-left" style="border:1px solid black; width: 100%;font-size: small;background-color: white">
-       <b>In Words in Arabic:</b>
-             {%if doc.in_words_arabic%}{{doc.in_words_arabic}}{%endif%}
+	    <td class="text-left" style="border: 1px solid black;width: 1%;font-size: small">
 
+            <b>{{i.idx}}</b>
+        </td>
+        <td class="text-left" style="border: 1px solid black;width: 45%;font-size: small">
+
+            <b>{{i.description}}</b>
+        </td>
+        <td class="text-left" style="border: 1px solid black;width: 4%;font-size: small">
+
+            <b>{{"{:,.2f}".format(i.qty | abs)}}</b>
+        </td>
+        <td class="text-left" style="border: 1px solid black;width: 4%;font-size: small">
+
+            <b>{{i.uom}}</b>
+        </td>
+        <td class="text-left" style="border: 1px solid black;width: 10%;font-size: small">
+
+            <b>{{ "{:,.2f}".format(i.rate) }}</b>
         </td>
 
+        <td class="text-left" style="border: 1px solid black;width: 6%;font-size: small">
 
+               <b>{{ "{:,.2f}".format(i.amount | abs) }}</b>
+        </td>
+    </tr>
+    {%endfor%}
+ <tr>
+
+        <td colspan="4" class="text-right" style="border: 1px solid black;width: 10%;font-size: small">
+           <b>            ضريبة القيمة المضافة   % 15  Vat Value</b>
+        </td>
+
+        <td colspan="2" class="text-left" style="border: 1px solid black;width: 6%;font-size: small">
+
+                <b>{{ frappe.utils.fmt_money(doc.total_taxes_and_charges,currency=doc.currency) }}</b>
+        </td>
+    </tr>
+        <tr>
+
+        <td colspan="4" class="text-right" style="border: 1px solid black;width: 10%;font-size: small">
+           <b>          المجموع شامل ضريبة القيمة المضافة  Subtotal with Vat ValueVat Value</b>
+        </td>
+
+        <td colspan="2" class="text-left" style="border: 1px solid black;width: 6%;font-size: small">
+
+               <b>{{ frappe.utils.fmt_money(doc.grand_total,currency=doc.currency) }}</b>
+        </td>
     </tr>
 </table>
 <table style="width: 100%;margin-top: 1%">
