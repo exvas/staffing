@@ -193,6 +193,14 @@ fixtures = [
 					"Purchase Invoice-grand_costing_rate",
                     "Sales Invoice-grand_costing_rate",
 
+					"Sales Invoice-bank_details",
+					"Sales Invoice-account_name",
+					"Sales Invoice-bank_name",
+					"Sales Invoice-branch",
+					"Sales Invoice-account_no",
+					"Sales Invoice-iban_no",
+					"Sales Invoice-swift_code",
+
 				]
 			]
 		]

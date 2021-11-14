@@ -1,0 +1,280 @@
+<html>
+<body>
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+{% if letter_head and not no_letterhead %}
+{{ letter_head }}
+{% endif %}
+
+{% if max_pages > 1 %}
+{% endif %}
+{%- endmacro -%}
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+<table style="width: 100%">
+    <td style="width: 50%">
+        <div style="width: 10mm;height: 10mm">
+            <!--<img class="qr-code" src="{{doc.qr_code}}">-->
+        </div>
+    </td>
+    <td style="width: 50%;">
+        <h6>
+            <b>
+                     فاتورة ضريبة القيمة المضافة
+            /VAT INVOICE
+            </b>
+            <br>
+        </h6>
+        <h6>
+            <b>
+                لرقم الضريبي
+            :VAT NO: 310117305600003
+            </b>
+
+        </h6>
+    </td>
+</table>
+<table style="width: 100%">
+    <tr>
+        <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
+            Customer Code
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 20%;font-size: small;background-color: white">
+            {{doc.customer}}
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
+            رمز العميل :
+        </td>
+        <td style="border:1px solid black;width: 45%;font-size: small;background-color: white">
+            <span >Customer Name & Address :</span>
+            <span>
+
+            اسم العميل وعنوانه :
+              </span>
+
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
+            Invoice No
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 20%;font-size: small;background-color: white">
+            {{doc.name}}
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
+                    رقم الفاتورة :
+        </td>
+        <td style="border:1px solid black;width: 45%;font-size: small;background-color: white">
+            {{doc.customer_name}}
+
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
+           Date
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 20%;font-size: small;background-color: white">
+            {{doc.posting_date}}
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
+                  تاريخ :
+        </td>
+        <td style="border:1px solid black;width: 45%;font-size: small;background-color: white">
+          {{doc.customer_name_in_arabic}}
+
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
+          PO No
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 20%;font-size: small;background-color: white">
+            {{doc.po_no}}
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
+              بو رقم :
+        </td>
+        <td style="border:1px solid black;width: 45%;font-size: small;background-color: white">
+           {% if frappe.db.get_value("Address", doc.customer_address, "address_in_arabic")%}
+            {{frappe.db.get_value("Address", doc.customer_address, "address_in_arabic")}}
+            {%endif%}
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left" style="border:1px solid black; width: 20%;font-size: small;background-color: white">
+          Month
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 20%;font-size: small;background-color: white">
+            Oct-20
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 15%;font-size: small;background-color: white">
+           شهر:
+        </td>
+        <td style="border:1px solid black;width: 45%;font-size: small;background-color: white">
+            {%if doc.tax_id%}
+            {{doc.tax_id}}
+            {%endif%}
+
+        </td>
+    </tr>
+
+</table>
+<table style="width: 100%">
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+          Sub Total حاصل الجمع
+
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 34%;font-size: small;background-color: white">
+            Description    وصف
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 33%;font-size: small;background-color: white">Sl No. رقم
+Sl No. رقم
+        </td>
+    </tr>
+    {%for i in doc.items%}
+        <tr>
+             <td class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+              {{i.amount}}
+
+            </td>
+            <td class="text-center" style="border:1px solid black;width: 34%;font-size: small;background-color: white">
+                {{i.description}}
+            </td>
+            <td class="text-center" style="border:1px solid black;width: 33%;font-size: small;background-color: white">Sl No. رقم
+               {{i.idx}}
+            </td>
+        </tr>
+    {%endfor%}
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+          {{doc.total_taxes_and_charges}}
+
+        </td>
+        <td colspan="2" class="text-center" style="border:1px solid black;width: 34%;font-size: small;background-color: white">
+            ضريبة القيمة المضافة   % 15  Vat Value
+        </td>
+
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+          {{doc.grand_total}}
+
+        </td>
+        <td colspan="2" class="text-center" style="border:1px solid black;width: 34%;font-size: small;background-color: white">
+            ضريبة القيمة المضافة   % 15  Vat Value
+        </td>
+
+    </tr>
+    <tr>
+         <td colspan="3" class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+        In Words:  {{ doc.in_words }}
+        </td>
+
+
+    </tr>
+     <tr>
+         <td colspan="3" class="text-left" style="border:1px solid black; width: 33%;font-size: small;background-color: white">
+        In Words in Arabic:  {{ doc.in_words_in_arabic }}
+        </td>
+
+
+    </tr>
+</table>
+<table style="width: 100%">
+    <tr>
+         <td colspan="2" class="text-center" style="border:1px solid black; width: 50%;font-size: small;background-color: lightgray">
+         Bank Details
+
+        </td>
+        <td class="text-center" style="border:1px solid black;width: 50%;font-size: small;background-color: lightgray">
+           RECEIVED BY ( تم الاستلام )
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         Account Name:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.account_name}}
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         Bank Name:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.bank_name}}
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         Branch:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.branch}}
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         Account No:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.account_no}}
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         IBAN No:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.iban_no}}
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+            Name:
+        </td>
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black; width: 25%;font-size: small;background-color: white">
+         Swift Code:
+        </td>
+        <td class="text-left" style="border:1px solid black;width: 25%;font-size: small;background-color: white">
+           {{doc.swift_code}}
+        </td>
+         <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+            Signature & Stamp:
+        </td>
+    </tr>
+</table>
+<table style="width: 100%">
+    <tr>
+    <td colspan="2" class="text-center" style="width: 100%;background-color: lightgray">AUTHORIZED SIGNATORY (المفوض بالتوقيع)</td>
+
+    </tr>
+    <tr>
+         <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+            Prepared by:
+        </td>
+         <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+           Checked by:
+        </td>
+    </tr>
+     <tr>
+         <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+            Verified by:
+        </td>
+         <td class="text-left" style="border:1px solid black;width: 50%;font-size: small;background-color: white">
+           Approved by:
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
