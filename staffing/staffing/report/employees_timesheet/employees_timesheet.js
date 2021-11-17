@@ -6,7 +6,7 @@ frappe.query_reports["Employees Timesheet"] = {
 	"filters": [
 		{
 			fieldname: "staffing_project",
-            label: __("Staffing Project"),
+            label: __("Company"),
             fieldtype: "Link",
 			options: "Staffing Project"
 		},
