@@ -27,7 +27,7 @@ def execute(filters=None):
 			"width": "50",
 		})
 	columns.append({"label": "Total Hours", "fieldname": "total_hour", "fieldtype": "Data", "width": "100"},)
-	columns.append({"label": "Rate Hours", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Data", "width": "120"},)
+	columns.append({"label": "Rate Hours", "fieldname": "default_billing_rate_per_hour", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "No of Absent", "fieldname": "absent", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "Total Amount", "fieldname": "amount", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "Total Absent Deduction", "fieldname": "total_absent_deduction_per_hour", "fieldtype": "Data", "width": "200"},)
@@ -61,12 +61,8 @@ def execute(filters=None):
 					x[str(xx.day_of_the_month)] = xx.working_hour
 
 			x['total_hour'] = sum
-			x['amount'] = x.default_cost_rate_per_hour * sum
+			x['amount'] = x.default_billing_rate_per_hour * sum
 			x['absent'] = absent
-			print("=================================")
-			print(absent)
-			print(x.absent_deduction_per_hour)
-			print(absent * x.absent_deduction_per_hour)
 			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
 
@@ -95,14 +91,14 @@ def get_fields(type):
 		fields = "T.employee_code as employee," \
 				 "T.employee_name as employee_staff_name," \
 				 "E.designation,T.name," \
-				 "SC.default_cost_rate_per_hour," \
+				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as employee," \
 				 "T.staff_name as employee_staff_name," \
 				 "E.designation,T.name," \
-				 "SC.default_cost_rate_per_hour," \
+				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	return fields
