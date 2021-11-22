@@ -20,13 +20,15 @@ frappe.ui.form.on('Staffing Cost', {
 	},
     reference_type: function () {
         if(cur_frm.doc.reference_type === "Employee"){
-            staff_code = ""
-            staff_name = ""
-            cur_frm.refresh_fields(["staff_code", "staff_name"])
+            cur_frm.doc.staff_code = ""
+            cur_frm.doc.staff_name = ""
+            cur_frm.doc.naming_series = 'SC-.{employee_code}.-.YY.-'
+            cur_frm.refresh_fields(["staff_code", "staff_name","naming_series"])
         } else if(cur_frm.doc.reference_type === "Staff"){
-            employee_code = ""
-            employee_name = ""
-            cur_frm.refresh_fields(["employee_name", "employee_code"])
+            cur_frm.doc.employee_code = ""
+            cur_frm.doc.employee_name = ""
+            cur_frm.doc.naming_series = 'SC-.{staff_code}.-.YY.-'
+            cur_frm.refresh_fields(["employee_name", "employee_code","naming_series"])
         }
     }
 });

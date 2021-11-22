@@ -423,7 +423,8 @@ function get_designation(cur_frm, obj) {
                             console.log(values)
                             cur_frm.doc.staffing_type = values.name
                             cur_frm.doc.staffing_project = values.staffing_project
-                            cur_frm.refresh_fields(["staffing_type","staffing_project"])
+                            cur_frm.doc.supplier = values.supplier
+                            cur_frm.refresh_fields(["staffing_type","staffing_project","supplier"])
 
 
                         })

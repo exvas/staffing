@@ -26,6 +26,7 @@
   "default_overtime_rate",
   "default_working_rate",
   "staffing_project",
+  "supplier",
   "amended_from"
  ],
  "fields": [
@@ -45,7 +46,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "SC-.YY.-",
+   "options": "SC-.{staff_code}.-.YY.-\nSC-.{employee_code}.-.YY.-",
    "read_only": 1
   },
   {
@@ -161,12 +162,18 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Active\nExpired"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-08 23:15:29.850385",
+ "modified": "2021-11-22 12:34:40.562347",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

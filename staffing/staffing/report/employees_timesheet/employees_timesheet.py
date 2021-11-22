@@ -82,6 +82,8 @@ def get_condition(filters):
 
 	if filters.get("staffing_project"):
 		condition += " and T.staffing_project = '{0}'".format(filters.get("staffing_project"))
+	if filters.get('supplier'):
+		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
 
 	return condition
 
