@@ -17,6 +17,8 @@
   "normal_working_hour",
   "skip_timesheet",
   "holiday_list",
+  "charge_type",
+  "charge_amount",
   "column_break_4",
   "status",
   "start_date",
@@ -41,6 +43,9 @@
   "section_break_19",
   "item",
   "salary_component",
+  "column_break_37",
+  "total_working_hour",
+  "total_overtime_hour_staff",
   "amended_from"
  ],
  "fields": [
@@ -285,12 +290,41 @@
    "label": "Supplier",
    "options": "Supplier",
    "read_only": 1
+  },
+  {
+   "fieldname": "charge_type",
+   "fieldtype": "Data",
+   "label": "Charge Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "charge_amount",
+   "fieldtype": "Currency",
+   "label": "Charge Amount"
+  },
+  {
+   "fieldname": "column_break_37",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "fieldname": "total_working_hour",
+   "fieldtype": "Float",
+   "label": "Total Working Hour"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "fieldname": "total_overtime_hour_staff",
+   "fieldtype": "Float",
+   "label": "Total Overtime Hour"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-22 12:35:44.106795",
+ "modified": "2021-11-26 14:01:00.076428",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
