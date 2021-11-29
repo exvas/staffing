@@ -536,8 +536,10 @@ function total_costing(cur_frm) {
     var total_billing_hour = 0
     var total_absent_hour = 0
     var total_overtime_hour = 0
+    var total_working_hour = 0
     for(var x=0;x<cur_frm.doc.timesy_details.length;x+=1){
 
+        total_working_hour += cur_frm.doc.timesy_details[x].working_hour
         total_costing_hour += cur_frm.doc.timesy_details[x].costing_hour
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
@@ -546,6 +548,8 @@ function total_costing(cur_frm) {
     cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
     cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
     cur_frm.doc.total_absent_hour = total_absent_hour
+    cur_frm.doc.total_working_hour = total_working_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
-    cur_frm.refresh_fields(['total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour'])
+    cur_frm.doc.total_overtime_hour_staff = total_overtime_hour
+    cur_frm.refresh_fields(['total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
 }
