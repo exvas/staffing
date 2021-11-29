@@ -87,7 +87,9 @@ def generate_as(source_name, target_doc=None):
     doc.append("timesy_list", {
         "timesy": source_name
     })
-    return doc
+    timesy_doc = doc.insert()
+    timesy_doc.submit()
+
 @frappe.whitelist()
 def generate_si(source_name, target_doc=None):
     # obj = {

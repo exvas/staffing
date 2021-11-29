@@ -314,10 +314,17 @@ frappe.ui.form.on('Timesy', {
             }
             if(!additional_salary){
                 cur_frm.add_custom_button(__('Additional Salary'), function() {
-                        frappe.model.open_mapped_doc({
-                            method: "staffing.staffing.doctype.timesy.timesy.generate_as",
-                            frm: cur_frm
-                        })
+                    frappe.call({
+                        method: "staffing.staffing.doctype.timesy.timesy.generate_as",
+                        args:{
+                            source_name: cur_frm.doc.name,
+                        },
+                        async: false,
+                        callback: function () {
+                            cur_frm.reload_doc()
+                        }
+                    })
+
                     });
             }
 
