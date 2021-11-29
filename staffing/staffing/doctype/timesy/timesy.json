@@ -43,6 +43,7 @@
   "section_break_19",
   "item",
   "salary_component",
+  "payroll_date",
   "column_break_37",
   "total_working_hour",
   "total_overtime_hour_staff",
@@ -320,12 +321,18 @@
    "fieldtype": "Float",
    "label": "Total Overtime Hour",
    "read_only": 1
+  },
+  {
+   "fieldname": "payroll_date",
+   "fieldtype": "Date",
+   "label": "Payroll Date",
+   "mandatory_depends_on": "eval: doc.salary_component"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-29 15:22:00.575278",
+ "modified": "2021-11-29 16:25:30.425501",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
