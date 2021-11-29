@@ -1,0 +1,83 @@
+
+
+<h2 class="text-center">{%= __("INVOICE FOR THE MONTH OF " + filters.month + " " + filters.fiscal_year) %}</h2>
+<table style="width: 100%">
+	<tr>
+		<td style="font-size:small">STATEMENT OF ACCOUNT FOR THE INVOICE NO.:</td>
+		<td style="font-size:small">1553/09/2021</td>
+		<td style="font-size:small">DATED</td>
+		<td style="font-size:small">16/Oct/2021</td>
+	</tr>
+</table>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th class="text-center" style="width: 5%;font-size:small">{%= __("SL #") %}</th>
+			<th class="text-center" style="width: 25%;font-size:small">{%= __("NAME") %}</th>
+			<th class="text-center" style="width: 15%;font-size:small">{%= __("CRAFT") %}</th>
+			<th class="text-center" style="width: 15%;font-size:small">{%= __("TOTAL HRS.") %}</th>
+			<th class="text-center" style="width: 15%;font-size:small">{%= __("RATE/HR") %}</th>
+			<th class="text-center" style="width: 18%;font-size:small">{%= __("TOTAL AMOUNT") %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var i=0, l=data.length; i<l; i++) { %}
+		    {% if(data[i].employee_staff_name) { %}
+			<tr>
+				<td class="text-center" style="font-size:small">{%= i + 1 %}</td>
+				<td style="font-size:small">{%= data[i].employee_staff_name %}</td>
+				<td class="text-center" style="font-size:small">{%= data[i].designation %}</td>
+				<td class="text-center" style="font-size:small">{%= data[i].total_hour %}</td>
+				<td class="text-center" style="font-size:small">{%= data[i].default_billing_rate_per_hour %}</td>
+				<td class="text-center" style="font-size:small">{%= data[i].amount %}</td>
+            </tr>
+		    {% } %}
+		{% } %}
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">TOTAL INVOICE GROSS AMOUNT</td>
+				<td class="text-center" style="font-size:small">{{ data[data.length - 2].total_amount}}</td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">LESS: - DEBIT NOTE: ABSENT 2 DAYS @ 50 EACH</td>
+				<td class="text-center" style="font-size:small">{{ data[data.length - 2].total_absent}}</td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">SUB TOTAL WITHOUT VAT</td>
+				<td class="text-center" style="font-size:small">{{ data[data.length - 2].subtotal_without_vat_1}}</td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">ADD: - BUS TICKET</td>
+				<td class="text-center" style="font-size:small"></td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">SUB TOTAL WITHOUT VAT</td>
+				<td class="text-center" style="font-size:small"></td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">15 % VAT VALUE</td>
+				<td class="text-center" style="font-size:small">{{ data[data.length - 2].fiften_percent}}</td>
+            </tr>
+			<tr>
+				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small" colspan="4">(SR:__________________Only)</td>
+				<td class="text-center" style="font-size:small">{{ data[data.length - 2].grand_total}}</td>
+            </tr>
+
+	</tbody>
+</table>
+<table style="width: 100%">
+	<tr>
+		<td style="font-size:small">Prepared By: ____________________________</td>
+		<td style="font-size:small">Checked: ____________________________</td>
+	</tr>
+	<tr>
+		<td style="font-size:small">Verified By: ____________________________</td>
+		<td style="font-size:small">Approved: ____________________________</td>
+	</tr>
+</table>
