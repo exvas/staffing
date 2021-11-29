@@ -77,7 +77,6 @@ def generate_as(source_name, target_doc=None):
                 "docstatus": ["=", 1]
             },
             "field_map": {
-                "start_date": "payroll_date",
                 "employee_code": "employee",
                 "total_overtime_hour": "amount",
             }
