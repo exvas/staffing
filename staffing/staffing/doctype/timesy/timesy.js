@@ -81,12 +81,6 @@ function compute_working_days(cur_frm,number_of_days, d) {
            holiday = cur_frm.doc.monthly_timesheet[x].number
         }
     }
-    console.log(working_days)
-    console.log(fridays)
-    console.log(w_fridays)
-    console.log(absent)
-    console.log(h_working)
-    console.log(holiday)
     update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d)
 }
 function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d) {
@@ -149,6 +143,18 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
         })
 }
 frappe.ui.form.on('Timesy', {
+    normal_working_hour: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn]
+        var from_date = new Date(cur_frm.doc.start_date)
+        var end_date = new Date(cur_frm.doc.end_date)
+        var number_of_days = (new Date(end_date - from_date)).getDate()
+        if(cur_frm.doc.monthly_timesheet){
+            for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
+                compute_working_days(cur_frm,number_of_days, cur_frm.doc.monthly_timesheet[x])
+            }
+        }
+        total_costing(cur_frm)
+    },
     skip_timesheet: function (frm, cdt, cdn) {
         var d = locals[cdt][cdn]
       if(cur_frm.doc.monthly_timesheet.length === 0 && cur_frm.doc.holiday_list){
@@ -446,7 +452,6 @@ frappe.ui.form.on('Timesy Details', {
 	},
     timesy_details_remove: function(frm, cdt, cdn) {
                               total_costing(cur_frm)
-
 	},
     working_hour: function(frm, cdt, cdn) {
         var d = locals[cdt][cdn]
@@ -492,7 +497,7 @@ function compute_hours(d,cur_frm) {
                 d.billing_hour = 0
                 d.absent_hour = doc.absent_deduction_per_hour
                 d.friday_hour = 0
-                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
 
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
@@ -503,7 +508,7 @@ function compute_hours(d,cur_frm) {
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
                 d.friday_hour =0
-                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
 
 
                 cur_frm.refresh_field(d.parentfield)
@@ -521,7 +526,7 @@ function compute_hours(d,cur_frm) {
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
                 d.friday_hour = 0
-                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > 8? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
 
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
@@ -544,8 +549,10 @@ function total_costing(cur_frm) {
     var total_absent_hour = 0
     var total_overtime_hour = 0
     var total_working_hour = 0
+    var from_date = new Date(cur_frm.doc.start_date)
+    var end_date = new Date(cur_frm.doc.end_date)
+    var number_of_days = (new Date(end_date - from_date)).getDate()
     for(var x=0;x<cur_frm.doc.timesy_details.length;x+=1){
-
         total_working_hour += cur_frm.doc.timesy_details[x].working_hour
         total_costing_hour += cur_frm.doc.timesy_details[x].costing_hour
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
@@ -557,6 +564,7 @@ function total_costing(cur_frm) {
     cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_working_hour = total_working_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
-    cur_frm.doc.total_overtime_hour_staff = total_overtime_hour
+        cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
+
     cur_frm.refresh_fields(['total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
 }
