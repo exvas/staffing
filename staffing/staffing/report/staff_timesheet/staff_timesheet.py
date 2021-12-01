@@ -73,8 +73,8 @@ def execute(filters=None):
 			data[len(data)-1]['total_amount'] = total_amount
 			data[len(data)-1]['total_absent'] = total_absent
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
-			data[len(data)-1]['fiften_percent'] =(total_amount - total_absent) * 0.15
-			data[len(data)-1]['grand_total'] =((total_amount - total_absent) * 0.15) + (total_amount - total_absent)
+			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
+			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent) * 0.15),2) + (total_amount - total_absent)
 
 	print(data)
 	return columns, data

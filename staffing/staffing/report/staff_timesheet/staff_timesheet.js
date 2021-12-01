@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Employees Timesheet"] = {
+frappe.query_reports["Staff Timesheet"] = {
 	"filters": [
 		{
 			fieldname: "staffing_project",
