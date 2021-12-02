@@ -15,7 +15,7 @@
 		<td style="font-size:small;width: 10%">Company:</td>
 		<td style="font-size:small;width: 50%">
             {{ filters.supplier_name }} <br>
-            {{ filters.address }}
+
 
 
         </td>
@@ -27,7 +27,7 @@
 	</tr>
     <tr>
 		<td style="font-size:small;width: 10%">ATTN:</td>
-		<td style="font-size:small;width: 50%">{{ frappe.defaults.get_global_default('company') }}</td>
+		<td style="font-size:small;width: 50%">{{ filters.address }}</td>
 		<td class="text-right" style="font-size:small;width: 40%">
              {%= __("Month of " + filters.month + " " + filters.fiscal_year) %}
         </td>
