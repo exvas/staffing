@@ -13,7 +13,12 @@
 <table style="width: 100%">
 	<tr>
 		<td style="font-size:small;width: 10%">Company:</td>
-		<td style="font-size:small;width: 50%">{{ frappe.db.get_value("Supplier", filters.supplier, "supplier_name") }}</td>
+		<td style="font-size:small;width: 50%">
+            {{ filters.supplier_name }} <br>
+            {{ filters.address }}
+
+
+        </td>
 		<td class="text-right" style="font-size:small;width: 40%">
             {{frappe.datetime.now().moment._d.getDate()}} /
             {{frappe.datetime.now().moment._d.getMonth()}} /
@@ -106,7 +111,6 @@
     <tr>
         <td class="text-left" style="width: 50%;font-size:12px">
             <b>{%= __("Prepared By:") %}</b><br>
-            Note: Each Absent will be deduct at SR. 35/- <br>
             Any Back charges from our client against your employee will be deducted from your invoice
         </td>
         <td class="text-left" style="width: 50%;font-size:12px"><b>{%= __("Approved By:") %}</b></td>
