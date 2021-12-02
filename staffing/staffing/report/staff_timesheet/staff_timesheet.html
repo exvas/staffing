@@ -13,7 +13,7 @@
 <table style="width: 100%">
 	<tr>
 		<td style="font-size:small;width: 10%">Company:</td>
-		<td style="font-size:small;width: 50%">{{ frappe.defaults.get_global_default('company') }}</td>
+		<td style="font-size:small;width: 50%">{{ frappe.db.get_value("Supplier", filters.supplier, "supplier_name") }}</td>
 		<td class="text-right" style="font-size:small;width: 40%">
             {{frappe.datetime.now().moment._d.getDate()}} /
             {{frappe.datetime.now().moment._d.getMonth()}} /
@@ -67,11 +67,11 @@
             {% } %}
 		{% } %}
     <tr>
-			<td colspan="34" rowspan="3" class="text-center" style="border: 1px solid black;width: 1%;font-size:12px">
+			<td colspan="34" rowspan="4" class="text-center" style="border: 1px solid black;width: 1%;font-size:12px">
                 <br>
-                <span>H-Holiday</span>
-                <span style="margin-left: 10%">X-Not Working</span>
-                <span style="margin-left: 10%">S-Sick</span>
+                <span>F-Holiday</span>
+                <span style="margin-left: 10%">A-Not Working</span>
+                <span style="margin-left: 10%">M-Medical</span>
             </td>
 			<td colspan="2" class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">
                 {%= __("Subtotal") %}
@@ -81,12 +81,19 @@
 		</tr>
         <tr>
 			<td colspan="2"  class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">
+                {%= __("Deductions") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">{%= format_number(data[data.length - 2].total_deduction,"",2)  %}</td>
+		</tr>
+        <tr>
+			<td colspan="2"  class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">
                 {%= __("VAT 15%") %}
             </td>
 
 			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">{%= format_number(data[data.length - 2].fifteen_percent,"",2)  %}</td>
 		</tr>
-    <tr>
+        <tr>
 			<td colspan="2" class="text-center" style="border: 1px solid black;width: 10%;font-size:12px">
                 {%= __("Total Amount") %}
             </td>

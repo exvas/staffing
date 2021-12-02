@@ -14,7 +14,8 @@ frappe.query_reports["Staff Timesheet"] = {
 			fieldname: "supplier",
             label: __("Supplier"),
             fieldtype: "Link",
-			options: "Supplier"
+			options: "Supplier",
+			reqd: 1
 		},
 		{
 			fieldname: "type",

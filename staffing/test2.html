@@ -1,0 +1,169 @@
+
+<style>
+	@media screen {
+		.print-format {
+			width: 8.3in;
+			height: 11.7in;
+			padding: 0.20in;
+		}
+	}
+</style>
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+{% if letter_head and not no_letterhead %}
+{{ letter_head }}
+{% endif %}
+
+{% if max_pages > 1 %}
+{% endif %}
+{%- endmacro -%}
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+<table style="width: 100%">
+    <tr>
+
+        <td style="color: #007b9b;width: 100%;" class="text-center">
+           <span ><b>INVOICE </b></span><br>
+        </td>
+    </tr>
+</table>
+
+<table style="margin-top: 1% !important;width: 100% !important;">
+     <tr>
+        <td class="text-left" style="width: 35%;font-size: 90%">
+              <b>Bill To: <br>
+                   {{ doc.customer_name}}
+            </b>
+            <br>{%if doc.address_display%}{{doc.address_display}}{%endif%}<br>
+            <b>TRN Number: {%if doc.tax_id%}{{doc.tax_id}}{%endif%}</b>
+        </td>
+         <td class="text-center" style="width: 20%;font-size: 100%">
+              <div style='margin-left: 70px;width: 150px;height:130px'>
+                 <img class="qr-code" src="{{doc.qr_code}}">
+             </div>
+        </td>
+         <td class="text-right" style="width: 20%;font-size: 90%">
+             <b>INVOICE NO: </b><br>
+            <b>Date:</b>
+            <br><b>Due Date:</b>
+            <br><b>Delivery Note:</b>
+            <br><b>PO Date:</b>
+            <br><b>PO Number:</b>
+        </td>
+        <td class="text-left" style="width: 25%;font-size: 90%">
+            {{doc.name}}<br>
+            {{doc.posting_date}}<br>
+            {{doc.due_date}}<br>
+            {%if doc.items[0].delivery_note%}{{doc.items[0].delivery_note}}{%endif%}<br>
+            {%if doc.po_date%}{{doc.po_date}}{%endif%}<br>
+            {%if doc.po_no%}{{doc.po_no}}{%endif%}<br>
+        </td>
+
+    </tr>
+</table>
+
+<div style="width: 100%;border-bottom: 1px solid black"></div>
+
+        <table style="margin-top: 1%;width: 100% !important;">
+        <tr style="border-bottom: 1px solid black;">
+            <td class="text-left" style="background-color: #007b9b;color: white;width: 1%;font-size: 100%">
+                <b>SI</b><br>
+                <b>الرقم </b>
+            </td>
+        <td class="text-left" style="background-color: #007b9b;color: white;width: 45%;font-size: 100%">
+            <b>DESCRIPTION</b><br>
+            <b>البيان </b>
+        </td>
+
+        <td class="text-left" style="background-color: #007b9b;color: white;width: 4%;font-size: 100%">
+            <b>QTY</b><br>
+            <b> الكمية</b>
+        </td>
+             <td class="text-left" style="background-color: #007b9b;color: white;width: 4%;font-size: 100%">
+            <b>UOM</b><br>
+            <b>الوحدة</b>
+        </td>
+        <td class="text-left" style="background-color: #007b9b;color: white;width:10%;font-size: 100%">
+            <b>PRICE</b><br>
+            <b> سعر الوحدة</b>
+        </td>
+
+        <td class="text-left" style="background-color: #007b9b;color: white;width: 6%;font-size: 100%">
+            <b>Amount</b><br>
+            <b>مجموع</b>
+        </td>
+    </tr>
+    {%set new_item_array = []%}
+    {%for i in doc.items%}
+
+     <tr>
+	    <td class="text-left" style="width: 1%;font-size: 100%">
+
+            <b>{{i.idx}}</b>
+        </td>
+        <td class="text-left" style="width: 45%;font-size: 100%">
+
+            <b>{{i.description}}</b>
+        </td>
+        <td class="text-left" style="width: 4%;font-size: 100%">
+
+            <b>{{"{:,.2f}".format(i.qty | abs)}}</b>
+        </td>
+        <td class="text-left" style="width: 4%;font-size: 100%">
+
+            <b>{{i.uom}}</b>
+        </td>
+        <td class="text-left" style="width: 10%;font-size: 100%">
+
+            <b>{{ "{:,.2f}".format(i.rate) }}</b>
+        </td>
+
+        <td class="text-left" style="width: 6%;font-size: 100%">
+
+               <b>{{ "{:,.2f}".format(i.amount | abs) }}</b>
+        </td>
+    </tr>
+    {%endfor%}
+
+</table>
+
+<div style="width: 100%;border-bottom: 1px solid black"></div>
+
+        <table style="margin-top: 1%;width: 100% !important;">
+            <tr>
+
+                <td class="text-left" style="width: 40%;font-size: 100%">
+                    <b>Amount in words:</b> {{doc.in_words}}
+                </td>
+                <td class="text-left" style="width: 17%;font-size: 100%">
+                    <b>Subtotal</b><br>
+                    <b>إجمالي المبلغ</b>
+                </td>
+                <td class="text-right" style="width: 13%;font-size: 100%">
+                    <b>{{ "{:,.2f}".format(doc.total) }}</b>
+                </td>
+            </tr>
+        <tr>
+            <td class="text-right" style="width: 40%;font-size: 100%"></td>
+            <td class="text-left" style="width: 17%;font-size: 100%"><b>VAT 15%</b></td>
+            <td class="text-right" style="width: 13%;font-size: 100%"><b>{{ "{:,.2f}".format(doc.total_taxes_and_charges | abs) }}</b></td>
+        </tr>
+         <tr>
+            <td class="text-right" style="width: 40%;font-size: 100%"></td>
+            <td class="text-left" style="background-color: #007b9b;color: white;width: 17%;font-size: 100%"><b>Total</b></td>
+            <td class="text-right" style="background-color: #007b9b;color: white;width: 13%;font-size: 100%"><b>{{ "{:,.2f}".format(doc.total_taxes_and_charges | abs + doc.total) }}</b></td>
+        </tr>
+        <tr>
+            <td class="text-left" style="width: 40%;font-size: 100%">
+                <b>Pay To</b><br>
+                Bank Name: NATIONAL COMMERCIAL BANK(NCB)<br>
+                QATIF BRANCH, IBAN SA621000000727093000103<br>
+                Bank Account No.: 07270930000103<br>
+                Bank IFSC Code: NCBKSAJ<br>
+                Account Holder's Name: Muwaid Hassan Al Sameel<br>
+                Gen.Cont.Est<br>
+            </td>
+            <td colspan="2" class="text-left" style="width: 40%;font-size: 100%">For, Muwaid Hassan Al Samaeel Trading Est. مؤسسة مؤيد حسن ال سماعيل التجارية.</td>
+        </tr>
+</table>
+</html>
+

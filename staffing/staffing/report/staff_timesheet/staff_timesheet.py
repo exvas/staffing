@@ -46,7 +46,7 @@ def execute(filters=None):
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
 		print(data)
-		total_amount = total_absent = 0
+		total_amount = total_absent = total_absent_deduction = 0
 		for x in data:
 			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
 			print(timesy_details)
@@ -68,13 +68,15 @@ def execute(filters=None):
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
 			total_amount += x['amount']
 			total_absent += x['total_absent_deduction_per_hour']
+			total_absent_deduction += absent * x.absent_deduction_per_hour
 
 		if len(data) > 0:
 			data[len(data)-1]['total_amount'] = total_amount
 			data[len(data)-1]['total_absent'] = total_absent
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
 			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
-			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent) * 0.15),2) + (total_amount - total_absent)
+			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
+			data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
 
 	print(data)
 	return columns, data
