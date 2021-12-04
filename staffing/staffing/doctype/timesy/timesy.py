@@ -6,6 +6,9 @@ from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 from datetime import *
 class Timesy(Document):
+    def on_submit(self):
+        if self.skip_timesheet:
+            self.status = 'Completed'
     @frappe.whitelist()
     def get_holiday(self):
         if not self.holiday_list:

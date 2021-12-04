@@ -266,9 +266,9 @@ frappe.ui.form.on('Timesy', {
                 additional_salary= r.message[2]
             }
         })
-        if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress"){
+        if(cur_frm.doc.docstatus && cur_frm.doc.status === "In Progress" && !cur_frm.doc.skip_timesheet){
          cur_frm.add_custom_button(__('Completed'),
-                                function() {
+             function() {
              frappe.confirm('Are you sure you want to proceed?',
                     () => {
 
