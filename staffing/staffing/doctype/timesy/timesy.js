@@ -217,9 +217,50 @@ frappe.ui.form.on('Timesy', {
 
     },
     start_date: function () {
-        if(cur_frm.doc.timesy_details && !cur_frm.doc.timesy_details[0].date){
-            cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
-            cur_frm.refresh_field("timesy_details")
+        if(cur_frm.doc.timesy_details && !cur_frm.doc.skip_timesheet){
+            if(!cur_frm.doc.timesy_details[0].date){
+                cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
+                cur_frm.refresh_field("timesy_details")
+            }
+        }
+        if(cur_frm.doc.skip_timesheet && cur_frm.doc.monthly_timesheet){
+            console.log("test")
+            var from_date = new Date(cur_frm.doc.start_date)
+            var end_date = new Date(cur_frm.doc.end_date)
+            var number_of_days = (new Date(end_date - from_date)).getDate()
+
+            for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
+                if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
+                    cur_frm.doc.monthly_timesheet[x].number = number_of_days
+                    cur_frm.refresh_field("monthly_timesheet")
+                                        compute_hours(cur_frm.doc.monthly_timesheet[x],cur_frm)
+
+                }
+            }
+        }
+
+    },
+    end_date: function () {
+        if(cur_frm.doc.timesy_details && !cur_frm.doc.skip_timesheet){
+            if(!cur_frm.doc.timesy_details[0].date){
+                cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
+                cur_frm.refresh_field("timesy_details")
+            }
+        }
+        if(cur_frm.doc.skip_timesheet && cur_frm.doc.monthly_timesheet){
+            console.log("test")
+            var from_date = new Date(cur_frm.doc.start_date)
+            var end_date = new Date(cur_frm.doc.end_date)
+            var number_of_days = (new Date(end_date - from_date)).getDate()
+
+            for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
+                if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
+                    cur_frm.doc.monthly_timesheet[x].number = number_of_days
+                    cur_frm.refresh_field("monthly_timesheet")
+                    compute_hours(cur_frm.doc.monthly_timesheet[x],cur_frm)
+                }
+            }
+
         }
 
     },
@@ -438,7 +479,9 @@ function get_designation(cur_frm, obj) {
                             cur_frm.doc.staffing_project = values.staffing_project
                             cur_frm.doc.supplier = values.supplier
                             cur_frm.refresh_fields(["staffing_type","staffing_project","supplier"])
-
+                            if(cur_frm.doc.timesy_details){
+                                compute_working_days(cur_frm,number_of_days, cur_frm.doc.timesy_details[0])
+                            }
 
                         })
 
