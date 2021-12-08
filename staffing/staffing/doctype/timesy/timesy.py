@@ -6,9 +6,28 @@ from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 from datetime import *
 class Timesy(Document):
-    def on_submit(self):
-        if self.skip_timesheet:
-            self.status = 'Completed'
+
+    @frappe.whitelist()
+    def check_date(self, start_date, end_date):
+        condition = ""
+        if self.reference_type == 'Employee':
+            condition += " and employee_code='{0}' ".format(self.employee_code)
+        elif self.reference_type == 'Staff':
+            condition += " and staff_code='{0}' ".format(self.staff_code)
+
+        start_query = """ 
+                        SELECT * FROM `tabTimesy` 
+                        WHERE %s BETWEEN start_date and end_date and docstatus=1 and reference_type=%s {0}""".format(condition)
+        end_query = """ 
+                              SELECT * FROM `tabTimesy` 
+                              WHERE %s BETWEEN start_date and end_date and docstatus=1 and reference_type=%s {0}""".format(
+            condition)
+        print(start_query)
+        check_timesy_start = frappe.db.sql(start_query, (start_date, self.reference_type), as_dict=1)
+        check_timesy_end = frappe.db.sql(end_query, (end_date, self.reference_type), as_dict=1)
+
+        if len(check_timesy_start) > 0 or len(check_timesy_end) > 0:
+            frappe.throw(""" There is already submitted time sheet with these dates """)
     @frappe.whitelist()
     def get_holiday(self):
         if not self.holiday_list:
@@ -34,6 +53,12 @@ class Timesy(Document):
             for i in self.monthly_timesheet:
                 if i.type in ['Working Days', 'Working Fridays', 'Working Holidays'] and (not i.working_hour or not i.number):
                     frappe.throw("Working Hours and Working Days is mandatory for " + i.type)
+
+            self.status = 'Completed'
+        else:
+            self.status = 'In Progress'
+
+        self.check_date(self.start_date,self.end_date)
     @frappe.whitelist()
     def check_invoices(self):
         si = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabSales Invoice` SI INNER JOIN `tabTimesy List` TL ON TL.parent = SI.name WHERE TL.timesy = %s and SI.docstatus=1""", self.name,as_dict=1)

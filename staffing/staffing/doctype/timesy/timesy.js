@@ -187,7 +187,8 @@ frappe.ui.form.on('Timesy', {
     },
     holiday_list: function (frm, cdt, cdn) {
                 var d = locals[cdt][cdn]
-
+cur_frm.clear_table("monthly_timesheet")
+          cur_frm.refresh_field("monthly_timesheet")
       if(cur_frm.doc.monthly_timesheet.length === 0 && cur_frm.doc.holiday_list){
           var from_date = new Date(cur_frm.doc.start_date)
           var end_date = new Date(cur_frm.doc.end_date)
@@ -217,52 +218,59 @@ frappe.ui.form.on('Timesy', {
 
     },
     start_date: function () {
-        if(cur_frm.doc.timesy_details && !cur_frm.doc.skip_timesheet){
+        if(cur_frm.doc.timesy_details.length > 0 && !cur_frm.doc.skip_timesheet){
             if(!cur_frm.doc.timesy_details[0].date){
                 cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
                 cur_frm.refresh_field("timesy_details")
             }
         }
-        if(cur_frm.doc.skip_timesheet && cur_frm.doc.monthly_timesheet){
-            console.log("test")
-            var from_date = new Date(cur_frm.doc.start_date)
-            var end_date = new Date(cur_frm.doc.end_date)
-            var number_of_days = (new Date(end_date - from_date)).getDate()
-
-            for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
-                if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
-                    cur_frm.doc.monthly_timesheet[x].number = number_of_days
-                    cur_frm.refresh_field("monthly_timesheet")
-                                        compute_hours(cur_frm.doc.monthly_timesheet[x],cur_frm)
-
-                }
-            }
+        if(cur_frm.doc.skip_timesheet){
+            cur_frm.trigger("holiday_list")
         }
+        if(cur_frm.doc.start_date && cur_frm.doc.end_date){
+            cur_frm.call({
+                doc: cur_frm.doc,
+                method: 'check_date',
+                args: {
+                    start_date: cur_frm.doc.start_date,
+                    end_date: cur_frm.doc.end_date,
 
+                },
+                freeze: true,
+                freeze_message: "Changing Date...",
+                 async: false,
+                callback: (r) => {
+              }
+            })
+        }
     },
     end_date: function () {
-        if(cur_frm.doc.timesy_details && !cur_frm.doc.skip_timesheet){
+        if(cur_frm.doc.timesy_details.length > 0 && !cur_frm.doc.skip_timesheet){
             if(!cur_frm.doc.timesy_details[0].date){
                 cur_frm.doc.timesy_details[0].date = cur_frm.doc.start_date
                 cur_frm.refresh_field("timesy_details")
             }
         }
-        if(cur_frm.doc.skip_timesheet && cur_frm.doc.monthly_timesheet){
-            console.log("test")
-            var from_date = new Date(cur_frm.doc.start_date)
-            var end_date = new Date(cur_frm.doc.end_date)
-            var number_of_days = (new Date(end_date - from_date)).getDate()
-
-            for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
-                if(cur_frm.doc.monthly_timesheet[x].type === 'Working Days'){
-                    cur_frm.doc.monthly_timesheet[x].number = number_of_days
-                    cur_frm.refresh_field("monthly_timesheet")
-                    compute_hours(cur_frm.doc.monthly_timesheet[x],cur_frm)
-                }
-            }
-
+        if(cur_frm.doc.skip_timesheet){
+             cur_frm.trigger("holiday_list")
         }
+ if(cur_frm.doc.start_date && cur_frm.doc.end_date){
+            console.log("ALSDLKAJSDk")
+            cur_frm.call({
+                doc: cur_frm.doc,
+                method: 'check_date',
+                args: {
+                    start_date: cur_frm.doc.start_date,
+                    end_date: cur_frm.doc.end_date,
 
+                },
+                freeze: true,
+                freeze_message: "Changing Date...",
+                 async: false,
+                callback: (r) => {
+              }
+            })
+        }
     },
     demobilization_date: function () {
         if(cur_frm.doc.demobilization_date){
