@@ -239,7 +239,7 @@
   },
   {
    "default": "0",
-   "depends_on": "eval: doc.reference_type == 'Employee' && doc.start_date && doc.end_date",
+   "depends_on": "eval: doc.start_date && doc.end_date",
    "fieldname": "skip_timesheet",
    "fieldtype": "Check",
    "label": "Skip Timesheet"
@@ -334,7 +334,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-04 22:38:01.589362",
+ "modified": "2021-12-09 10:15:08.016201",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
