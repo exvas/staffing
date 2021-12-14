@@ -21,6 +21,7 @@
   "section_break_10",
   "default_cost_rate_per_hour",
   "absent_deduction_per_hour",
+  "customer",
   "column_break_14",
   "default_billing_rate_per_hour",
   "default_overtime_rate",
@@ -167,12 +168,18 @@
    "fieldtype": "Link",
    "label": "Supplier",
    "options": "Supplier"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-23 00:43:00.104008",
+ "modified": "2021-12-14 22:21:46.631578",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

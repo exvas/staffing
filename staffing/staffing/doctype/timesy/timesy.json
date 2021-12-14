@@ -24,6 +24,7 @@
   "staffing_type",
   "staffing_project",
   "supplier",
+  "customer",
   "demobilization_date",
   "monthly_timesheet_section_break",
   "monthly_timesheet",
@@ -329,12 +330,18 @@
    "fieldtype": "Date",
    "label": "Payroll Date",
    "mandatory_depends_on": "eval: doc.salary_component"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-09 10:15:08.016201",
+ "modified": "2021-12-14 22:22:18.158898",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

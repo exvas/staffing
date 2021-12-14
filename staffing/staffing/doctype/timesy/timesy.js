@@ -479,14 +479,15 @@ function get_designation(cur_frm, obj) {
             .then(count => {
                if(count > 0){
                    console.log(obj)
-                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project", "supplier"])
+                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project", "supplier", "customer"])
                         .then(r => {
                             let values = r.message;
                             console.log(values)
                             cur_frm.doc.staffing_type = values.name
                             cur_frm.doc.staffing_project = values.staffing_project
                             cur_frm.doc.supplier = values.supplier
-                            cur_frm.refresh_fields(["staffing_type","staffing_project","supplier"])
+                            cur_frm.doc.customer = values.customer
+                            cur_frm.refresh_fields(["staffing_type","staffing_project","supplier","customer"])
                             if(cur_frm.doc.timesy_details){
                                 compute_working_days(cur_frm,number_of_days, cur_frm.doc.timesy_details[0])
                             }
