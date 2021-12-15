@@ -134,12 +134,11 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
     console.log(overtime_hour)
      frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_type)
               .then(doc => {
-                  var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
-                cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour - cur_frm.doc.total_costing_rate_deduction
-               // cur_frm.doc.total_absent_hour = absent_hours_rate
+            var absent_hours_rate= type !== 'Absent' ?  doc.absent_deduction_per_hour * absent : 0
+            cur_frm.doc.total_costing_hour = (doc.default_cost_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour - cur_frm.doc.total_costing_rate_deduction
+            cur_frm.doc.total_billing_hour = (doc.default_billing_rate_per_hour * normal_working_hour) - cur_frm.doc.total_absent_hour - cur_frm.doc.total_billing_rate_deduction
             cur_frm.doc.total_overtime_hour = (overtime_hour * doc.default_overtime_rate) - cur_frm.doc.total_absent_hour
-
-             cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour', 'total_overtime_hour'])
+            cur_frm.refresh_fields(["total_costing_hour",'total_absent_hour', 'total_overtime_hour', 'total_billing_hour'])
         })
 }
 frappe.ui.form.on('Timesy', {
@@ -470,7 +469,14 @@ cur_frm.clear_table("monthly_timesheet")
 
 	},
     total_billing_rate_deduction: function(frm) {
-       total_costing(cur_frm)
+       if(cur_frm.doc.skip_timesheet){
+            var from_date = new Date(cur_frm.doc.start_date)
+            var end_date = new Date(cur_frm.doc.end_date)
+            var number_of_days = (new Date(end_date - from_date)).getDate()
+           compute_working_days(cur_frm,number_of_days, {})
+        } else {
+            total_costing(cur_frm)
+        }
 
 	},
 })
@@ -550,19 +556,15 @@ function compute_hours(d,cur_frm) {
                 d.absent_hour = doc.absent_deduction_per_hour
                 d.friday_hour = 0
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
-
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(d.status === "Medical"){
                 d.working_hour = 0
-
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0
                 d.friday_hour =0
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
-
-
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             }  else  if(d.status === "Friday"){
@@ -579,7 +581,6 @@ function compute_hours(d,cur_frm) {
                 d.absent_hour = 0
                 d.friday_hour = 0
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
-
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(d.status === "Holiday"){
@@ -613,10 +614,11 @@ function total_costing(cur_frm) {
     }
     cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
     cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+
     cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_working_hour = total_working_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
-        cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
+    cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
 
     cur_frm.refresh_fields(['total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
 }
