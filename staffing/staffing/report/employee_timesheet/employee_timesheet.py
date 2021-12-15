@@ -10,7 +10,7 @@ def get_columns(filters):
 		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
 		{"label": "Craft", "fieldname": "designation", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
-		{"label": "Rate/HR", "fieldname": "default_billing_rate_per_hour", "fieldtype": "Float", "width": "150"},
+		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Total Amount", "fieldname": "total_amount", "fieldtype": "Float", "width": "150"},
 	]
 	return columns
@@ -25,7 +25,7 @@ def execute(filters=None):
 					 T.employee_name as employee_name,
 					 E.designation,
 					 T.name,
-					 SC.default_billing_rate_per_hour,
+					 SC.default_cost_rate_per_hour,
 					 SC.absent_deduction_per_hour
 				FROM `tabEmployee` E 
 				INNER JOIN `tabTimesy` T ON T.employee_code = E.name
@@ -86,6 +86,9 @@ def get_condition(filters):
 
 	if filters.get('supplier'):
 		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
+
+	if filters.get('customer'):
+		condition += " and T.customer = '{0}'".format(filters.get("customer"))
 
 	return condition
 

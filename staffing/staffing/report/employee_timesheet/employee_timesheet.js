@@ -10,6 +10,18 @@ frappe.query_reports["Employee Timesheet"] = {
             fieldtype: "Link",
 			options: "Staffing Project"
 		},
+		{
+			fieldname: "customer",
+            label: __("Customer"),
+            fieldtype: "Link",
+			options: "Customer"
+		},
+		{
+			fieldname: "supplier",
+            label: __("Supplier"),
+            fieldtype: "Link",
+			options: "Supplier"
+		},
 		// {
 		// 	fieldname: "supplier",
          //    label: __("Supplier"),
