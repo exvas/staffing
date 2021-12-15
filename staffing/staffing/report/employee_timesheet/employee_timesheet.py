@@ -8,7 +8,7 @@ def get_columns(filters):
 	columns = [
 		{"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
 		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
-		{"label": "Craft", "fieldname": "designation", "fieldtype": "Data", "width": "150"},
+		{"label": "Craft", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Total Amount", "fieldname": "total_amount", "fieldtype": "Float", "width": "150"},
@@ -23,7 +23,7 @@ def execute(filters=None):
 	query = """ SELECT 
 					 T.employee_code as employee,
 					 T.employee_name as employee_name,
-					 E.designation,
+					 T.staffing_type,
 					 T.name,
 					 SC.default_cost_rate_per_hour,
 					 SC.absent_deduction_per_hour
