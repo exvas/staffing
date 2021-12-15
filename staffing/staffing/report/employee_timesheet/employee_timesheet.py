@@ -49,9 +49,9 @@ def execute(filters=None):
 			else:
 				sum += xx.working_hour
 				x[str(xx.day_of_the_month)] = xx.working_hour
-
+		default_crph = x.default_cost_rate_per_hour if x.default_cost_rate_per_hour else 0
 		x['total_hour'] = sum
-		x['amount'] = x.default_cost_rate_per_hour * sum
+		x['amount'] = default_crph * sum
 		x['absent'] = absent
 		x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
 		x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
