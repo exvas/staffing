@@ -21,7 +21,7 @@
 				<td style="font-size:small">{%= data[i].employee_name %}</td>
 				<td class="text-center" style="font-size:small">{%= data[i].staffing_type %}</td>
 				<td class="text-center" style="font-size:small">{%= data[i].total_hour %}</td>
-				<td class="text-center" style="font-size:small">{%= format_number(data[i].default_billing_rate_per_hour,"",2) %}</td>
+				<td class="text-center" style="font-size:small">{%= format_number(data[i].default_cost_rate_per_hour,"",2) %}</td>
 				<td class="text-center" style="font-size:small">{%= format_number(data[i].amount,"",2) %}</td>
             </tr>
 		    {% } %}
@@ -51,7 +51,7 @@
 
 				<td class="text-center" style="font-size:small" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">VAT 15%</td>
-				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].fiften_percent,"",2)}}</td>
+				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].fifteen_percent,"",2)}}</td>
             </tr>
 			<tr>
 				<td class="text-center" style="font-size:small"></td>
@@ -69,8 +69,6 @@
 <table style="width: 100%">
 	<tr>
 		<td style="font-size:small">Prepared By: ____________________________</td>
-	</tr>
-	<tr>
 		<td style="font-size:small">Approved: ____________________________</td>
 	</tr>
 </table>

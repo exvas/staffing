@@ -12,7 +12,7 @@ def get_columns(filters):
 		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
-		{"label": "Total Amount", "fieldname": "total_amount", "fieldtype": "Float", "width": "150"},
+		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "150"},
 	]
 	return columns
 def execute(filters=None):
@@ -20,13 +20,11 @@ def execute(filters=None):
 	columns, data = get_columns(filters), []
 	month_no = months.index(filters.get("month")) + 1
 	condition = get_condition(filters)
-	print("============")
-	print(filters.get("staff_employee"))
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
 		query = """ SELECT 
-						 {0}
+						 {0},T.skip_timesheet
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
@@ -37,18 +35,18 @@ def execute(filters=None):
 		total_amount = total_absent = total_absent_deduction = 0
 		for idx,x in enumerate(timesy_data):
 			x['sl_number'] = idx + 1
-			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
+			fields_details = "working_hour, status" if not x.skip_timesheet else "working_hour"
+			query = """ SELECT {0} FROM `tab{1}` WHERE parent='{2}'""".format(fields_details,'Monthly Timesheet' if x.skip_timesheet else 'Timesy Details', x.name)
+			timesy_details = frappe.db.sql(query, as_dict=1)
 			print(timesy_details)
 			sum = 0
 			absent = 0
 			for xx in timesy_details:
-				if xx.working_hour == 0:
+				if xx.working_hour == 0 and not x.skip_timesheet:
 					if xx.status == "Absent":
 						absent += 1
-					x[str(xx.day_of_the_month)] = xx.status[0]
 				else:
 					sum += xx.working_hour
-					x[str(xx.day_of_the_month)] = xx.working_hour
 			default_crph = x.default_cost_rate_per_hour if x.default_cost_rate_per_hour else 0
 			x['total_hour'] = sum
 			x['amount'] = default_crph * sum
@@ -102,15 +100,15 @@ def get_fields(type):
 	if type == "Employee":
 		fields = "T.employee_code as employee," \
 				 "T.employee_name as employee_name," \
-				 "T.staffing_type,T.name," \
+				 "SC.staffing_type,T.name," \
 				 "SC.default_cost_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as employee," \
 				 "T.staff_name as employee_name," \
-				 "T.staffing_type,T.name," \
-				 "SC.default_billing_rate_per_hour," \
+				 "SC.staffing_type,T.name," \
+				 "SC.default_cost_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	return fields
