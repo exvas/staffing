@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe.utils import money_in_words
 from calendar import monthrange
 
 def get_columns(filters):
@@ -66,7 +67,7 @@ def execute(filters=None):
 		data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
 		data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
 		data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
-
+		data[len(data)-1]['money_in_words'] =money_in_words(data[len(data)-1]['grand_total'])
 	return columns, data
 
 def get_condition(filters):
