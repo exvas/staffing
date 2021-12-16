@@ -27,34 +27,34 @@
 		    {% } %}
 		{% } %}
 			<tr>
-				<td class="text-center" style="font-size:small"></td>
-				<td class="text-center" style="font-size:small" colspan="3"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white;border-right-color: white"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">TOTAL</td>
 				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].total_amount,"",2)}}</td>
             </tr>
 			<tr>
-								<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:small" colspan="3"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">DEDUCTION</td>
 				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].total_absent,"",2)}}</td>
             </tr>
 			<tr>
-				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:small" colspan="3"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">TOTAL BEFORE TAX</td>
 				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].subtotal_without_vat_1,"",2)}}</td>
             </tr>
 			<tr>
-				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:small" colspan="3"></td>
+				<td class="text-center" style="font-size:small;border-bottom-color: white" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">VAT 15%</td>
 				<td class="text-center" style="font-size:small">{{ format_number(data[data.length - 2].fifteen_percent,"",2)}}</td>
             </tr>
 			<tr>
-				<td class="text-center" style="font-size:small"></td>
+				<td class="text-center" style="font-size:small;border-right-color: white"></td>
 
 				<td class="text-center" style="font-size:small" colspan="3"></td>
 				<td class="text-left" style="font-size:small" colspan="2">TOTAL AMOUNT</td>

@@ -24,7 +24,7 @@ def execute(filters=None):
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
 		query = """ SELECT 
-						 {0},T.skip_timesheet
+						 {0},T.skip_timesheet, T.total_costing_rate_deduction
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
@@ -55,13 +55,13 @@ def execute(filters=None):
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
 			total_amount += x['amount']
 			total_absent += x['total_absent_deduction_per_hour']
-			total_absent_deduction += absent * x.absent_deduction_per_hour
+			total_absent_deduction += x.total_costing_rate_deduction
 
 		if len(timesy_data) > 0:
 			timesy_data[len(timesy_data)-1]['total_amount'] = total_amount
-			timesy_data[len(timesy_data)-1]['total_absent'] = total_absent
-			timesy_data[len(timesy_data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
-			timesy_data[len(timesy_data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
+			timesy_data[len(timesy_data)-1]['total_absent'] = total_absent_deduction
+			timesy_data[len(timesy_data)-1]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
+			timesy_data[len(timesy_data)-1]['fifteen_percent'] =round((total_amount - total_absent_deduction) * 0.15,2)
 			timesy_data[len(timesy_data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
 			timesy_data[len(timesy_data)-1]['total_deduction'] =round(total_absent_deduction,2)
 			timesy_data[len(timesy_data)-1]['money_in_words'] =money_in_words(timesy_data[len(timesy_data)-1]['grand_total'])
