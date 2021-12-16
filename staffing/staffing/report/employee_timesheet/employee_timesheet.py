@@ -9,7 +9,7 @@ def get_columns(filters):
 	columns = [
 		{"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
 		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
-		{"label": "Craft", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
+		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Total Amount", "fieldname": "total_amount", "fieldtype": "Float", "width": "150"},
@@ -109,7 +109,7 @@ def get_fields(type):
 	elif type == "Staff":
 		fields = "T.staff_code as employee," \
 				 "T.staff_name as employee_name," \
-				 "E.staffing_type,T.name," \
+				 "T.staffing_type,T.name," \
 				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
