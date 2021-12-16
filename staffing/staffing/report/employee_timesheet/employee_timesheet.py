@@ -20,54 +20,55 @@ def execute(filters=None):
 	columns, data = get_columns(filters), []
 	month_no = months.index(filters.get("month")) + 1
 	condition = get_condition(filters)
+	print("============")
+	print(filters.get("staff_employee"))
+	for type in filters.get("staff_employee"):
+		fields = get_fields(type)
+		inner_join_filter = get_inner_join_filter(type)
+		query = """ SELECT 
+						 {0}
+					FROM `tab{1}` E 
+					INNER JOIN `tabTimesy` T ON {2} = E.name
+					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
+					WHERE T.status = 'Completed' and 
+					MONTH(T.start_date) = '{3}' and 
+					YEAR(T.start_date) = '{4}' {5}""".format(fields, type, inner_join_filter,month_no,filters.get("fiscal_year"),condition)
+		timesy_data = frappe.db.sql(query, as_dict=1)
+		total_amount = total_absent = total_absent_deduction = 0
+		for idx,x in enumerate(timesy_data):
+			x['sl_number'] = idx + 1
+			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
+			print(timesy_details)
+			sum = 0
+			absent = 0
+			for xx in timesy_details:
+				if xx.working_hour == 0:
+					if xx.status == "Absent":
+						absent += 1
+					x[str(xx.day_of_the_month)] = xx.status[0]
+				else:
+					sum += xx.working_hour
+					x[str(xx.day_of_the_month)] = xx.working_hour
+			default_crph = x.default_cost_rate_per_hour if x.default_cost_rate_per_hour else 0
+			x['total_hour'] = sum
+			x['amount'] = default_crph * sum
+			x['absent'] = absent
+			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
+			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
+			total_amount += x['amount']
+			total_absent += x['total_absent_deduction_per_hour']
+			total_absent_deduction += absent * x.absent_deduction_per_hour
 
-	query = """ SELECT 
-					 T.employee_code as employee,
-					 T.employee_name as employee_name,
-					 T.staffing_type,
-					 T.name,
-					 SC.default_cost_rate_per_hour,
-					 SC.absent_deduction_per_hour
-				FROM `tabEmployee` E 
-				INNER JOIN `tabTimesy` T ON T.employee_code = E.name
-				INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
-				WHERE T.status = 'Completed' and 
-				MONTH(T.start_date) = '{0}' and 
-				YEAR(T.start_date) = '{1}' {2}""".format(month_no,filters.get("fiscal_year"),condition)
-	data += frappe.db.sql(query, as_dict=1)
-	total_amount = total_absent = total_absent_deduction = 0
-	for idx,x in enumerate(data):
-		x['sl_number'] = idx + 1
-		timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
-		print(timesy_details)
-		sum = 0
-		absent = 0
-		for xx in timesy_details:
-			if xx.working_hour == 0:
-				if xx.status == "Absent":
-					absent += 1
-				x[str(xx.day_of_the_month)] = xx.status[0]
-			else:
-				sum += xx.working_hour
-				x[str(xx.day_of_the_month)] = xx.working_hour
-		default_crph = x.default_cost_rate_per_hour if x.default_cost_rate_per_hour else 0
-		x['total_hour'] = sum
-		x['amount'] = default_crph * sum
-		x['absent'] = absent
-		x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
-		x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
-		total_amount += x['amount']
-		total_absent += x['total_absent_deduction_per_hour']
-		total_absent_deduction += absent * x.absent_deduction_per_hour
+		if len(timesy_data) > 0:
+			timesy_data[len(timesy_data)-1]['total_amount'] = total_amount
+			timesy_data[len(timesy_data)-1]['total_absent'] = total_absent
+			timesy_data[len(timesy_data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
+			timesy_data[len(timesy_data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
+			timesy_data[len(timesy_data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
+			timesy_data[len(timesy_data)-1]['total_deduction'] =round(total_absent_deduction,2)
+			timesy_data[len(timesy_data)-1]['money_in_words'] =money_in_words(timesy_data[len(timesy_data)-1]['grand_total'])
 
-	if len(data) > 0:
-		data[len(data)-1]['total_amount'] = total_amount
-		data[len(data)-1]['total_absent'] = total_absent
-		data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
-		data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
-		data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
-		data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
-		data[len(data)-1]['money_in_words'] =money_in_words(data[len(data)-1]['grand_total'])
+		data += timesy_data
 	return columns, data
 
 def get_condition(filters):
@@ -95,3 +96,21 @@ def get_condition(filters):
 
 def get_inner_join_filter(type):
 	return "T.employee_code" if type == 'Employee' else "T.staff_code"
+
+def get_fields(type):
+	fields = ""
+	if type == "Employee":
+		fields = "T.employee_code as employee," \
+				 "T.employee_name as employee_name," \
+				 "T.staffing_type,T.name," \
+				 "SC.default_cost_rate_per_hour," \
+				 "SC.absent_deduction_per_hour"
+		print(fields)
+	elif type == "Staff":
+		fields = "T.staff_code as employee," \
+				 "T.staff_name as employee_name," \
+				 "E.staffing_type,T.name," \
+				 "SC.default_billing_rate_per_hour," \
+				 "SC.absent_deduction_per_hour"
+		print(fields)
+	return fields
