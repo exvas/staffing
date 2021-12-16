@@ -12,6 +12,7 @@ def get_columns(filters):
 		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
 		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
+		{"label": "Deduction", "fieldname": "total_costing_rate_deduction", "fieldtype": "Float", "width": "150"},
 		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "150"},
 	]
 	return columns
