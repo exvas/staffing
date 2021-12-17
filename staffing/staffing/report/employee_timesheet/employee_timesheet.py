@@ -29,7 +29,7 @@ def execute(filters=None):
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
-					WHERE T.reference_typ = {3}T.status = 'Completed' and 
+					WHERE T.reference_type = '{3}' and T.status = 'Completed' and 
 					MONTH(T.start_date) = '{4}' and 
 					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,month_no,filters.get("fiscal_year"),condition)
 		timesy_data = frappe.db.sql(query, as_dict=1)
