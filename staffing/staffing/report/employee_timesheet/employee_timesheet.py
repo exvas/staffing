@@ -103,14 +103,14 @@ def get_fields(type):
 		fields = "T.employee_code as employee," \
 				 "T.employee_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount," \
-				 "T.total_absent_hour," \
+				 "T.total_absent_hour,SC.default_cost_rate_per_hour" \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as employee," \
 				 "T.staff_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount," \
-				 "T.total_absent_hour," \
+				 "T.total_absent_hour,SC.default_cost_rate_per_hour" \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	return fields
