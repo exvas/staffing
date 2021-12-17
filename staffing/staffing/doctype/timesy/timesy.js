@@ -126,7 +126,9 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
         }
     }
     cur_frm.doc.overtime_hours = overtime_hour
-    cur_frm.refresh_field("overtime_hours")
+    cur_frm.doc.total_overtime_hour_staff = overtime_hour
+    cur_frm.doc.total_working_hour = normal_working_hour
+    cur_frm.refresh_fields(["overtime_hours","total_working_hour","total_overtime_hour_staff"])
     compute_total_values(cur_frm, normal_working_hour, absent,overtime_hour)
 }
 function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour) {
