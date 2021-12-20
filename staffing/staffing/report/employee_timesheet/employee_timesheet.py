@@ -100,16 +100,16 @@ def get_inner_join_filter(type):
 def get_fields(type):
 	fields = ""
 	if type == "Employee":
-		fields = "T.employee_code as employee," \
+		fields = "T.employee_code as employee_code," \
 				 "T.employee_name as employee_name,T.total_costing_hour as amount," \
-				 "SC.staffing_type,T.name,T.charge_amount," \
+				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
 				 "T.total_absent_hour,SC.default_cost_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	elif type == "Staff":
-		fields = "T.staff_code as employee," \
+		fields = "T.staff_code as employee_code," \
 				 "T.staff_name as employee_name,T.total_costing_hour as amount," \
-				 "SC.staffing_type,T.name,T.charge_amount," \
+				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
 				 "T.total_absent_hour,SC.default_cost_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)

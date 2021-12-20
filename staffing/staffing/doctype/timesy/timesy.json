@@ -14,6 +14,8 @@
   "employee_code",
   "employee_name",
   "designation",
+  "supplier",
+  "customer",
   "normal_working_hour",
   "skip_timesheet",
   "holiday_list",
@@ -24,8 +26,8 @@
   "payroll_date",
   "staffing_type",
   "staffing_project",
-  "supplier",
-  "customer",
+  "supplier_name",
+  "customer_name",
   "demobilization_date",
   "monthly_timesheet_section_break",
   "monthly_timesheet",
@@ -336,12 +338,24 @@
    "fieldtype": "Link",
    "label": "Customer",
    "options": "Customer"
+  },
+  {
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-15 18:43:32.591220",
+ "modified": "2021-12-20 08:26:31.127441",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

@@ -494,8 +494,10 @@ function get_designation(cur_frm, obj) {
                             cur_frm.doc.staffing_type = values.name
                             cur_frm.doc.staffing_project = values.staffing_project
                             cur_frm.doc.supplier = values.supplier
+                            cur_frm.doc.supplier_name = values.supplier_name
+                            cur_frm.doc.customer_name = values.customer_name
                             cur_frm.doc.customer = values.customer
-                            cur_frm.refresh_fields(["staffing_type","staffing_project","supplier","customer"])
+                            cur_frm.refresh_fields(["staffing_type","staffing_project","supplier","customer","supplier_name","customer_name"])
                             if(cur_frm.doc.timesy_details){
                                 compute_working_days(cur_frm,number_of_days, cur_frm.doc.timesy_details[0])
                             }
