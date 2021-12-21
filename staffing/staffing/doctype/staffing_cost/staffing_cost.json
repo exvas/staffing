@@ -22,12 +22,14 @@
   "default_cost_rate_per_hour",
   "absent_deduction_per_hour",
   "customer",
+  "customer_name",
   "column_break_14",
   "default_billing_rate_per_hour",
   "default_overtime_rate",
   "default_working_rate",
   "staffing_project",
   "supplier",
+  "supplier_name",
   "amended_from"
  ],
  "fields": [
@@ -180,12 +182,26 @@
    "label": "Customer",
    "options": "Customer",
    "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-15 18:22:18.177897",
+ "modified": "2021-12-21 09:00:40.060879",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",
