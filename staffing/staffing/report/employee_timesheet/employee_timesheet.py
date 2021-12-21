@@ -8,6 +8,8 @@ from calendar import monthrange
 def get_columns(filters):
 	columns = [
 		{"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
+		{"label": "Iqama No", "fieldname": "employee", "fieldtype": "Data", "width": "150"},
+		{"label": "Reference Details", "fieldname": "charge_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
 		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
@@ -103,14 +105,14 @@ def get_fields(type):
 		fields = "T.employee_code as employee_code," \
 				 "T.employee_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
-				 "T.total_absent_hour,SC.default_cost_rate_per_hour," \
+				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as employee_code," \
 				 "T.staff_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
-				 "T.total_absent_hour,SC.default_cost_rate_per_hour," \
+				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
 				 "SC.absent_deduction_per_hour"
 		print(fields)
 	return fields
