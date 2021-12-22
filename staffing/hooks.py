@@ -192,6 +192,7 @@ fixtures = [
                     "Additional Salary-timesy_reference",
 					"Purchase Invoice-grand_costing_rate",
                     "Sales Invoice-grand_costing_rate",
+                    "Address-report",
 
 					"Sales Invoice-bank_details",
 					"Sales Invoice-account_name",
