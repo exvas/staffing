@@ -30,7 +30,7 @@ def execute(filters=None):
 	columns.append({"label": "Rate Hours", "fieldname": "default_billing_rate_per_hour", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "No of Absent", "fieldname": "absent", "fieldtype": "Data", "width": "120"},)
 	columns.append({"label": "Total Amount", "fieldname": "amount", "fieldtype": "Data", "width": "120"},)
-	columns.append({"label": "Total Absent Deduction", "fieldname": "total_absent_deduction_per_hour", "fieldtype": "Data", "width": "200"},)
+	columns.append({"label": "Deduction", "fieldname": "total_absent_deduction_per_hour", "fieldtype": "Data", "width": "100"},)
 	columns.append({"label": "Net Total", "fieldname": "net_total", "fieldtype": "Data", "width": "120"},)
 	# select_fields =
 	types = [filters.get("type")] if filters.get("type") else ["Staff", "Employee"]
