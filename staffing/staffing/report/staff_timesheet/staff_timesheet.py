@@ -3,7 +3,7 @@
 
 import frappe
 from calendar import monthrange
-
+import datetime
 def get_columns(filters):
 	columns = [
 		{"fieldname": "employee", "fieldtype": "Data", "width": "150"},
@@ -35,6 +35,8 @@ def execute(filters=None):
 	# select_fields =
 	types = [filters.get("type")] if filters.get("type") else ["Staff", "Employee"]
 	for type in types:
+		date_today = datetime.datetime.today()
+		date_format = str(date_today.month) + "/" + str(date_today.day) + "/" + str(date_today.year)
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
 		query = """ SELECT 
@@ -66,6 +68,7 @@ def execute(filters=None):
 			x['absent'] = absent
 			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
+			x['date_format'] = date_format
 			total_amount += x['amount']
 			total_absent += x['total_absent_deduction_per_hour']
 			total_absent_deduction += absent * x.absent_deduction_per_hour
