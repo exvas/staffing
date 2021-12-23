@@ -205,5 +205,17 @@ fixtures = [
 				]
 			]
 		]
+	},
+	{
+		"doctype": "Property Setter",
+		"filters": [
+			[
+				"name",
+				"in",
+				[
+					"Sales Invoice Item-rate-label"
+				]
+			]
+		]
 	}
 ]

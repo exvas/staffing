@@ -487,7 +487,7 @@ function get_designation(cur_frm, obj) {
             .then(count => {
                if(count > 0){
                    console.log(obj)
-                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project", "supplier", "customer"])
+                    frappe.db.get_value('Staffing Cost', obj,  ["name", "staffing_project", "supplier", "customer","supplier_name","customer_name"])
                         .then(r => {
                             let values = r.message;
                             console.log(values)

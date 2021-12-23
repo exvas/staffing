@@ -451,7 +451,7 @@
   "in_preview": 0,
   "in_standard_filter": 0,
   "insert_after": "timesy_list",
-  "label": "Rate",
+  "label": "Item Line Rate",
   "length": 0,
   "mandatory_depends_on": null,
   "modified": "2021-12-22 13:30:16.514727",

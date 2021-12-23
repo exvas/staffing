@@ -61,6 +61,7 @@
    "default": "In Progress",
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "In Progress\nCompleted",
    "read_only": 1
@@ -355,7 +356,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-21 08:42:01.000357",
+ "modified": "2021-12-23 09:31:59.258421",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

@@ -1,0 +1,19 @@
+[
+ {
+  "default_value": null,
+  "doc_type": "Sales Invoice Item",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "rate",
+  "modified": "2021-12-23 09:40:19.109082",
+  "name": "Sales Invoice Item-rate-label",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "label",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "Item Line Rate"
+ }
+]
