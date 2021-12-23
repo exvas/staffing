@@ -7,16 +7,16 @@ from calendar import monthrange
 
 def get_columns(filters):
 	columns = [
-		{"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
-		{"label": "Iqama No", "fieldname": "employee", "fieldtype": "Data", "width": "150"},
+		# {"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
+		{"label": "Iqama No", "fieldname": "employee", "fieldtype": "Data", "width": "100"},
 		{"label": "Reference Details", "fieldname": "charge_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
 		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
-		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "150"},
-		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "150"},
-		{"label": "Deduction", "fieldname": "total_absent_hour", "fieldtype": "Float", "width": "150"},
-		{"label": "Additional", "fieldname": "charge_amount", "fieldtype": "Float", "width": "150"},
-		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "150"},
+		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "90"},
+		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "90"},
+		{"label": "Deduction", "fieldname": "total_absent_hour", "fieldtype": "Float", "width": "90"},
+		{"label": "Additional", "fieldname": "charge_amount", "fieldtype": "Float", "width": "90"},
+		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "120"},
 	]
 	return columns
 def execute(filters=None):
