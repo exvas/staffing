@@ -194,13 +194,6 @@ fixtures = [
                     "Sales Invoice-grand_costing_rate",
                     "Address-report",
 
-					"Sales Invoice-bank_details",
-					"Sales Invoice-account_name",
-					"Sales Invoice-bank_name",
-					"Sales Invoice-branch",
-					"Sales Invoice-account_no",
-					"Sales Invoice-iban_no",
-					"Sales Invoice-swift_code",
 
 				]
 			]
@@ -213,7 +206,8 @@ fixtures = [
 				"name",
 				"in",
 				[
-					"Sales Invoice Item-rate-label"
+					"Sales Invoice Item-rate-label",
+					"Purchase Invoice Item-rate-label",
 				]
 			]
 		]
