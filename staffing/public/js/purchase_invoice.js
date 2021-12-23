@@ -69,4 +69,8 @@ function compute_grand_costing(cur_frm) {
     }
     cur_frm.doc.grand_costing_rate = total
     cur_frm.refresh_field("grand_costing_rate")
+    if(cur_frm.doc.items.length > 0){
+        cur_frm.doc.items[0].rate = total
+        cur_frm.refresh_field('items')
+    }
 }
