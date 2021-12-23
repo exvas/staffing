@@ -341,12 +341,16 @@
    "options": "Customer"
   },
   {
+   "fetch_from": "supplier.supplier_name",
+   "fetch_if_empty": 1,
    "fieldname": "supplier_name",
    "fieldtype": "Data",
    "label": "Supplier Name",
    "read_only": 1
   },
   {
+   "fetch_from": "customer.customer_name",
+   "fetch_if_empty": 1,
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name",
@@ -356,7 +360,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-23 09:31:59.258421",
+ "modified": "2021-12-23 10:12:46.563065",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
