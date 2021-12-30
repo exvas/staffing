@@ -24,6 +24,7 @@
   "start_date",
   "end_date",
   "payroll_date",
+  "staffing_cost",
   "staffing_type",
   "staffing_project",
   "supplier_name",
@@ -194,7 +195,7 @@
    "fieldname": "staffing_type",
    "fieldtype": "Link",
    "label": "Staffing Type",
-   "options": "Staffing Cost",
+   "options": "Staffing Type",
    "read_only": 1
   },
   {
@@ -355,12 +356,19 @@
    "fieldtype": "Data",
    "label": "Customer Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "staffing_cost",
+   "fieldtype": "Link",
+   "label": "Staffing Cost",
+   "options": "Staffing Cost",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-23 10:12:46.563065",
+ "modified": "2021-12-30 22:24:40.862325",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

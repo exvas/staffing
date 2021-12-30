@@ -10,8 +10,7 @@ frappe.ui.form.on("Sales Invoice", {
                                 doctype: "Timesy",
                                 target: cur_frm,
                                 setters: {
-                                    staffing_project: null,
-                                    staffing_type: null,
+                                    staffing_type: "",
                                     customer_name: null,
                                 },
                                 add_filters_group: 1,
@@ -20,7 +19,6 @@ frappe.ui.form.on("Sales Invoice", {
                                     return query_args;
                                 },
                                 action(selections) {
-                                    console.log(selections)
                                     add_timesy(selections, cur_frm)
                                     d.dialog.hide()
                                 }
