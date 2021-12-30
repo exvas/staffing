@@ -29,6 +29,18 @@ frappe.ui.form.on("Sales Invoice", {
 frappe.ui.form.on("Timesy List", {
     timesy_list_remove: function () {
         compute_grand_costing(cur_frm)
+    },
+    timesy: function (frm, cdt, cdn) {
+
+        var d = locals[cdt][cdn]
+        if(d.timesy){
+        frappe.db.get_doc("Timesy",d.timesy)
+            .then(t => {
+                d.staff_name = t.reference_type === 'Staff' ? t.staff_name : t.employee_name
+                cur_frm.refresh_field(d.parentfield)
+        })
+        }
+
     }
 })
 
