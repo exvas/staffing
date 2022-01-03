@@ -1,5 +1,13 @@
 import frappe
+@frappe.whitelist()
+def get_timesies(doctype):
+    query = """ SELECT T.name FROM `tabTimesy` T 
+                          INNER JOIN `tabTimesy List` TL ON TL.timesy = T.name 
+                          INNER JOIN `tab{0}` DD ON DD.name = TL.parent
+                          WHERE T.docstatus = 1 and DD.docstatus = 1 and T.status = 'Completed'""".format(doctype)
+    t = frappe.db.sql(query, as_dict=1)
 
+    return [i.name for i in t]
 def get_condition(filters):
     if filters['staffing_type'][1]:
         if filters['staffing_type'][0] == "in" or filters['staffing_type'][0] == "not in":

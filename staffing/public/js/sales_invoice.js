@@ -1,5 +1,20 @@
 frappe.ui.form.on("Sales Invoice", {
     refresh: function () {
+        frappe.call({
+            method: "staffing.doc_events.sales_invoice.get_timesies",
+            args: {doctype: "Sales Invoice"},
+            callback: function (r) {
+                cur_frm.set_query("timesy","timesy_list", () => {
+                    return {
+                        filters: [
+                            ["name", "not in", r.message],
+                            ["status", "=", "Completed"],
+                            ["docstatus", "=", 1],
+                        ]
+                    }
+                })
+            }
+        })
         cur_frm.add_custom_button(__('Timesy'),
 				function() {
                     var query_args = {
@@ -38,6 +53,7 @@ frappe.ui.form.on("Timesy List", {
             .then(t => {
                 d.staff_name = t.reference_type === 'Staff' ? t.staff_name : t.employee_name
                 cur_frm.refresh_field(d.parentfield)
+            compute_grand_costing(cur_frm)
         })
         }
 
@@ -82,7 +98,7 @@ function compute_grand_costing(cur_frm) {
     cur_frm.doc.grand_costing_rate = total
     cur_frm.refresh_field("grand_costing_rate")
     if(cur_frm.doc.items.length > 0){
-        cur_frm.doc.items[0].rate = total
+        cur_frm.doc.items[cur_frm.doc.items.length - 1].rate = total
         cur_frm.refresh_field('items')
     }
 }

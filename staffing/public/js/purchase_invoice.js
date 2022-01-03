@@ -1,5 +1,21 @@
 frappe.ui.form.on("Purchase Invoice", {
+
     refresh: function () {
+        frappe.call({
+            method: "staffing.doc_events.sales_invoice.get_timesies",
+            args: {doctype: "Purchase Invoice"},
+            callback: function (r) {
+                cur_frm.set_query("timesy","timesy_list", () => {
+                    return {
+                        filters: [
+                            ["name", "not in", r.message],
+                            ["status", "=", "Completed"],
+                            ["docstatus", "=", 1],
+                        ]
+                    }
+                })
+            }
+        })
         cur_frm.add_custom_button(__('Timesy'),
 				function() {
                     var query_args = {
