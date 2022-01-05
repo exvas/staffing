@@ -99,6 +99,7 @@ frappe.query_reports["Summary Report"] = {
             label: __("Status"),
             fieldtype: "Select",
 			options: ['Draft', 'In Progress', 'Completed'],
+			default: 'Completed'
 		},
 	]
 };

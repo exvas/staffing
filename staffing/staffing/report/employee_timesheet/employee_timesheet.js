@@ -61,6 +61,7 @@ frappe.query_reports["Employee Timesheet"] = {
             label: __("Status"),
             fieldtype: "Select",
 			options: ['Draft', 'In Progress', 'Completed'],
+			default: 'Completed'
 		},
 	]
 };
