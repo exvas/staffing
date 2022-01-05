@@ -495,8 +495,11 @@ function get_designation(cur_frm, obj) {
                             cur_frm.doc.staffing_cost = values.name
                             cur_frm.doc.staffing_type = values.staffing_type
                             cur_frm.doc.staffing_project = values.staffing_project
+                            if(cur_frm.doc.reference_type === 'Staff'){
+
                             cur_frm.doc.supplier = values.supplier
                             cur_frm.doc.supplier_name = values.supplier_name
+                            }
                             cur_frm.doc.customer_name = values.customer_name
                             cur_frm.doc.customer = values.customer
                             cur_frm.refresh_fields(["staffing_type","staffing_project","supplier","customer","supplier_name","customer_name", "staffing_cost"])
