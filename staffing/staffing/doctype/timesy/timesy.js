@@ -573,7 +573,7 @@ function compute_hours(d,cur_frm) {
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
-            }  else  if(d.status === "Friday"){
+            }  else  if(['Friday', 'Standby'].includes(d.status)){
                 d.costing_hour = 0
                 d.billing_hour = 0
                 d.absent_hour = 0
@@ -581,7 +581,7 @@ function compute_hours(d,cur_frm) {
                 d.overtime_hour = 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
-            } else  if(['Working', 'Holiday Working', 'Friday Working'].includes(d.status)){
+            } else  if(['Working', 'Holiday Working', 'Friday Working', 'Standby Pay'].includes(d.status)){
                 d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
                 d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
                 d.absent_hour = 0

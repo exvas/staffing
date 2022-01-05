@@ -44,7 +44,7 @@ def execute(filters=None):
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
-					WHERE T.status = 'Completed' and MONTH(T.start_date) = '{3}' and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,month_no,filters.get("fiscal_year"),condition)
+					WHERE MONTH(T.start_date) = '{3}' and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,month_no,filters.get("fiscal_year"),condition)
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
 		print(data)
@@ -100,6 +100,9 @@ def get_condition(filters):
 		condition += " and T.staffing_project = '{0}'".format(filters.get("staffing_project"))
 	if filters.get('supplier'):
 		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
+
+	if filters.get('status'):
+		condition += " and T.status= '{0}'".format(filters.get("status"))
 
 	return condition
 

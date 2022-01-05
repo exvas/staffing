@@ -94,5 +94,11 @@ frappe.query_reports["Summary Report"] = {
 			options: "Fiscal Year",
 			default: "2021",
 		},
+		{
+			fieldname: "status",
+            label: __("Status"),
+            fieldtype: "Select",
+			options: ['Draft', 'In Progress', 'Completed'],
+		},
 	]
 };

@@ -89,5 +89,11 @@ frappe.query_reports["Staff Timesheet"] = {
 			options: "Fiscal Year",
 			default: "2021",
 		},
+		{
+			fieldname: "status",
+            label: __("Status"),
+            fieldtype: "Select",
+			options: ['Draft', 'In Progress', 'Completed'],
+		},
 	]
 };

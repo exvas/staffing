@@ -23,6 +23,7 @@
 			<th class="text-center" style="width: 10%;font-size:8px">{%= __("TOTAL HOURS") %}</th>
 			<th class="text-center" style="width: 15%;font-size:8px">{%= __("REG RATE/HOUR") %}</th>
 			<th class="text-center" style="width: 10%;font-size:8px">{%= __("DEDUCTION") %}</th>
+			<th class="text-center" style="width: 10%;font-size:8px">{%= __("ADDITIONAL") %}</th>
 			<th class="text-center" style="width: 10%;font-size:8px">{%= __("AMOUNT") %}</th>
 		</tr>
 	</thead>
@@ -36,48 +37,49 @@
                     <td class="text-center" style="font-size:8px">{%= data[i].total_hour %}</td>
                     <td class="text-center" style="font-size:8px">{%= format_number(data[i].default_cost_rate_per_hour,"",2) %}</td>
                     <td class="text-center" style="font-size:8px">{%= format_number(data[i].total_absent_hour,"",2) %}</td>
+                    <td class="text-center" style="font-size:8px">{%= format_number(data[i].charge_amount,"",2) %}</td>
                     <td class="text-center" style="font-size:8px">{%= format_number(data[i].amount,"",2) %}</td>
                 </tr>
 		    {% } %}
 		{% } %}
             <tr>
 				<td class="text-center" style="font-size:8px;border-bottom-color: white;border-right-color: white"></td>
-				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="2"></td>
+				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">TOTAL</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].total_amount,"",2)}}</td>
             </tr>
             <tr>
 				<td class="text-center" style="font-size:8px;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="2"></td>
+				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">DEDUCTION</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].total_absent,"",2)}}</td>
             </tr>
 			<tr>
 				<td class="text-center" style="font-size:8px;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="2"></td>
+				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">TOTAL BEFORE TAX</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].subtotal_without_vat_1,"",2)}}</td>
             </tr>
 		    <tr>
 				<td class="text-center" style="font-size:8px;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="2"></td>
+				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">ADDITIONAL</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].charge_amount,"",2)}}</td>
             </tr>
 			<tr>
 				<td class="text-center" style="font-size:8px;border-bottom-color: white;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="2"></td>
+				<td class="text-center" style="font-size:8px;border-bottom-color: white" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">VAT 15%</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].fifteen_percent,"",2)}}</td>
             </tr>
 			<tr>
 				<td class="text-center" style="font-size:8px;border-right-color: white"></td>
 
-				<td class="text-center" style="font-size:8px" colspan="2"></td>
+				<td class="text-center" style="font-size:8px" colspan="3"></td>
 				<td class="text-right" style="font-size:8px" colspan="3">TOTAL AMOUNT</td>
 				<td class="text-center" style="font-size:8px">{{ format_number(data[data.length - 1].grand_total,"",2) }}</td>
             </tr>
