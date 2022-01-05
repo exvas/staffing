@@ -4,8 +4,8 @@
 <table style="width: 100%">
     <td style="width: 70%">
        <div style="border-radius: 5px;border: 1px solid black;height: 100px;padding: 10px">
-		   <b>To:</b> {%= filters.customer_name%} <br>
-		   {%= filters.address %}
+		   <b>To:</b> {%= filters.customer_name or ""%} <br>
+		   {%= filters.address or ""%}
        </div>
     </td>
     <td style="width: 30%">

@@ -15,7 +15,6 @@ frappe.query_reports["Summary Report"] = {
             label: __("Customer"),
             fieldtype: "Link",
 			options: "Customer",
-			reqd: 1,
 			on_change: () => {
             	var customer = frappe.query_report.get_filter_value('customer');
 				if (customer) {

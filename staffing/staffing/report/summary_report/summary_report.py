@@ -23,6 +23,8 @@ def execute(filters=None):
 	months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	columns, data = get_columns(filters), []
 	month_no = months.index(filters.get("month")) + 1
+	print("MONTTH NUMBER")
+	print(month_no)
 	condition = get_condition(filters)
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
@@ -35,9 +37,11 @@ def execute(filters=None):
 					WHERE T.reference_type = '{3}' and 
 					MONTH(T.start_date) = '{4}' and 
 					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,month_no,filters.get("fiscal_year"),condition)
+		print(query)
 		timesy_data = frappe.db.sql(query, as_dict=1)
 		total_amount = total_absent = total_absent_deduction = charge_amount = 0
 		for idx,x in enumerate(timesy_data):
+			print(x.name)
 			x['sl_number'] = idx + 1
 			fields_details = "working_hour, status" if not x.skip_timesheet else "working_hour"
 			query = """ SELECT {0} FROM `tab{1}` WHERE parent='{2}'""".format(fields_details,'Monthly Timesheet' if x.skip_timesheet else 'Timesy Details', x.name)
