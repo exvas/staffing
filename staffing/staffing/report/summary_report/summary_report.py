@@ -33,7 +33,7 @@ def execute(filters=None):
 						 {0},T.skip_timesheet, T.total_costing_rate_deduction
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
-					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_type
+					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
 					WHERE T.reference_type = '{3}' and 
 					MONTH(T.start_date) = '{4}' and 
 					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,month_no,filters.get("fiscal_year"),condition)
