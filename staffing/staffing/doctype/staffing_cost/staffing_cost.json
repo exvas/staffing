@@ -170,11 +170,11 @@
    "options": "Active\nExpired"
   },
   {
+   "depends_on": "eval: doc.reference_type =='Staff'",
    "fieldname": "supplier",
    "fieldtype": "Link",
    "label": "Supplier",
-   "options": "Supplier",
-   "reqd": 1
+   "options": "Supplier"
   },
   {
    "fieldname": "customer",
@@ -201,7 +201,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-21 09:00:40.060879",
+ "modified": "2022-01-06 22:55:07.377156",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",
