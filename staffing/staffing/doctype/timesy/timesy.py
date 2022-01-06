@@ -59,6 +59,11 @@ class Timesy(Document):
             self.status = 'In Progress'
 
         self.check_date(self.start_date,self.end_date)
+
+        if not self.skip_timesheet:
+            for i in self.timesy_details:
+                if i.working_hour == 0:
+                    frappe.throw("Working Hour must be greater than 0 for Working")
     @frappe.whitelist()
     def check_invoices(self):
         si = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabSales Invoice` SI INNER JOIN `tabTimesy List` TL ON TL.parent = SI.name WHERE TL.timesy = %s and SI.docstatus=1""", self.name,as_dict=1)
