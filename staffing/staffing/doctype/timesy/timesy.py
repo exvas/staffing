@@ -62,7 +62,7 @@ class Timesy(Document):
 
         if not self.skip_timesheet:
             for i in self.timesy_details:
-                if i.working_hour == 0:
+                if i.working_hour == 0 and i.status == 'Working':
                     frappe.throw("Working Hour must be greater than 0 for Working")
     @frappe.whitelist()
     def check_invoices(self):
