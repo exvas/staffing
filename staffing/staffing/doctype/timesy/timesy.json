@@ -305,9 +305,10 @@
   },
   {
    "default": "0",
+   "description": "( Transportation fare , Shows , Coverall and other expense )",
    "fieldname": "charge_amount",
    "fieldtype": "Currency",
-   "label": "Charge Amount"
+   "label": "Additional Amount"
   },
   {
    "fieldname": "column_break_37",
@@ -369,7 +370,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-01-06 00:15:30.134337",
+ "modified": "2022-01-11 23:52:10.350576",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
