@@ -26,7 +26,7 @@ frappe.ui.form.on("Sales Invoice", {
                                 target: cur_frm,
                                 setters: {
                                     staffing_type: "",
-                                    customer_name: null,
+                                    customer_name: null
                                 },
                                 add_filters_group: 1,
                                 date_field: "start_date",
@@ -34,6 +34,7 @@ frappe.ui.form.on("Sales Invoice", {
                                     return query_args;
                                 },
                                 action(selections) {
+                                    console.log(selections)
                                     add_timesy(selections, cur_frm)
                                     d.dialog.hide()
                                 }
@@ -64,12 +65,14 @@ frappe.ui.form.on("Timesy List", {
 
 function add_timesy(selections, cur_frm) {
     for(var x=0;x<selections.length;x+=1){
+        var name = selections[x]
         frappe.db.count('Timesy', { name: selections[x] })
             .then(count => {
                 if(count > 0){
-
-                    frappe.db.get_doc("Timesy", selections[x])
+                    frappe.db.get_doc("Timesy",name)
                         .then(doc => {
+
+
                             cur_frm.add_child("timesy_list", {
                                 timesy: doc.name,
                                 staff_name: doc.staff_name,

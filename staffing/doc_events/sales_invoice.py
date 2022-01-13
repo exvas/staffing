@@ -47,7 +47,7 @@ def get_staffing(doctype, target,setters,d,e,filters):
         check = frappe.db.sql(""" SELECT * FROm `tabTimesy List` WHERE timesy=%s""", i.name, as_dict=1)
         if len(check) == 0:
             data.append({
-                "name": i.staff_name if i.staff_name else i.employee_name,
+                "name": i.name,
                 "staffing_type": i.staffing_type,
                 "customer_name": i.customer_name
             })

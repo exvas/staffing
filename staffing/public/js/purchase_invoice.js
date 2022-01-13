@@ -1,5 +1,4 @@
 frappe.ui.form.on("Purchase Invoice", {
-
     refresh: function () {
         frappe.call({
             method: "staffing.doc_events.sales_invoice.get_timesies",
@@ -19,16 +18,15 @@ frappe.ui.form.on("Purchase Invoice", {
         cur_frm.add_custom_button(__('Timesy'),
 				function() {
                     var query_args = {
-                       query:"staffing.doc_events.purchase_invoice.get_staffing",
+                       query:"staffing.doc_events.sales_invoice.get_staffing",
                         filters: {}
                     }
 					 var d = new frappe.ui.form.MultiSelectDialog({
                                 doctype: "Timesy",
                                 target: cur_frm,
                                 setters: {
-                                    staffing_project: null,
-                                    staffing_type: null,
-                                    customer_name: null,
+                                    staffing_type: "",
+                                    customer_name: null
                                 },
                                 add_filters_group: 1,
                                 date_field: "start_date",
@@ -36,7 +34,6 @@ frappe.ui.form.on("Purchase Invoice", {
                                     return query_args;
                                 },
                                 action(selections) {
-                                    console.log(selections)
                                     add_timesy(selections, cur_frm)
                                     d.dialog.hide()
                                 }
@@ -44,27 +41,49 @@ frappe.ui.form.on("Purchase Invoice", {
         }, __("Get Items From"), "btn-default");
     }
 })
-
 frappe.ui.form.on("Timesy List", {
     timesy_list_remove: function () {
         compute_grand_costing(cur_frm)
+    },
+    timesy: function (frm, cdt, cdn) {
+
+        var d = locals[cdt][cdn]
+        if(d.timesy){
+        frappe.db.get_doc("Timesy",d.timesy)
+            .then(t => {
+                d.staff_name = t.reference_type === 'Staff' ? t.staff_name : t.employee_name
+                cur_frm.refresh_field(d.parentfield)
+            compute_grand_costing(cur_frm)
+        })
+        }
+
     }
 })
 
+
+
 function add_timesy(selections, cur_frm) {
     for(var x=0;x<selections.length;x+=1){
+                var name = selections[x]
 
-        frappe.db.get_doc("Timesy", selections[x])
-            .then(doc => {
-                cur_frm.add_child("timesy_list", {
-                    timesy: doc.name,
-                    staff_name: doc.staff_name,
-                    staffing_project: doc.staffing_project,
-                    total_costing_rate: doc.total_costing_hour,
-                })
-                cur_frm.refresh_field("timesy_list")
-                compute_grand_costing(cur_frm)
-        })
+        frappe.db.count('Timesy', { name: selections[x] })
+            .then(count => {
+                if(count > 0){
+
+                    frappe.db.get_doc("Timesy",name)
+                        .then(doc => {
+                            cur_frm.add_child("timesy_list", {
+                                timesy: doc.name,
+                                staff_name: doc.staff_name,
+                                staffing_project: doc.staffing_project,
+                                total_costing_rate: doc.total_costing_hour,
+                            })
+                            cur_frm.refresh_field("timesy_list")
+                            compute_grand_costing(cur_frm)
+
+                    })
+                }
+            })
     }
 }
 function check_items(item, cur_frm) {
@@ -86,7 +105,7 @@ function compute_grand_costing(cur_frm) {
     cur_frm.doc.grand_costing_rate = total
     cur_frm.refresh_field("grand_costing_rate")
     if(cur_frm.doc.items.length > 0){
-        cur_frm.doc.items[0].rate = total
+        cur_frm.doc.items[cur_frm.doc.items.length - 1].rate = total
         cur_frm.refresh_field('items')
     }
 }
