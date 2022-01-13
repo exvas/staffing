@@ -39,6 +39,10 @@ def get_staffing(doctype, target,setters,d,e,filters):
 
     if "staffing_type" in filters:
         condition += get_condition(filters)
+
+    if "start_date" in filters:
+        condition += " and start_date = '{0}' ".format(filters['start_date'][1])
+
     print(condition)
     query = """ SELECT * FROM `tabTimesy` WHERE docstatus=1 and status='Completed' {0}""".format(condition)
     print(query)

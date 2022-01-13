@@ -26,9 +26,9 @@ frappe.ui.form.on("Sales Invoice", {
                                 target: cur_frm,
                                 setters: {
                                     staffing_type: "",
-                                    customer_name: null
+                                    customer_name: null,
+                                    start_date: null,
                                 },
-                                add_filters_group: 1,
                                 date_field: "start_date",
                                 get_query() {
                                     return query_args;
