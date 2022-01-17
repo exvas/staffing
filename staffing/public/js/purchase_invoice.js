@@ -26,7 +26,7 @@ frappe.ui.form.on("Purchase Invoice", {
                                 target: cur_frm,
                                 setters: {
                                     staffing_type: "",
-                                    customer_name: null,
+                                    employee_staff: null,
                                     supplier_name: null,
                                     start_date: null,
                                 },

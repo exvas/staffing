@@ -56,6 +56,7 @@ def get_staffing(doctype, target,setters,d,e,filters):
             data.append({
                 "name": i.name,
                 "staffing_type": i.staffing_type,
+                "employee_staff": i.staff_name if i.reference_type == 'Staff' else i.employee_name,
                 "customer_name": i.customer_name,
                 "supplier_name": i.supplier_name,
                 "start_date": i.start_date

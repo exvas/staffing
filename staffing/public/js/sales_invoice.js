@@ -27,7 +27,7 @@ frappe.ui.form.on("Sales Invoice", {
                                 setters: {
                                     staffing_type: "",
                                     customer_name: null,
-                                    supplier_name: null,
+                                    employee_staff: null,
                                     start_date: null,
                                 },
                                 date_field: "start_date",
