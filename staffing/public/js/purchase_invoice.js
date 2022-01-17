@@ -69,7 +69,7 @@ function add_timesy(selections, cur_frm) {
             args: {
                 name: selections
             },
-            callback: function () {
+            callback: function (r) {
                 for(var x=0;x<r.message.length;x+=1){
                     cur_frm.add_child("timesy_list", {
                         timesy: r.message[x].name,
