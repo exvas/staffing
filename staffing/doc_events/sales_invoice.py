@@ -1,4 +1,4 @@
-import frappe
+import frappe, json
 @frappe.whitelist()
 def get_timesies(doctype):
     query = """ SELECT T.name FROM `tabTimesy` T 
@@ -62,3 +62,13 @@ def get_staffing(doctype, target,setters,d,e,filters):
                 "start_date": i.start_date
             })
     return data
+
+
+@frappe.whitelist()
+def get_timesy(name):
+    data = json.loads(name)
+    timesies = []
+
+    for i in data:
+        timesies += frappe.db.sql(""" SELECT * FROM `tabTimesy` WHERE name=%s""", i, as_dict=1)
+    return timesies

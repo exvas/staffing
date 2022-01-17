@@ -65,27 +65,25 @@ frappe.ui.form.on("Timesy List", {
 
 
 function add_timesy(selections, cur_frm) {
-    for(var x=0;x<selections.length;x+=1){
-        var name = selections[x]
-        frappe.db.count('Timesy', { name: selections[x] })
-            .then(count => {
-                if(count > 0){
-                    frappe.db.get_doc("Timesy",name)
-                        .then(doc => {
-                            cur_frm.add_child("timesy_list", {
-                                timesy: doc.name,
-                                staff_name: doc.staff_name,
-                                staffing_project: doc.staffing_project,
-                                total_costing_rate: doc.total_costing_hour,
-                            })
-                            cur_frm.refresh_field("timesy_list")
-                            compute_grand_costing(cur_frm)
 
+        frappe.call({
+            method: "staffing.doc_events.sales_invoice.get_timesy",
+            args: {
+                name: selections
+            },
+            callback: function () {
+                for(var x=0;x<selections.length;x+=1){
+                    cur_frm.add_child("timesy_list", {
+                        timesy: doc.name,
+                        staff_name: doc.staff_name,
+                        staffing_project: doc.staffing_project,
+                        total_costing_rate: doc.total_costing_hour,
                     })
+                    cur_frm.refresh_field("timesy_list")
+                    compute_grand_costing(cur_frm)
                 }
-            })
-
-    }
+            }
+        })
 }
 function check_items(item, cur_frm) {
         for(var x=0;x<cur_frm.doc.items.length;x+=1){
