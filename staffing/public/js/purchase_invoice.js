@@ -70,12 +70,12 @@ function add_timesy(selections, cur_frm) {
                 name: selections
             },
             callback: function () {
-                for(var x=0;x<selections.length;x+=1){
+                for(var x=0;x<r.message.length;x+=1){
                     cur_frm.add_child("timesy_list", {
-                        timesy: doc.name,
-                        staff_name: doc.staff_name,
-                        staffing_project: doc.staffing_project,
-                        total_costing_rate: doc.total_costing_hour,
+                        timesy: r.message[x].name,
+                        staff_name: r.message[x].staff_name,
+                        staffing_project: r.message[x].staffing_project,
+                        total_costing_rate: r.message[x].total_billing_hour,
                     })
                     cur_frm.refresh_field("timesy_list")
                     compute_grand_costing(cur_frm)
