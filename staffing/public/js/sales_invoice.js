@@ -27,6 +27,7 @@ frappe.ui.form.on("Sales Invoice", {
                                 setters: {
                                     staffing_type: "",
                                     customer_name: null,
+                                    supplier_name: null,
                                     start_date: null,
                                 },
                                 date_field: "start_date",
@@ -71,8 +72,6 @@ function add_timesy(selections, cur_frm) {
                 if(count > 0){
                     frappe.db.get_doc("Timesy",name)
                         .then(doc => {
-
-
                             cur_frm.add_child("timesy_list", {
                                 timesy: doc.name,
                                 staff_name: doc.staff_name,

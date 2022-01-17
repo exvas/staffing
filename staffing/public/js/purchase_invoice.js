@@ -27,6 +27,7 @@ frappe.ui.form.on("Purchase Invoice", {
                                 setters: {
                                     staffing_type: "",
                                     customer_name: null,
+                                    supplier_name: null,
                                     start_date: null,
                                 },
                                 date_field: "start_date",
@@ -76,7 +77,7 @@ function add_timesy(selections, cur_frm) {
                                 timesy: doc.name,
                                 staff_name: doc.staff_name,
                                 staffing_project: doc.staffing_project,
-                                total_costing_rate: doc.total_costing_hour,
+                                total_costing_rate: doc.total_billing_hour,
                             })
                             cur_frm.refresh_field("timesy_list")
                             compute_grand_costing(cur_frm)

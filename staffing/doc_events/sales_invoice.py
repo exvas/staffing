@@ -41,7 +41,10 @@ def get_staffing(doctype, target,setters,d,e,filters):
         condition += get_condition(filters)
 
     if "start_date" in filters:
-        condition += " and start_date = '{0}' ".format(filters['start_date'][1])
+        condition += " and start_date = '{0}' ".format(filters['start_date'])
+
+    if "supplier_name" in filters:
+        condition += " and supplier_name like '{0}' ".format(filters['supplier_name'][1])
 
     print(condition)
     query = """ SELECT * FROM `tabTimesy` WHERE docstatus=1 and status='Completed' {0}""".format(condition)
@@ -53,6 +56,8 @@ def get_staffing(doctype, target,setters,d,e,filters):
             data.append({
                 "name": i.name,
                 "staffing_type": i.staffing_type,
-                "customer_name": i.customer_name
+                "customer_name": i.customer_name,
+                "supplier_name": i.supplier_name,
+                "start_date": i.start_date
             })
     return data
