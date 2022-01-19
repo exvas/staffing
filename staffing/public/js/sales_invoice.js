@@ -19,7 +19,9 @@ frappe.ui.form.on("Sales Invoice", {
 				function() {
                     var query_args = {
                        query:"staffing.doc_events.sales_invoice.get_staffing",
-                        filters: {}
+                        filters: {
+                doctype: cur_frm.doc.doctype
+                        }
                     }
 					 var d = new frappe.ui.form.MultiSelectDialog({
                                 doctype: "Timesy",

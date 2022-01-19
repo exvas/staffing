@@ -49,12 +49,15 @@ def get_staffing(doctype, target,setters,d,e,filters):
     if "employee_name" in filters:
         condition += " and (employee_name like '{0}' or staff_name like '{1}') ".format(filters['employee_name'][1],filters['employee_name'][1])
 
+    time_list = ""
+    if "doctype" in filters:
+        time_list += " and parenttype = '{0}'".format(filters['doctype'])
     print(condition)
     query = """ SELECT * FROM `tabTimesy` WHERE docstatus=1 and status='Completed' {0}""".format(condition)
     print(query)
     staffing = frappe.db.sql(query, as_dict=1)
     for i in staffing:
-        check = frappe.db.sql(""" SELECT * FROm `tabTimesy List` WHERE timesy=%s""", i.name, as_dict=1)
+        check = frappe.db.sql(""" SELECT * FROm `tabTimesy List` WHERE timesy=%s {0}""".format(time_list), i.name, as_dict=1)
         if len(check) == 0:
             data.append({
                 "name": i.name,
