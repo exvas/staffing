@@ -32,7 +32,7 @@ def get_staffing(doctype, target,setters,d,e,filters):
     data = []
     condition = ""
     if target:
-        condition += " and (staff_name like '%{0}%' or employee_name like '%{1}%') ".format(target, target)
+        condition += " and (name like '%{0}%') ".format(target)
 
     if 'customer_name' in filters:
         condition += " and customer_name like '{0}' ".format(filters['customer_name'][1])
@@ -52,6 +52,7 @@ def get_staffing(doctype, target,setters,d,e,filters):
     time_list = ""
     if "doctype" in filters:
         time_list += " and parenttype = '{0}'".format(filters['doctype'])
+
     print(condition)
     query = """ SELECT * FROM `tabTimesy` WHERE docstatus=1 and status='Completed' {0}""".format(condition)
     print(query)
@@ -67,6 +68,7 @@ def get_staffing(doctype, target,setters,d,e,filters):
                 "supplier_name": i.supplier_name,
                 "start_date": i.start_date
             })
+    print(data)
     return data
 
 
