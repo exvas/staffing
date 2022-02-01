@@ -112,7 +112,7 @@ frappe.query_reports["Summary Report"] = {
 			fieldname: "status",
             label: __("Status"),
             fieldtype: "Select",
-			options: ['Draft', 'In Progress', 'Completed'],
+			options: ['Draft', 'Completed'],
 			default: 'Completed'
 		},
 	]
