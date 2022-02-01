@@ -110,8 +110,12 @@ def get_condition(filters):
 	if filters.get('customer'):
 		condition += " and T.customer = '{0}'".format(filters.get("customer"))
 
-	if filters.get('status'):
-		condition += " and T.status= '{0}' and T.docstatus = 1".format("In Progress" if filters.get("status") == 'Draft' else filters.get("status"))
+	if filters.get('status') == 'Draft':
+		print("test")
+		condition += " and T.docstatus = 0"
+	else:
+		print("kajshdlajsdlkja")
+		condition += " and T.status='{0}' and T.docstatus = 1".format(filters.get("status"))
 
 	return condition
 

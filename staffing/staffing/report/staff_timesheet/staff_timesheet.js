@@ -62,11 +62,13 @@ frappe.query_reports["Staff Timesheet"] = {
 			options: ["Staff"]
 		},
 		{
-			fieldname: "staff",
-            label: __("Staff"),
-            fieldtype: "Link",
-			options: "Staff",
-			depends_on:"eval: doc.type == 'Staff'"
+			"fieldname":"staff",
+			"label": __("Staff"),
+			"fieldtype": "MultiSelectList",
+			"depends_on":"eval: doc.type == 'Staff'",
+			get_data: function(txt) {
+                return frappe.db.get_link_options("Staff", txt);
+            }
 		},
 		{
 			fieldname: "employee",

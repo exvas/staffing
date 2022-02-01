@@ -96,11 +96,16 @@ def execute(filters=None):
 def get_condition(filters):
 	condition = ""
 
-	if filters.get("employee"):
+	if filters.get("employee") and filters.get("type") == 'Employee':
 		condition += " and E.name = '{0}'".format(filters.get("employee"))
 
-	if filters.get("staff"):
-		condition += " and E.name = '{0}'".format(filters.get("staff"))
+	if len(filters.get("staff")) == 1 and filters.get("type") == 'Staff':
+
+		condition += " and E.name = '{0}'".format(filters.get("staff")[0])
+
+	elif len(filters.get("staff")) > 1 and filters.get("type") == 'Staff':
+
+		condition += " and E.name in {0}".format(tuple(filters.get("staff")))
 
 	if filters.get("type"):
 		condition += " and T.reference_type = '{0}'".format(filters.get("type"))
@@ -111,8 +116,12 @@ def get_condition(filters):
 	if filters.get('supplier'):
 		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
 
-	if filters.get('status'):
-		condition += " and T.status= '{0}' and T.docstatus = 1".format("In Progress" if filters.get("status") == 'Draft' else filters.get("status"))
+	if filters.get('status') == 'Draft':
+		print("test")
+		condition += " and T.docstatus = 0"
+	else:
+		print("kajshdlajsdlkja")
+		condition += " and T.status='{0}' and T.docstatus = 1".format(filters.get("status"))
 
 	return condition
 
