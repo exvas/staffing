@@ -181,7 +181,8 @@
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fetch_from": "customer.customer_name",
@@ -202,7 +203,7 @@
  "is_submittable": 1,
  "links": [],
  "migration_hash": "02a2cb1037d4fef20193d6f1240a60b1",
- "modified": "2022-01-26 13:18:10.555102",
+ "modified": "2022-02-01 08:24:41.529724",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing Cost",

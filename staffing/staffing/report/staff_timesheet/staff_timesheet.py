@@ -16,8 +16,20 @@ def execute(filters=None):
 	months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	columns, data = get_columns(filters), []
 	print(filters)
-	month_no = months.index(filters.get("month")) + 1
-	num_days = monthrange(2019, month_no)[1]  # num_days = 28
+	months_no = " in ("
+	month_no = ""
+	if len(filters.get("month")) == 1:
+		month_no += " = '" + str(months.index(filters.get("month")[0]) + 1) + "'"
+	elif len(filters.get("month")) > 1:
+		for i in filters.get("month"):
+			if months_no[len(months_no) - 1] != "(":
+				months_no += ","
+			months_no += str((months.index(i) + 1))
+		months_no += ")"
+	final_months = month_no if len(filters.get("month")) == 1 else months_no if len(
+		filters.get("month")) > 1 else " = '1'"
+
+	num_days = monthrange(2019, 1)[1]
 	condition = get_condition(filters)
 	for i in range (1,num_days+1):
 		columns.append({
@@ -44,14 +56,12 @@ def execute(filters=None):
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
-					WHERE MONTH(T.start_date) = '{3}' and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,month_no,filters.get("fiscal_year"),condition)
+					WHERE MONTH(T.start_date) {3} and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,final_months,filters.get("fiscal_year"),condition)
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
-		print(data)
 		total_amount = total_absent = total_absent_deduction = 0
 		for x in data:
 			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
-			print(timesy_details)
 			sum = 0
 			absent = 0
 			for xx in timesy_details:
@@ -81,7 +91,6 @@ def execute(filters=None):
 			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
 			data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
 
-	print(data)
 	return columns, data
 
 def get_condition(filters):

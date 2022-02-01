@@ -22,7 +22,17 @@ def get_columns(filters):
 def execute(filters=None):
 	months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	columns, data = get_columns(filters), []
-	month_no = months.index(filters.get("month")) + 1
+	months_no = " in ("
+	month_no = ""
+	if len(filters.get("month")) == 1:
+		month_no += " = '" + str(months.index(filters.get("month")[0]) + 1) + "'"
+	elif len(filters.get("month")) > 1:
+		for i in filters.get("month"):
+			if months_no[len(months_no) - 1] != "(":
+				months_no += ","
+			months_no += str((months.index(i) + 1))
+		months_no += ")"
+	final_months = month_no if len(filters.get("month")) == 1 else months_no if len(filters.get("month")) > 1 else " = '1'"
 	condition = get_condition(filters)
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
@@ -33,8 +43,10 @@ def execute(filters=None):
 					INNER JOIN `tabTimesy` T ON {2} = E.name
 					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
 					WHERE T.reference_type = '{3}' and 
-					MONTH(T.start_date) = '{4}' and 
-					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,month_no,filters.get("fiscal_year"),condition)
+					MONTH(T.start_date) {4} and 
+					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition)
+		print("QUUUUERY")
+		print(query)
 		timesy_data = frappe.db.sql(query, as_dict=1)
 		total_amount = total_absent = total_absent_deduction = charge_amount = 0
 		for idx,x in enumerate(timesy_data):

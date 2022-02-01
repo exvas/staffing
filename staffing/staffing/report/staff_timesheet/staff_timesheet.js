@@ -76,11 +76,26 @@ frappe.query_reports["Staff Timesheet"] = {
 			depends_on:"eval: doc.type == 'Employee'"
 		},
 		{
-			fieldname: "month",
-            label: __("Month"),
-            fieldtype: "Select",
-            default: "January",
-			options: ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
+			"fieldname":"month",
+			"label": __("Month"),
+			"fieldtype": "MultiSelectList",
+			"reqd": 1,
+			get_data: function(txt) {
+                return [
+                	{value: 'January', description: 'January'},
+					{value: 'February', description: 'February'},
+					{value: 'March', description: 'March'},
+					{value: 'April', description: 'April'},
+					{value: 'May', description: 'May'},
+					{value: 'June', description: 'June'},
+					{value: 'July', description: 'July'},
+					{value: 'August', description: 'August'},
+					{value: 'September', description: 'September'},
+					{value: 'October', description: 'October'},
+					{value: 'November', description: 'November'},
+					{value: 'December', description: 'December'},
+				]
+            }
 		},
 		{
 			fieldname: "fiscal_year",
@@ -93,7 +108,7 @@ frappe.query_reports["Staff Timesheet"] = {
 			fieldname: "status",
             label: __("Status"),
             fieldtype: "Select",
-			options: ['Draft', 'In Progress', 'Completed'],
+			options: ['Draft', 'Completed'],
 			default: 'Completed'
 		},
 	]
