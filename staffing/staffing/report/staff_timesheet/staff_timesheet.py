@@ -112,7 +112,7 @@ def get_condition(filters):
 		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
 
 	if filters.get('status'):
-		condition += " and T.status = '{0}'".format(filters.get("status"))
+		condition += " and T.status= '{0}' and T.docstatus = '{1}'".format(filters.get("status"),0 if filters.get('status') == "Draft" else 1)
 
 	return condition
 
