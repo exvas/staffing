@@ -6,84 +6,86 @@ from frappe.utils import money_in_words
 from calendar import monthrange
 
 def get_columns(filters):
-	columns = [
-		# {"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
-		{"label": "Iqama No", "fieldname": "employee", "fieldtype": "Data", "width": "100"},
-		{"label": "Reference Details", "fieldname": "charge_type", "fieldtype": "Data", "width": "150"},
-		{"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
-		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
-		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "90"},
-		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "90"},
-		{"label": "Deduction", "fieldname": "total_absent_hour", "fieldtype": "Float", "width": "90"},
-		{"label": "Additional", "fieldname": "charge_amount", "fieldtype": "Float", "width": "90"},
-		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "120"},
-	]
-	return columns
+    columns = [
+        # {"label": "SL#","fieldname": "sl_number", "fieldtype": "Data", "width": "50"},
+        {"label": "Iqama No", "fieldname": "employee", "fieldtype": "Data", "width": "100"},
+        {"label": "Reference Details", "fieldname": "charge_type", "fieldtype": "Data", "width": "150"},
+        {"label": "Name", "fieldname": "employee_name", "fieldtype": "Data", "width": "150"},
+        {"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
+        {"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "90"},
+        {"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "90"},
+        {"label": "Deduction", "fieldname": "total_absent_hour", "fieldtype": "Float", "width": "90"},
+        {"label": "Additional", "fieldname": "charge_amount", "fieldtype": "Float", "width": "90"},
+        {"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "120"},
+    ]
+    return columns
 def execute(filters=None):
-	months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	columns, data = get_columns(filters), []
-	months_no = " in ("
-	month_no = ""
-	if len(filters.get("month")) == 1:
-		month_no += " = '" + str(months.index(filters.get("month")[0]) + 1) + "'"
-	elif len(filters.get("month")) > 1:
-		for i in filters.get("month"):
-			if months_no[len(months_no) - 1] != "(":
-				months_no += ","
-			months_no += str((months.index(i) + 1))
-		months_no += ")"
-	final_months = month_no if len(filters.get("month")) == 1 else months_no if len(filters.get("month")) > 1 else " = '1'"
-	condition = get_condition(filters)
-	for type in filters.get("staff_employee"):
-		fields = get_fields(type)
-		inner_join_filter = get_inner_join_filter(type)
-		query = """ SELECT 
-						 {0},T.skip_timesheet, T.total_costing_rate_deduction
-					FROM `tab{1}` E 
-					INNER JOIN `tabTimesy` T ON {2} = E.name
-					INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
-					WHERE T.reference_type = '{3}' and 
-					MONTH(T.start_date) {4} and 
-					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition)
-		print("QUUUUERY")
-		print(query)
-		timesy_data = frappe.db.sql(query, as_dict=1)
-		total_amount = total_absent = total_absent_deduction = charge_amount = 0
-		for idx,x in enumerate(timesy_data):
-			x['sl_number'] = idx + 1
-			fields_details = "working_hour, status" if not x.skip_timesheet else "working_hour"
-			query = """ SELECT {0} FROM `tab{1}` WHERE parent='{2}'""".format(fields_details,'Monthly Timesheet' if x.skip_timesheet else 'Timesy Details', x.name)
-			timesy_details = frappe.db.sql(query, as_dict=1)
-			print(timesy_details)
-			sum = 0
-			absent = 0
-			for xx in timesy_details:
-				if xx.working_hour == 0 and not x.skip_timesheet:
-					if xx.status == "Absent":
-						absent += 1
-				else:
-					sum += xx.working_hour
-			x['total_hour'] = sum
-			x['absent'] = absent
-			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
-			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
-			total_amount += x['amount']
-			total_absent += x['total_absent_deduction_per_hour']
-			total_absent_deduction += x.total_absent_hour
-			charge_amount += x.charge_amount
+    months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    columns, data = get_columns(filters), []
+    months_no = " in ("
+    month_no = ""
+    if len(filters.get("month")) == 1:
+        month_no += " = '" + str(months.index(filters.get("month")[0]) + 1) + "'"
+    elif len(filters.get("month")) > 1:
+        for i in filters.get("month"):
+            if months_no[len(months_no) - 1] != "(":
+                months_no += ","
+            months_no += str((months.index(i) + 1))
+        months_no += ")"
+    final_months = month_no if len(filters.get("month")) == 1 else months_no if len(filters.get("month")) > 1 else " = '1'"
+    condition = get_condition(filters)
+    total_amount = total_absent = total_absent_deduction = charge_amount = 0
+    for type in filters.get("staff_employee"):
+        fields = get_fields(type)
+        inner_join_filter = get_inner_join_filter(type)
+        query = """ SELECT 
+                         {0},T.skip_timesheet, T.total_costing_rate_deduction
+                    FROM `tab{1}` E 
+                    INNER JOIN `tabTimesy` T ON {2} = E.name
+                    INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
+                    WHERE T.reference_type = '{3}' and 
+                    MONTH(T.start_date) {4} and 
+                    YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition)
+        print("QUUUUERY")
+        print(query)
+        timesy_data = frappe.db.sql(query, as_dict=1)
 
-		if len(timesy_data) > 0:
-			timesy_data[len(timesy_data)-1]['total_amount'] = total_amount
-			timesy_data[len(timesy_data)-1]['total_absent'] = total_absent_deduction
-			timesy_data[len(timesy_data)-1]['charge_amount'] = charge_amount
-			timesy_data[len(timesy_data)-1]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
-			timesy_data[len(timesy_data)-1]['fifteen_percent'] =round((total_amount - total_absent_deduction) * 0.15,2)
-			timesy_data[len(timesy_data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction) + charge_amount
-			timesy_data[len(timesy_data)-1]['total_deduction'] =round(total_absent_deduction,2)
-			timesy_data[len(timesy_data)-1]['money_in_words'] =money_in_words(timesy_data[len(timesy_data)-1]['grand_total'])
+        for idx,x in enumerate(timesy_data):
+            x['sl_number'] = idx + 1
+            fields_details = "working_hour, status" if not x.skip_timesheet else "working_hour"
+            query = """ SELECT {0} FROM `tab{1}` WHERE parent='{2}'""".format(fields_details,'Monthly Timesheet' if x.skip_timesheet else 'Timesy Details', x.name)
+            timesy_details = frappe.db.sql(query, as_dict=1)
+            print(timesy_details)
+            sum = 0
+            absent = 0
+            for xx in timesy_details:
+                if xx.working_hour == 0 and not x.skip_timesheet:
+                    if xx.status == "Absent":
+                        absent += 1
+                else:
+                    sum += xx.working_hour
+            x['total_hour'] = sum
+            x['absent'] = absent
+            x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
+            x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
+            total_amount += x['amount']
+            total_absent += x['total_absent_deduction_per_hour']
+            total_absent_deduction += x.total_absent_hour
+            charge_amount += x.charge_amount
 
-		data += timesy_data
-	return columns, data
+        data += timesy_data
+
+    if len(data) > 0:
+        data[len(data) - 1]['total_amount'] = total_amount
+        data[len(data) - 1 ]['total_absent'] = total_absent_deduction
+        data[len(data) - 1]['charge_amount'] = charge_amount
+        data[len(data) - 1 ]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
+        data[len(data) - 1 ]['fifteen_percent'] = round((total_amount - total_absent_deduction) * 0.15, 2)
+        data[len(data) - 1 ]['grand_total'] = round(((total_amount - total_absent_deduction) * 0.15), 2) + (total_amount - total_absent_deduction) + charge_amount
+        data[len(data) - 1 ]['total_deduction'] = round(total_absent_deduction, 2)
+        data[len(data) - 1 ]['money_in_words'] = money_in_words(
+        data[len(data) - 1 ]['grand_total'])
+    return columns, data
 
 def get_condition(filters):
 	condition = ""

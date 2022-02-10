@@ -38,6 +38,8 @@ def execute(filters=None):
 	print("MONTTH NUMBER")
 	print(month_no)
 	condition = get_condition(filters)
+	total_amount = total_absent = total_absent_deduction = charge_amount = 0
+
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
@@ -51,7 +53,6 @@ def execute(filters=None):
 					YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition)
 		print(query)
 		timesy_data = frappe.db.sql(query, as_dict=1)
-		total_amount = total_absent = total_absent_deduction = charge_amount = 0
 		for idx,x in enumerate(timesy_data):
 			print(x.name)
 			x['sl_number'] = idx + 1
@@ -75,18 +76,19 @@ def execute(filters=None):
 			total_absent += x['total_absent_deduction_per_hour']
 			total_absent_deduction += x.total_absent_hour
 			charge_amount += x.charge_amount
-
-		if len(timesy_data) > 0:
-			timesy_data[len(timesy_data)-1]['total_amount'] = total_amount
-			timesy_data[len(timesy_data)-1]['total_absent'] = total_absent_deduction
-			timesy_data[len(timesy_data)-1]['charge_amount'] = charge_amount
-			timesy_data[len(timesy_data)-1]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
-			timesy_data[len(timesy_data)-1]['fifteen_percent'] =round((total_amount - total_absent_deduction) * 0.15,2)
-			timesy_data[len(timesy_data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction) + charge_amount
-			timesy_data[len(timesy_data)-1]['total_deduction'] =round(total_absent_deduction,2)
-			timesy_data[len(timesy_data)-1]['money_in_words'] =money_in_words(timesy_data[len(timesy_data)-1]['grand_total'])
-
 		data += timesy_data
+
+	if len(data) > 0:
+		data[len(data) - 1]['total_amount'] = total_amount
+		data[len(data) - 1]['total_absent'] = total_absent_deduction
+		data[len(data) - 1]['charge_amount'] = charge_amount
+		data[len(data) - 1]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
+		data[len(data) - 1]['fifteen_percent'] = round((total_amount - total_absent_deduction) * 0.15, 2)
+		data[len(data) - 1]['grand_total'] = round(((total_amount - total_absent_deduction) * 0.15), 2) + (
+		total_amount - total_absent_deduction) + charge_amount
+		data[len(data) - 1]['total_deduction'] = round(total_absent_deduction, 2)
+		data[len(data) - 1]['money_in_words'] = money_in_words(
+		data[len(data) - 1]['grand_total'])
 	return columns, data
 
 def get_condition(filters):
