@@ -521,10 +521,18 @@ frappe.ui.form.on('Timesy Details', {
                               total_costing(cur_frm)
 	},
     working_hour: function(frm, cdt, cdn) {
+
         var d = locals[cdt][cdn]
-        if(cur_frm.doc.staffing_cost){
+        if(d.status === 'Friday'){
+            d.working_hour = 0
+            cur_frm.refresh_field(d.parentfield)
+                frappe.throw("Cannot add working hour if status is Friday")
+        } else {
+            if(cur_frm.doc.staffing_cost){
            compute_hours(d,cur_frm)
         }
+        }
+
 	},
     status: function(frm, cdt, cdn) {
         var d = locals[cdt][cdn]
