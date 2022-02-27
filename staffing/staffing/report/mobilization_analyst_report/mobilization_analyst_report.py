@@ -50,7 +50,7 @@ def execute(filters=None):
 						{0}
 					FROM `tab{1}` E 
 					INNER JOIN `tabTimesy` T ON {2} = E.name
-					WHERE T.status = 'Completed' and MONTH(T.start_date) {3} and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,final_months,filters.get("fiscal_year"),condition)
+					WHERE T.status = 'Completed' and MONTH(T.start_date) {3} {4}""".format(fields,type,inner_join_filter,final_months,condition)
 		data += frappe.db.sql(query, as_dict=1)
 
 	return columns, data

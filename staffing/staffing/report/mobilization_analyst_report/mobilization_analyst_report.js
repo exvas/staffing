@@ -72,12 +72,5 @@ frappe.query_reports["Mobilization Analyst Report"] = {
             fieldtype: "Link",
 			options: "Customer"
 		},
-		{
-			fieldname: "fiscal_year",
-            label: __("Fiscal Year"),
-            fieldtype: "Link",
-			options: "Fiscal Year",
-			default: "2021",
-		}
 	]
 };

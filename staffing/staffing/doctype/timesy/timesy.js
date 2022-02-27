@@ -590,6 +590,7 @@ function compute_hours(d,cur_frm) {
                 d.absent_hour = 0
                 d.friday_costing_hour = 0
                 d.overtime_hour = 0
+                d.working_hour = 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             } else  if(['Working', 'Holiday Working', 'Friday Working', 'Standby Pay'].includes(d.status)){
