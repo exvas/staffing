@@ -6,6 +6,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "month",
+  "data_2",
   "fiscal_year",
   "details_section",
   "timesheet_details",
@@ -37,12 +39,22 @@
    "options": "Timesheet Additional",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "label": "Month",
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "fieldname": "data_2",
+   "fieldtype": "Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-02-28 18:31:06.004446",
+ "modified": "2022-02-28 19:15:31.514599",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesheet Additional",
