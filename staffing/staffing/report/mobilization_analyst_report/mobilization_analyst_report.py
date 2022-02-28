@@ -84,13 +84,14 @@ def get_fields(type):
 	fields = ""
 	if type == "Employee":
 		fields = "T.employee_code as employee_code, T.start_date as date," \
-				 "T.employee_name as employee_name, T.customer_name, T.supplier_name, T.staffing_project, T.demobilization_date, E.cell_number as mobile_number, E.iqama_number," \
+				 "T.employee_name as employee_name, T.customer_name, T.supplier_name, " \
+				 "T.staffing_project, T.demobilization_date as d_date, E.cell_number as mobile_number, E.iqama_number," \
 				 "T.name"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as staff_code, T.start_date as date," \
 				 "T.staff_name as staff_name, T.customer_name, T.supplier_name, T.staffing_project, " \
-				 "T.demobilization_date, E.emergency_contact_number as mobile_number, E.iqama_number,E.nationality, E.mobilization_date," \
+				 "T.demobilization_date as d_date, E.emergency_contact_number as mobile_number, E.iqama_number,E.nationality, E.mobilization_date as m_date," \
 				 "T.name"
 		print(fields)
 	return fields
