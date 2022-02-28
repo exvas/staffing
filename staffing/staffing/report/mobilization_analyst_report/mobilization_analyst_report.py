@@ -60,10 +60,10 @@ def get_condition(filters):
 	if filters.get("from_date") and filters.get("from_date"):
 		condition += " and T.start_date BETWEEN '{0}' and '{1}'".format(filters.get("from_date"),filters.get("to_date"))
 
-	if filters.get("employee") and 'Employee' in filters.get("type"):
+	if filters.get("employee") and 'Employee' in filters.get("staff_employee"):
 		condition += " and E.name = '{0}'".format(filters.get("employee"))
 
-	if filters.get("staff") and 'Staff' in filters.get("type"):
+	if filters.get("staff") and 'Staff' in filters.get("staff_employee"):
 		condition += " and E.name = '{0}'".format(filters.get("staff"))
 
 	if filters.get("type"):
