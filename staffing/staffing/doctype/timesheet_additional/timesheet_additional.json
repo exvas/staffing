@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "month",
-  "data_2",
+  "column_break_2",
   "fiscal_year",
   "details_section",
   "timesheet_details",
@@ -47,14 +47,14 @@
    "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
   },
   {
-   "fieldname": "data_2",
-   "fieldtype": "Data"
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-02-28 19:15:31.514599",
+ "modified": "2022-03-02 16:59:52.563578",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesheet Additional",
