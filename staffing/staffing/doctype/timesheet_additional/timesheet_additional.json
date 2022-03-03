@@ -1,11 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2022-02-28 18:30:23.665030",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "month",
   "column_break_2",
   "fiscal_year",
@@ -49,12 +51,20 @@
   {
    "fieldname": "column_break_2",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "TA-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "TA-",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-03-02 16:59:52.563578",
+ "modified": "2022-03-03 10:56:44.026360",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesheet Additional",

@@ -14,8 +14,6 @@ def get_columns(filters):
 		{"label": "Category", "fieldname": "staffing_type", "fieldtype": "Data", "width": "150"},
 		{"label": "Total Hrs", "fieldname": "total_hour", "fieldtype": "Float", "width": "90"},
 		{"label": "Rate/HR", "fieldname": "default_cost_rate_per_hour", "fieldtype": "Float", "width": "90"},
-		{"label": "Deduction", "fieldname": "total_absent_hour", "fieldtype": "Float", "width": "90"},
-		{"label": "Additional", "fieldname": "charge_amount", "fieldtype": "Float", "width": "90"},
 		{"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "120"},
 	]
 	return columns
@@ -93,13 +91,14 @@ def execute(filters=None):
 		data[len(data) - 1]['total_amount'] = total_amount
 		data[len(data) - 1]['total_absent'] = total_absent_deduction  + total_deduction_timesheet
 		data[len(data) - 1]['charge_amount'] = charge_amount + total_additionals_timesheet
-		data[len(data) - 1]['subtotal_without_vat_1'] = total_amount - total_absent_deduction
-		data[len(data) - 1]['fifteen_percent'] = round((total_amount - total_absent_deduction) * 0.15, 2)
-		data[len(data) - 1]['grand_total'] = round(((total_amount - total_absent_deduction) * 0.15), 2) + (
-		total_amount - total_absent_deduction) + charge_amount
+		without_vat = total_amount - (total_absent_deduction  + total_deduction_timesheet)
+
+		data[len(data) - 1]['subtotal_without_vat_1'] = without_vat
+		data[len(data) - 1]['fifteen_percent'] = round(without_vat * 0.15, 2)
+		fifteen_percent = round(without_vat * 0.15, 2)
+		data[len(data) - 1]['grand_total'] = round(without_vat + fifteen_percent + (charge_amount + total_additionals_timesheet),2)
 		data[len(data) - 1]['total_deduction'] = round(total_absent_deduction, 2)
-		data[len(data) - 1]['money_in_words'] = money_in_words(
-		data[len(data) - 1]['grand_total'])
+		data[len(data) - 1]['money_in_words'] = money_in_words(data[len(data) - 1]['grand_total'])
 	return columns, data
 
 def get_condition(filters):
