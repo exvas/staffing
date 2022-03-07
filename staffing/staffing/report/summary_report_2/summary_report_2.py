@@ -26,9 +26,6 @@ def execute(filters=None):
 	condition = get_condition(filters)
 	total_amount = total_absent = total_absent_deduction = charge_amount = 0
 	total_deduction_timesheet = total_additionals_timesheet = 0
-	additionals_condition = ""
-	if filters.get('customer'):
-		additionals_condition += " and TAD.customer='{0}' ".format(filters.get('customer'))
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
@@ -67,27 +64,24 @@ def execute(filters=None):
 			total_absent += x['total_absent_deduction_per_hour']
 			total_absent_deduction += x.total_absent_hour
 			charge_amount += x.charge_amount
+			if x.customer:
+				additionals_condition = " and TAD.customer='{0}' ".format(x.customer)
+				timesheet_additionals_deduction = """ SELECT SUM(TAD.amount) as deductions FROM `tabTimesheet Additional` TA 
+													INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
+													WHERE TA.docstatus=1 and TAD.type = 'Deduction' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
+					filters.get("fiscal_year"), months[start_month-1] ,additionals_condition)
+				timesheet_additionals_additional = """ SELECT SUM(TAD.amount) as additional FROM `tabTimesheet Additional` TA 
+															INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
+															WHERE TA.docstatus=1 and  TAD.type = 'Additional' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
+					filters.get("fiscal_year"), months[start_month-1], additionals_condition)
 
-			timesheet_additionals_deduction = """ SELECT SUM(TAD.amount) as deductions FROM `tabTimesheet Additional` TA 
-												INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
-												WHERE TA.docstatus=1 and TAD.type = 'Deduction' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
-				filters.get("fiscal_year"), months[start_month-1] ,additionals_condition)
-			timesheet_additionals_additional = """ SELECT SUM(TAD.amount) as additional FROM `tabTimesheet Additional` TA 
-														INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
-														WHERE TA.docstatus=1 and  TAD.type = 'Additional' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
-				filters.get("fiscal_year"), months[start_month-1], additionals_condition)
-
-			get_deduction = frappe.db.sql(timesheet_additionals_deduction, as_dict=1)
-			get_additional = frappe.db.sql(timesheet_additionals_additional, as_dict=1)
-			total_deduction_timesheet += (get_deduction[0].deductions if len(get_deduction) > 0 and get_deduction[0].deductions else 0)
-			total_additionals_timesheet += (get_additional[0].additional if len(get_additional) > 0 and get_additional[0].additional else 0)
+				get_deduction = frappe.db.sql(timesheet_additionals_deduction, as_dict=1)
+				get_additional = frappe.db.sql(timesheet_additionals_additional, as_dict=1)
+				total_deduction_timesheet += (get_deduction[0].deductions if len(get_deduction) > 0 and get_deduction[0].deductions else 0)
+				total_additionals_timesheet += (get_additional[0].additional if len(get_additional) > 0 and get_additional[0].additional else 0)
 		data += timesy_data
 
 	if len(data) > 0:
-
-
-		additional_deduction = total_deduction_timesheet
-		additional_additional = total_additionals_timesheet
 		data[len(data) - 1]['total_amount'] = total_amount
 		data[len(data) - 1]['total_absent'] = total_absent_deduction  + total_deduction_timesheet
 		data[len(data) - 1]['charge_amount'] = charge_amount + total_additionals_timesheet
@@ -141,13 +135,13 @@ def get_fields(type):
 				 "T.employee_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
 				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
-				 "SC.absent_deduction_per_hour, T.start_date"
+				 "SC.absent_deduction_per_hour, T.start_date, T.customer"
 		print(fields)
 	elif type == "Staff":
 		fields = "T.staff_code as employee_code," \
 				 "T.staff_name as employee_name,T.total_costing_hour as amount," \
 				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
 				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
-				 "SC.absent_deduction_per_hour, T.start_date"
+				 "SC.absent_deduction_per_hour, T.start_date, T.customer"
 		print(fields)
 	return fields

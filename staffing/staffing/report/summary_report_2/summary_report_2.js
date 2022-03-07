@@ -81,7 +81,7 @@ frappe.query_reports["Summary Report 2"] = {
 		},
 		{
 			"fieldname":"month",
-			"label": __("Staff/Employee"),
+			"label": __("Month"),
 			"fieldtype": "MultiSelectList",
 			"reqd": 1,
 			get_data: function(txt) {
