@@ -68,7 +68,7 @@
    "type": "Link"
   }
  ],
- "modified": "2021-10-29 21:34:27.514167",
+ "modified": "2022-03-07 19:06:26.402069",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing",
@@ -110,6 +110,12 @@
    "doc_view": "List",
    "label": "Staffing Project",
    "link_to": "Staffing Project",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Timesheet Additional",
+   "link_to": "Timesheet Additional",
    "type": "DocType"
   }
  ],
