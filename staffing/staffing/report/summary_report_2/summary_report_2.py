@@ -26,6 +26,7 @@ def execute(filters=None):
 	condition = get_condition(filters)
 	total_amount = total_absent = total_absent_deduction = charge_amount = 0
 	total_deduction_timesheet = total_additionals_timesheet = 0
+	customers = []
 	for type in filters.get("staff_employee"):
 		fields = get_fields(type)
 		inner_join_filter = get_inner_join_filter(type)
@@ -64,7 +65,7 @@ def execute(filters=None):
 			total_absent += x['total_absent_deduction_per_hour']
 			total_absent_deduction += x.total_absent_hour
 			charge_amount += x.charge_amount
-			if x.customer:
+			if x.customer and x.customer not in customers:
 				additionals_condition = " and TAD.customer='{0}' ".format(x.customer)
 				timesheet_additionals_deduction = """ SELECT SUM(TAD.amount) as deductions FROM `tabTimesheet Additional` TA 
 													INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
@@ -79,6 +80,7 @@ def execute(filters=None):
 				get_additional = frappe.db.sql(timesheet_additionals_additional, as_dict=1)
 				total_deduction_timesheet += (get_deduction[0].deductions if len(get_deduction) > 0 and get_deduction[0].deductions else 0)
 				total_additionals_timesheet += (get_additional[0].additional if len(get_additional) > 0 and get_additional[0].additional else 0)
+				customers.append(x.customer)
 		data += timesy_data
 
 	if len(data) > 0:
