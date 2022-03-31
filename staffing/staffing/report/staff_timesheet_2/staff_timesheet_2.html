@@ -9,7 +9,7 @@
 		}
 	}
 </style>
-<h2 class="text-center" style=" text-decoration: underline;">{%= __("Time Sheet") %}</h2>
+<h2 class="text-center" style=" text-decoration: underline;">{%= __("Time Sheet 2") %}</h2>
 <table style="width: 100%">
 	<tr>
 		<td style="font-size:8px;width: 10%">Company:</td>
@@ -48,9 +48,7 @@
             <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Rate Hours") %}
             </td>
-            <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
-                {%= __("Deductions") %}
-            </td>
+
 			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= __("Total Amount") %}</td>
 		</tr>
         {% for(var i=0, l=data.length; i<l; i++) { %}
@@ -68,15 +66,13 @@
                     <td class="text-center" style="border: 1px solid black;font-size:8px">
                         {%= data[i].default_billing_rate_per_hour %}
                     </td>
-                    <td class="text-center" style="border: 1px solid black;font-size:8px">
-                        {%= data[i].total_absent_deduction_per_hour %}
-                    </td>
+
                     <td  class="text-center" style="border: 1px solid black;font-size:8px">{{ format_number(data[i].amount,"",2)}}</td>
                 </tr>
             {% } %}
 		{% } %}
     <tr>
-			<td colspan="34" rowspan="4" class="text-center" style="border: 1px solid black;width: 1%;font-size:8px">
+			<td colspan="33" rowspan="6" class="text-center" style="border: 1px solid black;width: 1%;font-size:8px">
                 <br>
                 <span>F-Holiday</span>
                 <span style="margin-left: 10%">A-Not Working</span>
@@ -94,14 +90,21 @@
                 {%= __("Deductions") %}
             </td>
 
-			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_deduction,"",2)  %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_absent,"",2)  %}</td>
 		</tr>
          <tr>
 			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Total Before Tax") %}
             </td>
 
-			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_deduction,"",2)  %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_absent,"",2)  %}</td>
+		</tr>
+        <tr>
+			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Additional") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_additional,"",2)  %}</td>
 		</tr>
         <tr>
 			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">

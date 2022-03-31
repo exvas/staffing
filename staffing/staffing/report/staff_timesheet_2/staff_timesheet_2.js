@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Summary Report"] = {
+frappe.query_reports["Staff Timesheet 2"] = {
 	"filters": [
 		{
 			fieldname: "staffing_project",
@@ -11,15 +11,16 @@ frappe.query_reports["Summary Report"] = {
 			options: "Staffing Project"
 		},
 		{
-			fieldname: "customer",
-            label: __("Customer"),
+			fieldname: "supplier",
+            label: __("Supplier"),
             fieldtype: "Link",
-			options: "Customer",
+			options: "Supplier",
+			reqd: 1,
 			on_change: () => {
-            	var customer = frappe.query_report.get_filter_value('customer');
-				if (customer) {
-					frappe.db.get_value('Customer', customer, ["customer_name"], function (value) {
-						frappe.query_report.set_filter_value('customer_name', value["customer_name"]);
+            	var supplier = frappe.query_report.get_filter_value('supplier');
+				if (supplier) {
+					frappe.db.get_value('Supplier', supplier, ["supplier_name"], function (value) {
+						frappe.query_report.set_filter_value('supplier_name', value["supplier_name"]);
 					});
 					frappe.db.get_value('Address', {"report": 1}, ["address_line1", "city","country", "county", "state", "pincode"], function (value1) {
 						if(value1){
@@ -37,39 +38,36 @@ frappe.query_reports["Summary Report"] = {
                     })
 
 				} else {
-					frappe.query_report.set_filter_value('customer_name', "");
+					frappe.query_report.set_filter_value('supplier_name', "");
 				}
 			}
 		},
 		{
-			fieldname: "customer_name",
-            label: __("Customer Name"),
+			fieldname: "supplier_name",
+            label: __("Supplier Name"),
             fieldtype: "Data",
-			read_only: 1
+			read_only: 1,
 		},
 		{
-			fieldname: "supplier",
-            label: __("Supplier"),
-            fieldtype: "Link",
-			options: "Supplier"
-		},
-{
 			fieldname: "address",
             label: __("Address"),
             fieldtype: "Data",
 			hidden: 1,
 		},
 		{
-			"fieldname":"staff_employee",
-			"label": __("Staff/Employee"),
+			fieldname: "type",
+            label: __("Type"),
+            fieldtype: "Select",
+            default: "Staff",
+			options: ["Staff"]
+		},
+		{
+			"fieldname":"staff",
+			"label": __("Staff"),
 			"fieldtype": "MultiSelectList",
-			"reqd": 1,
+			"depends_on":"eval: doc.type == 'Staff'",
 			get_data: function(txt) {
-                return [{value: 'Staff', description: 'Staff'}, {value: 'Employee', description: 'Employee'}]
-            },
-            on_change:function () {
-				console.log("ONCHANGE")
-				frappe.query_report.refresh()
+                return frappe.db.get_link_options("Staff", txt);
             }
 		},
 		{
@@ -77,14 +75,7 @@ frappe.query_reports["Summary Report"] = {
             label: __("Employee"),
             fieldtype: "Link",
 			options: "Employee",
-			depends_on:"eval: doc.staff_employee == 'Employee'"
-		},
-{
-			fieldname: "staff",
-            label: __("Staff"),
-            fieldtype: "Link",
-			options: "Staff",
-			depends_on:"eval: doc.staff_employee == 'Staff'"
+			depends_on:"eval: doc.type == 'Employee'"
 		},
 		{
 			"fieldname":"month",

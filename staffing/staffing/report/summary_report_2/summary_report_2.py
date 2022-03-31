@@ -71,6 +71,7 @@ def execute(filters=None):
 													INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
 													WHERE TA.docstatus=1 and TAD.type = 'Deduction' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
 					filters.get("fiscal_year"), months[start_month-1] ,additionals_condition)
+
 				timesheet_additionals_additional = """ SELECT SUM(TAD.amount) as additional FROM `tabTimesheet Additional` TA 
 															INNER JOIN `tabTimesheet Additional Details` TAD ON TAD.parent =TA.name 
 															WHERE TA.docstatus=1 and  TAD.type = 'Additional' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(

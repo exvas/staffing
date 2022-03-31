@@ -40,7 +40,14 @@ frappe.query_reports["Employee Timesheet"] = {
             label: __("Employee"),
             fieldtype: "Link",
 			options: "Employee",
-			depends_on:"eval: doc.type == 'Employee'"
+			depends_on:"eval: doc.staff_employee == 'Employee'"
+		},
+		{
+			fieldname: "staff",
+            label: __("Staff"),
+            fieldtype: "Link",
+			options: "Staff",
+			depends_on:"eval: doc.staff_employee == 'Staff'"
 		},
 		{
 			"fieldname":"month",

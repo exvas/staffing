@@ -73,6 +73,7 @@ def execute(filters=None):
             total_absent_deduction += x.total_absent_hour
             charge_amount += x.charge_amount
 
+
         data += timesy_data
 
     if len(data) > 0:
@@ -85,6 +86,7 @@ def execute(filters=None):
         data[len(data) - 1 ]['total_deduction'] = round(total_absent_deduction, 2)
         data[len(data) - 1 ]['money_in_words'] = money_in_words(
         data[len(data) - 1 ]['grand_total'])
+
     return columns, data
 
 def get_condition(filters):

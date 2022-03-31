@@ -13,6 +13,7 @@
   "fiscal_year",
   "details_section",
   "timesheet_details",
+  "supplier",
   "amended_from"
  ],
  "fields": [
@@ -25,12 +26,12 @@
   {
    "fieldname": "details_section",
    "fieldtype": "Section Break",
-   "label": "Details"
+   "label": "Timesheet Details"
   },
   {
    "fieldname": "timesheet_details",
    "fieldtype": "Table",
-   "label": "Timesheet Details",
+   "label": "Customer",
    "options": "Timesheet Additional Details"
   },
   {
@@ -59,12 +60,18 @@
    "label": "Series",
    "options": "TA-",
    "read_only": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Table",
+   "label": "Supplier",
+   "options": "Timesheeet Additional Supplier"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-03-03 10:56:44.026360",
+ "modified": "2022-03-31 16:57:54.340152",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesheet Additional",
