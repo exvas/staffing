@@ -75,16 +75,21 @@ frappe.query_reports["Summary Report"] = {
 		{
 			fieldname: "employee",
             label: __("Employee"),
-            fieldtype: "Link",
-			options: "Employee",
-			depends_on:"eval: doc.staff_employee == 'Employee'"
+            fieldtype: "MultiSelectList",
+			depends_on:"eval: doc.staff_employee == 'Employee'",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Employee', txt);
+			}
 		},
 {
 			fieldname: "staff",
             label: __("Staff"),
-            fieldtype: "Link",
+            fieldtype: "MultiSelectList",
 			options: "Staff",
-			depends_on:"eval: doc.staff_employee == 'Staff'"
+			depends_on:"eval: doc.staff_employee == 'Staff'",
+	get_data: function(txt) {
+				return frappe.db.get_link_options('staff', txt);
+			}
 		},
 		{
 			"fieldname":"month",

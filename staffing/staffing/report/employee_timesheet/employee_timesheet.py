@@ -90,52 +90,56 @@ def execute(filters=None):
     return columns, data
 
 def get_condition(filters):
-	condition = ""
+    condition = ""
 
-	if filters.get("employee"):
-		condition += " and E.name = '{0}'".format(filters.get("employee"))
+    if len(filters.get("employee")) == 1:
+        condition += " and E.name = '{0}'".format(filters.get("employee")[0])
+    elif len(filters.get("employee")) > 1:
+        condition += " and E.name in {0}".format(tuple(filters.get("employee")))
 
-	if filters.get("staff"):
-		condition += " and E.name = '{0}'".format(filters.get("staff"))
+    if len(filters.get("staff")) == 1:
+        condition += " and E.name = '{0}'".format(filters.get("staff")[0])
+    elif len(filters.get("staff")) > 1:
+        condition += " and E.name in {0}".format(tuple(filters.get("staff")))
 
-	if filters.get("type"):
-		condition += " and T.reference_type = '{0}'".format(filters.get("type"))
+    if filters.get("type"):
+        condition += " and T.reference_type = '{0}'".format(filters.get("type"))
 
-	if filters.get("staffing_project"):
-		condition += " and T.staffing_project = '{0}'".format(filters.get("staffing_project"))
+    if filters.get("staffing_project"):
+        condition += " and T.staffing_project = '{0}'".format(filters.get("staffing_project"))
 
-	if filters.get('supplier'):
-		condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
+    if filters.get('supplier'):
+        condition += " and T.supplier = '{0}'".format(filters.get("supplier"))
 
-	if filters.get('customer'):
-		condition += " and T.customer = '{0}'".format(filters.get("customer"))
+    if filters.get('customer'):
+        condition += " and T.customer = '{0}'".format(filters.get("customer"))
 
-	if filters.get('status') == 'Draft':
-		print("test")
-		condition += " and T.docstatus = 0"
-	else:
-		print("kajshdlajsdlkja")
-		condition += " and T.status='{0}' and T.docstatus = 1".format(filters.get("status"))
+    if filters.get('status') == 'Draft':
+        print("test")
+        condition += " and T.docstatus = 0"
+    else:
+        print("kajshdlajsdlkja")
+        condition += " and T.status='{0}' and T.docstatus = 1".format(filters.get("status"))
 
-	return condition
+    return condition
 
 def get_inner_join_filter(type):
-	return "T.employee_code" if type == 'Employee' else "T.staff_code"
+    return "T.employee_code" if type == 'Employee' else "T.staff_code"
 
 def get_fields(type):
-	fields = ""
-	if type == "Employee":
-		fields = "T.employee_code as employee_code," \
-				 "T.employee_name as employee_name,T.total_costing_hour as amount," \
-				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
-				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
-				 "SC.absent_deduction_per_hour"
-		print(fields)
-	elif type == "Staff":
-		fields = "T.staff_code as employee_code," \
-				 "T.staff_name as employee_name,T.total_costing_hour as amount," \
-				 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
-				 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
-				 "SC.absent_deduction_per_hour"
-		print(fields)
-	return fields
+    fields = ""
+    if type == "Employee":
+        fields = "T.employee_code as employee_code," \
+                 "T.employee_name as employee_name,T.total_costing_hour as amount," \
+                 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
+                 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
+                 "SC.absent_deduction_per_hour"
+        print(fields)
+    elif type == "Staff":
+        fields = "T.staff_code as employee_code," \
+                 "T.staff_name as employee_name,T.total_costing_hour as amount," \
+                 "SC.staffing_type,T.name,T.charge_amount,E.iqama_number as employee," \
+                 "T.total_absent_hour,SC.default_cost_rate_per_hour,T.charge_type," \
+                 "SC.absent_deduction_per_hour"
+        print(fields)
+    return fields
