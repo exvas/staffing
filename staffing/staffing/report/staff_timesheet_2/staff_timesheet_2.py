@@ -45,7 +45,8 @@ def execute(filters=None):
 	columns.append({"label": "Net Total", "fieldname": "net_total", "fieldtype": "Data", "width": "120"},)
 	# select_fields =
 	types = [filters.get("type")] if filters.get("type") else ["Staff", "Employee"]
-	customers = []
+	customers = suppliers= []
+
 	total_deduction_timesheet = total_additionals_timesheet = 0
 	for type in types:
 		date_today = datetime.datetime.today()
@@ -61,6 +62,7 @@ def execute(filters=None):
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
 		total_amount = total_absent = total_absent_deduction = 0
+
 		for x in data:
 			start_month = frappe.utils.getdate(x.start_date).month
 			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
@@ -103,6 +105,28 @@ def execute(filters=None):
 				total_additionals_timesheet += (
 				get_additional[0].additional if len(get_additional) > 0 and get_additional[0].additional else 0)
 				customers.append(x.customer)
+			print("SUPLIIIIIIIIIIIIIIIIER")
+			print(x.name)
+			print(x.supplier)
+			if x.supplier and x.supplier not in suppliers:
+				additionals_condition = " and TAD.supplier='{0}' ".format(x.supplier)
+				timesheet_additionals_deduction = """ SELECT SUM(TAD.amount) as deductions FROM `tabTimesheet Additional` TA 
+			                                                                   INNER JOIN `tabTimesheeet Additional Supplier` TAD ON TAD.parent =TA.name 
+			                                                                   WHERE TA.docstatus=1 and TAD.type = 'Deduction' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
+					filters.get("fiscal_year"), months[start_month - 1], additionals_condition)
+
+				timesheet_additionals_additional = """ SELECT SUM(TAD.amount) as additional FROM `tabTimesheet Additional` TA 
+			                                                                           INNER JOIN `tabTimesheeet Additional Supplier` TAD ON TAD.parent =TA.name 
+			                                                                           WHERE TA.docstatus=1 and  TAD.type = 'Additional' and TA.fiscal_year= '{0}' and TA.month = '{1}' {2}""".format(
+					filters.get("fiscal_year"), months[start_month - 1], additionals_condition)
+
+				get_deduction = frappe.db.sql(timesheet_additionals_deduction, as_dict=1)
+				get_additional = frappe.db.sql(timesheet_additionals_additional, as_dict=1)
+				total_deduction_timesheet += (
+					get_deduction[0].deductions if len(get_deduction) > 0 and get_deduction[0].deductions else 0)
+				total_additionals_timesheet += (
+					get_additional[0].additional if len(get_additional) > 0 and get_additional[0].additional else 0)
+				suppliers.append(x.supplier)
 		if len(data) > 0:
 			data[len(data)-1]['total_amount'] = total_amount
 			data[len(data)-1]['total_absent'] = round(total_deduction_timesheet,2)
@@ -148,14 +172,14 @@ def get_condition(filters):
 def get_fields(type):
 	fields = ""
 	if type == "Employee":
-		fields = "T.employee_code as employee," \
+		fields = "T.employee_code as employee,T.supplier," \
 				 "T.employee_name as employee_staff_name," \
 				 "E.designation,T.name," \
 				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour,T.start_date"
 		print(fields)
 	elif type == "Staff":
-		fields = "T.staff_code as employee," \
+		fields = "T.staff_code as employee,T.supplier," \
 				 "T.staff_name as employee_staff_name," \
 				 "E.designation,T.name," \
 				 "SC.default_billing_rate_per_hour," \
