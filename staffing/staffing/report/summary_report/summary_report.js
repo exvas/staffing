@@ -88,7 +88,7 @@ frappe.query_reports["Summary Report"] = {
 			options: "Staff",
 			depends_on:"eval: doc.staff_employee == 'Staff'",
 	get_data: function(txt) {
-				return frappe.db.get_link_options('staff', txt);
+				return frappe.db.get_link_options('Staff', txt);
 			}
 		},
 		{

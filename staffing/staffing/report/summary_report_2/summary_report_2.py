@@ -22,6 +22,16 @@ def execute(filters=None):
     columns, data = get_columns(filters), []
     months_no = " in ("
     month_no = ""
+    if len(filters.get("month")) == 1:
+        month_no += " = '" + str(months.index(filters.get("month")[0]) + 1) + "'"
+    elif len(filters.get("month")) > 1:
+        for i in filters.get("month"):
+            if months_no[len(months_no) - 1] != "(":
+                months_no += ","
+            months_no += str((months.index(i) + 1))
+        months_no += ")"
+    final_months = month_no if len(filters.get("month")) == 1 else months_no if len(
+        filters.get("month")) > 1 else " = '1'"
 
     condition = get_condition(filters)
     total_amount = total_absent = total_absent_deduction = charge_amount = 0
@@ -35,8 +45,8 @@ def execute(filters=None):
                     FROM `tab{1}` E 
                     INNER JOIN `tabTimesy` T ON {2} = E.name
                     INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
-                    WHERE T.reference_type = '{3}'  and 
-                    YEAR(T.start_date) = '{4}' {5}""".format(fields, type, inner_join_filter,type,filters.get("fiscal_year"),condition)
+                    WHERE T.reference_type = '{3}'  and
+                    YEAR(T.start_date) = '{4}' and MONTH(T.start_date) {5} {6}""".format(fields, type, inner_join_filter,type,filters.get("fiscal_year"),final_months,condition)
         print(query)
         timesy_data = frappe.db.sql(query, as_dict=1)
         for idx,x in enumerate(timesy_data):
