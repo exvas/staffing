@@ -48,10 +48,9 @@ frappe.query_reports["Employee Timesheet"] = {
 			fieldname: "staff",
             label: __("Staff"),
             fieldtype: "MultiSelectList",
-			options: "Staff",
 			depends_on:"eval: doc.staff_employee == 'Staff'",
-	get_data: function(txt) {
-				return frappe.db.get_link_options('staff', txt);
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Staff', txt);
 			}
 		},
 		{
