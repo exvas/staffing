@@ -68,7 +68,9 @@ frappe.query_reports["Summary Report"] = {
                 return [{value: 'Staff', description: 'Staff'}, {value: 'Employee', description: 'Employee'}]
             },
             on_change:function () {
-				console.log("ONCHANGE")
+				frappe.query_report.get_filter('staff').toggle(d.get_values().staff_employee.includes('Staff'))
+				frappe.query_report.get_filter('employee').toggle(d.get_values().staff_employee.includes('Employee'))
+
 				frappe.query_report.refresh()
             }
 		},
@@ -76,7 +78,7 @@ frappe.query_reports["Summary Report"] = {
 			fieldname: "employee",
             label: __("Employee"),
             fieldtype: "MultiSelectList",
-			depends_on:"eval: doc.staff_employee == 'Employee'",
+			hidden: 1,
 			get_data: function(txt) {
 				return frappe.db.get_link_options('Employee', txt);
 			}
@@ -85,7 +87,7 @@ frappe.query_reports["Summary Report"] = {
 			fieldname: "staff",
             label: __("Staff"),
             fieldtype: "MultiSelectList",
-			depends_on:"eval: doc.staff_employee == 'Staff'",
+			hidden: 1,
 			get_data: function(txt) {
 				return frappe.db.get_link_options('Staff', txt);
 			}

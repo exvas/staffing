@@ -92,14 +92,14 @@ def execute(filters=None):
 def get_condition(filters):
     condition = ""
 
-    if len(filters.get("employee")) == 1:
+    if filters.get("employee") and len(filters.get("employee")) == 1:
         condition += " and E.name = '{0}'".format(filters.get("employee")[0])
-    elif len(filters.get("employee")) > 1:
+    elif filters.get("employee") and len(filters.get("employee")) > 1:
         condition += " and E.name in {0}".format(tuple(filters.get("employee")))
 
-    if len(filters.get("staff")) == 1:
+    if filters.get("staff") and len(filters.get("staff")) == 1:
         condition += " and E.name = '{0}'".format(filters.get("staff")[0])
-    elif len(filters.get("staff")) > 1:
+    elif filters.get("staff") and len(filters.get("staff")) > 1:
         condition += " and E.name in {0}".format(tuple(filters.get("staff")))
 
     if filters.get("type"):
