@@ -68,7 +68,7 @@ frappe.query_reports["Summary Report 2"] = {
 
                 return [{value: 'Staff', description: 'Staff'}, {value: 'Employee', description: 'Employee'}]
             },
-            on_change:function () {
+            on_change:function (d) {
 				frappe.query_report.get_filter('staff').toggle(d.get_values().staff_employee.includes('Staff'))
 				frappe.query_report.get_filter('employee').toggle(d.get_values().staff_employee.includes('Employee'))
 				frappe.query_report.refresh()
