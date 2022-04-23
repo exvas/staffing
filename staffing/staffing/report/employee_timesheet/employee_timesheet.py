@@ -19,6 +19,19 @@ def get_columns(filters):
         {"label": "Total Amount", "fieldname": "amount", "fieldtype": "Float", "width": "120"},
     ]
     return columns
+
+def get_employee_condition(type, filters):
+    if len(filters.get("employee")) == 1 and type == 'Employee':
+        return " and E.name = '{0}'".format(filters.get("employee")[0])
+    elif len(filters.get("employee")) > 1 and type == 'Employee':
+        return " and E.name in {0}".format(tuple(filters.get("employee")))
+
+    if len(filters.get("staff")) == 1 and type == 'Staff':
+        return " and E.name = '{0}'".format(filters.get("staff")[0])
+    elif len(filters.get("staff")) > 1 and type == 'Staff':
+        return " and E.name in {0}".format(tuple(filters.get("staff")))
+
+    return ""
 def execute(filters=None):
     months = ['January', "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"]
     columns, data = get_columns(filters), []
@@ -36,6 +49,8 @@ def execute(filters=None):
     condition = get_condition(filters)
     total_amount = total_absent = total_absent_deduction = charge_amount = 0
     for type in filters.get("staff_employee"):
+        employee_condition = get_employee_condition(type,filters)
+
         fields = get_fields(type)
         inner_join_filter = get_inner_join_filter(type)
         query = """ SELECT 
@@ -45,7 +60,7 @@ def execute(filters=None):
                     INNER JOIN `tabStaffing Cost` SC ON SC.name = T.staffing_cost
                     WHERE T.reference_type = '{3}' and 
                     MONTH(T.start_date) {4} and 
-                    YEAR(T.start_date) = '{5}' {6}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition)
+                    YEAR(T.start_date) = '{5}' {6} {7}""".format(fields, type, inner_join_filter,type,final_months,filters.get("fiscal_year"),condition,employee_condition)
         print("QUUUUERY")
         print(query)
         timesy_data = frappe.db.sql(query, as_dict=1)
@@ -55,7 +70,6 @@ def execute(filters=None):
             fields_details = "working_hour, status" if not x.skip_timesheet else "working_hour"
             query = """ SELECT {0} FROM `tab{1}` WHERE parent='{2}'""".format(fields_details,'Monthly Timesheet' if x.skip_timesheet else 'Timesy Details', x.name)
             timesy_details = frappe.db.sql(query, as_dict=1)
-            print(timesy_details)
             sum = 0
             absent = 0
             for xx in timesy_details:
@@ -72,7 +86,6 @@ def execute(filters=None):
             total_absent += x['total_absent_deduction_per_hour']
             total_absent_deduction += x.total_absent_hour
             charge_amount += x.charge_amount
-
 
         data += timesy_data
 
@@ -92,15 +105,6 @@ def execute(filters=None):
 def get_condition(filters):
     condition = ""
 
-    if filters.get("employee") and len(filters.get("employee")) == 1:
-        condition += " and E.name = '{0}'".format(filters.get("employee")[0])
-    elif filters.get("employee") and len(filters.get("employee")) > 1:
-        condition += " and E.name in {0}".format(tuple(filters.get("employee")))
-
-    if filters.get("staff") and len(filters.get("staff")) == 1:
-        condition += " and E.name = '{0}'".format(filters.get("staff")[0])
-    elif filters.get("staff") and len(filters.get("staff")) > 1:
-        condition += " and E.name in {0}".format(tuple(filters.get("staff")))
 
     if filters.get("type"):
         condition += " and T.reference_type = '{0}'".format(filters.get("type"))
