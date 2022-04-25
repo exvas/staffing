@@ -21,14 +21,14 @@ def get_columns(filters):
     return columns
 
 def get_employee_condition(type, filters):
-    if len(filters.get("employee")) == 1 and type == 'Employee':
+    if filters.get("employee") and len(filters.get("employee")) == 1 and type == 'Employee':
         return " and E.name = '{0}'".format(filters.get("employee")[0])
-    elif len(filters.get("employee")) > 1 and type == 'Employee':
+    elif filters.get("employee") and len(filters.get("employee")) > 1 and type == 'Employee':
         return " and E.name in {0}".format(tuple(filters.get("employee")))
 
-    if len(filters.get("staff")) == 1 and type == 'Staff':
+    if filters.get("staff") and len(filters.get("staff")) == 1 and type == 'Staff':
         return " and E.name = '{0}'".format(filters.get("staff")[0])
-    elif len(filters.get("staff")) > 1 and type == 'Staff':
+    elif filters.get("staff") and len(filters.get("staff")) > 1 and type == 'Staff':
         return " and E.name in {0}".format(tuple(filters.get("staff")))
 
     return ""
