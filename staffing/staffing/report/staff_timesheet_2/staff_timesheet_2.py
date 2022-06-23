@@ -131,8 +131,8 @@ def execute(filters=None):
 			data[len(data)-1]['total_amount'] = total_amount
 			data[len(data)-1]['total_absent'] = round(total_deduction_timesheet,2)
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
-			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
-			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
+			data[len(data)-1]['fifteen_percent'] = round((total_amount - round(total_deduction_timesheet,2)) * 0.15,2)
+			data[len(data)-1]['grand_total'] =round(((total_amount - round(total_deduction_timesheet,2)) * 0.15),2) + (total_amount - round(total_deduction_timesheet,2))
 			data[len(data)-1]['total_additional'] =round(total_additionals_timesheet,2)
 
 	return columns, data
