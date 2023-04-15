@@ -1,123 +1,77 @@
 {
- "cards_label": "Staffing",
- "category": "Modules",
  "charts": [],
- "creation": "2021-10-21 07:10:33.096939",
- "developer_mode_only": 0,
- "disable_user_customization": 0,
+ "content": "[{\"id\":\"Jobu9MC-ps\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Staffing</span>\",\"col\":12}},{\"id\":\"W2XG-TvR0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff\",\"col\":3}},{\"id\":\"6oWkIBNXlL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Sheet\",\"col\":3}},{\"id\":\"1hBLzXy-fK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Cost\",\"col\":3}},{\"id\":\"MmQnH5hGIx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"eWzX_ReOCa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\" Staffing Type\",\"col\":3}},{\"id\":\"7r8RkHIFvP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Project\",\"col\":3}},{\"id\":\"jXw_5m5dAf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Additional\",\"col\":3}}]",
+ "creation": "2023-04-15 05:40:38.601832",
  "docstatus": 0,
  "doctype": "Workspace",
- "extends_another_page": 0,
+ "for_user": "",
  "hide_custom": 0,
- "icon": "crm",
+ "icon": "list",
  "idx": 0,
- "is_default": 0,
- "is_standard": 1,
+ "is_hidden": 0,
  "label": "Staffing",
- "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales ",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Quotation",
-   "link_to": "Quotation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Order",
-   "link_to": "Sales Order",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Invoice",
-   "link_to": "Sales Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Purchase",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Purchase Invoice",
-   "link_to": "Purchase Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  }
- ],
- "modified": "2022-03-07 19:06:26.402069",
+ "links": [],
+ "modified": "2023-04-15 05:45:16.207811",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing",
+ "number_cards": [],
  "owner": "Administrator",
- "pin_to_bottom": 0,
- "pin_to_top": 1,
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 39.0,
  "shortcuts": [
   {
+   "color": "Grey",
    "doc_view": "List",
    "label": "Staff",
    "link_to": "Staff",
    "type": "DocType"
   },
   {
-   "doc_view": "List",
-   "label": "Employee",
-   "link_to": "Employee",
-   "type": "DocType"
-  },
-  {
-   "doc_view": "List",
-   "label": "Staffing Cost",
-   "link_to": "Staffing Cost",
-   "type": "DocType"
-  },
-  {
-   "doc_view": "List",
-   "label": "Staffing Type",
-   "link_to": "Staffing Type",
-   "type": "DocType"
-  },
-  {
+   "color": "Grey",
    "doc_view": "List",
    "label": "Time Sheet",
    "link_to": "Timesy",
    "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Staffing Cost",
+   "link_to": "Staffing Cost",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee",
+   "link_to": "Employee",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": " Staffing Type",
+   "link_to": "Staffing Type",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
    "doc_view": "List",
    "label": "Staffing Project",
    "link_to": "Staffing Project",
    "type": "DocType"
   },
   {
+   "color": "Grey",
    "doc_view": "List",
    "label": "Timesheet Additional",
    "link_to": "Timesheet Additional",
    "type": "DocType"
   }
  ],
- "shortcuts_label": "Staffing"
+ "title": "Staffing"
 }
