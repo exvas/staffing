@@ -21,6 +21,7 @@
   "holiday_list",
   "column_break_4",
   "status",
+  "company",
   "start_date",
   "end_date",
   "payroll_date",
@@ -365,15 +366,23 @@
    "label": "Staffing Cost",
    "options": "Staffing Cost",
    "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-01-12 00:17:36.199753",
+ "modified": "2023-04-16 16:30:49.348867",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -391,5 +400,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }

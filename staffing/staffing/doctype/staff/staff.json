@@ -26,7 +26,8 @@
   "iqama_date",
   "column_break_16",
   "passport_number",
-  "passport_date"
+  "passport_date",
+  "company"
  ],
  "fields": [
   {
@@ -87,8 +88,8 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "label": "Series",
-   "options": "SF-.YY.-",
+   "label": "Staff Code",
+   "options": "HR-SF-.###",
    "read_only": 1
   },
   {
@@ -117,7 +118,8 @@
   {
    "fieldname": "staff_name",
    "fieldtype": "Data",
-   "label": "Staff Name"
+   "label": "Staff Name",
+   "reqd": 1
   },
   {
    "fieldname": "designation",
@@ -136,15 +138,24 @@
    "fieldtype": "Link",
    "label": "Staffing Project",
    "options": "Staffing Project"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-25 21:46:41.575967",
+ "modified": "2023-04-16 16:29:27.112040",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staff",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -163,5 +174,6 @@
  "search_fields": "staff_name",
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }
