@@ -67,6 +67,8 @@ function compute_working_days(cur_frm,number_of_days, d) {
     var absent = 0
     var h_working = 0
     var holiday = 0
+    var release = 0
+    var bad_weather = 0
     console.log(cur_frm.doc.monthly_timesheet)
     for(var x=0;x<cur_frm.doc.monthly_timesheet.length;x+=1){
         if(cur_frm.doc.monthly_timesheet[x].type === 'Fridays'){
@@ -80,10 +82,16 @@ function compute_working_days(cur_frm,number_of_days, d) {
         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Holiday'){
            holiday = cur_frm.doc.monthly_timesheet[x].number
         }
+        else if(cur_frm.doc.monthly_timesheet[x].type === 'Release'){
+            release = cur_frm.doc.monthly_timesheet[x].number
+        }
+        else if(cur_frm.doc.monthly_timesheet[x].type === 'Bad Weather'){
+            bad_weather = cur_frm.doc.monthly_timesheet[x].number
+        }
     }
-    update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d)
+    update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday,release,bad_weather, cur_frm,d)
 }
-function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday, cur_frm,d) {
+function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_working, holiday,release,bad_weather, cur_frm,d) {
     var friday_value = 0
     var normal_working_hour = 0
     var overtime_hour = 0
@@ -93,7 +101,7 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
             console.log("naa diri")
             console.log(d)
              friday_value = w_fridays > 0 && fridays > 0 && (d.type && (d.type === "Fridays" || d.type === 'Working Fridays')) ? fridays - w_fridays : fridays
-           var workdays = holiday > 0 ? (working_days - friday_value - absent - holiday) + h_working : (working_days - friday_value - absent - holiday)
+           var workdays = holiday > 0 ? (working_days - friday_value - absent - holiday - release - bad_weather) + h_working : (working_days - friday_value - absent - holiday - release - bad_weather)
             cur_frm.doc.monthly_timesheet[x].number = workdays
             overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour >  (workdays * cur_frm.doc.normal_working_hour) ? cur_frm.doc.monthly_timesheet[x].working_hour - (workdays * cur_frm.doc.normal_working_hour) : 0
 
@@ -113,7 +121,15 @@ function update_monthly_timesheet(working_days,fridays, w_fridays, absent, h_wor
            cur_frm.doc.monthly_timesheet[x].number = absent
           cur_frm.refresh_field("monthly_timesheet")
 
-        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Working Holidays'){
+        } else if(cur_frm.doc.monthly_timesheet[x].type === 'Release'){
+            cur_frm.doc.monthly_timesheet[x].number = release
+           cur_frm.refresh_field("monthly_timesheet")
+ 
+         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Bad Weather'){
+            cur_frm.doc.monthly_timesheet[x].number = bad_weather
+           cur_frm.refresh_field("monthly_timesheet")
+ 
+         } else if(cur_frm.doc.monthly_timesheet[x].type === 'Working Holidays'){
             overtime_hour += cur_frm.doc.monthly_timesheet[x].working_hour
             normal_working_hour += cur_frm.doc.monthly_timesheet[x].working_hour
            cur_frm.doc.monthly_timesheet[x].number = h_working
@@ -608,6 +624,24 @@ function compute_hours(d,cur_frm) {
                 d.friday_costing_hour = 0
                 d.overtime_hour = 0
                 d.working_hour = 0
+                cur_frm.refresh_field(d.parentfield)
+                total_costing(cur_frm)
+            }else if(d.status === "Release"){
+                d.working_hour = 0
+                d.costing_hour = 0
+                d.billing_hour = 0
+                d.absent_hour = doc.absent_deduction_per_hour
+                d.friday_hour = 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                cur_frm.refresh_field(d.parentfield)
+                total_costing(cur_frm)
+            }else if(d.status === "Bad Weather"){
+                d.working_hour = 0
+                d.costing_hour = 0
+                d.billing_hour = 0
+                d.absent_hour = doc.absent_deduction_per_hour
+                d.friday_hour = 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             }

@@ -1,0 +1,140 @@
+
+<style>
+	@media screen {
+		.print-format {
+			width: 14in !important;
+			height: 8.5in !important;
+			padding-left: 0.20in !important;
+			padding-right: 0.20in !important;
+		}
+	}
+</style>
+<h2 class="text-center" style=" text-decoration: underline;">{%= __("Time Sheet") %}</h2>
+<table style="width: 100%">
+	<tr>
+		<td style="font-size:8px;width: 10%">Company:</td>
+		<td style="font-size:8px;width: 50%">
+            {{ filters.supplier_name }} <br>
+
+
+
+        </td>
+		<td class="text-right" style="font-size:8px;width: 40%">
+
+            </td>
+	</tr>
+    <tr>
+		<td style="font-size:8px;width: 10%">Address:</td>
+		<td style="font-size:8px;width: 50%">{{ filters.address }}</td>
+		<td class="text-right" style="font-size:8px;width: 40%">
+             {%= __("Month of " + filters.month + " " + filters.fiscal_year) %}
+        </td>
+	</tr>
+</table>
+<table  style="width: 100%">
+	<thead>
+		<tr>
+			<td class="text-center" style="border: 1px solid black;width: 1%;font-size:8px">{%= __("SL #") %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 30%;font-size:8px">{%= __("Name") %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= __("Trade") %}</td>
+			 {% for(var i=1;i<32; i++) { %}
+                <td class="text-center" style="border: 1px solid black;background-color: lightgray;width: 1%;font-size:8px">
+                    {%= i %}
+                </td>
+            {% } %}
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Total Hours") %}
+            </td>
+            <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Rate Hours") %}
+            </td>
+            <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Deductions") %}
+            </td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= __("Total Amount") %}</td>
+		</tr>
+        {% for(var i=0, l=data.length; i<l; i++) { %}
+            {% if(data[i].employee_staff_name) { %}
+                <tr>
+                    <td style="border: 1px solid black;font-size:8px">{%= i + 1 %}</td>
+                    <td style="border: 1px solid black;font-size:8px">{%= data[i].employee_staff_name %}</td>
+                    <td style="border: 1px solid black;font-size:8px">{%= data[i].designation %}</td>
+                     {% for(var x=1;x<32; x++) { %}
+                        <td style="border: 1px solid black;font-size:8px">{%= data[i][x] %}</td>
+                    {% } %}
+                    <td class="text-center" style="border: 1px solid black;font-size:8px">
+                        {%= data[i].total_hour %}
+                    </td>
+                    <td class="text-center" style="border: 1px solid black;font-size:8px">
+                        {%= data[i].default_billing_rate_per_hour %}
+                    </td>
+                    <td class="text-center" style="border: 1px solid black;font-size:8px">
+                        {%= data[i].total_absent_deduction_per_hour %}
+                    </td>
+                    <td  class="text-center" style="border: 1px solid black;font-size:8px">{{ format_number(data[i].amount,"",2)}}</td>
+                </tr>
+            {% } %}
+		{% } %}
+    <tr>
+			<td colspan="34" rowspan="4" class="text-center" style="border: 1px solid black;width: 1%;font-size:8px">
+                <br>
+                <span>F-Holiday</span>
+                <span style="margin-left: 10%">A-Absent</span>
+                <span style="margin-left: 10%">M-Medical</span>
+                <span style="margin-left: 10%">S-Standby</span>
+                <span style="margin-left: 10%">R-Release</span>
+                <span style="margin-left: 10%">BW-Bad Weather</span>
+                <br>
+                <br><br><br>
+                <span style="margin-left:0%"> <b>{%= __("Prepared By:") %}</b><br>
+                    Any Back charges from our client against your employee will be deducted from your invoice<br>
+                    This document is electronically generated hence does not require an official Signature</span><br><br><br><br>
+
+                    <span style="margin-right: 0%">  <b>{%= __("Approved By:") %}</b></span>
+            </td>
+			<td colspan="3" class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Subtotal") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount,"",2) %}</td>
+		</tr>
+        <tr>
+			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Deductions") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_deduction,"",2)  %}</td>
+		</tr>
+         <tr>
+			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Total Before Tax") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_deduction,"",2)  %}</td>
+		</tr>
+        <!-- <tr>
+			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("VAT 15%") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].fifteen_percent,"",2)  %}</td>
+		</tr> -->
+        <tr>
+			<td colspan="3" class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= __("Total Amount") %}
+            </td>
+
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_deduction,"",2)  %}</td>
+		</tr>
+	</thead>
+</table>
+<!-- <table  style="width: 100%;margin-top: 5%">
+    <tr>
+        <td class="text-left" style="width: 50%;font-size:8px">
+            <b>{%= __("Prepared By:") %}</b><br>
+            Any Back charges from our client against your employee will be deducted from your invoice<br>
+            This document is electronically generated hence does not require an official Signature
+        </td>
+        <td class="text-left" style="width: 50%;font-size:8px"><b>{%= __("Approved By:") %}</b></td>
+    </tr>
+</table> -->
