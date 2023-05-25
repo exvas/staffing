@@ -27,13 +27,25 @@ frappe.query_reports["New Staff Timesheet with Tax"] = {
 						console.log(value1); // Add this line to print the retrieved value
 		
 						if (value1 && value1.address_line1) {
-							var address =
-								value1["address_line1"] + ", " +
-								value1["city"] + ", " +
-								value1["county"] + ", " +
-								value1["state"] + ", " +
-								value1["country"] + ", " +
-								value1["pincode"];
+							var address =[]
+							if (value1["address_line1"]){
+								address += value1["address_line1"] + ", " 
+							}
+							if (value1["city"]){
+								address += value1["city"] + ", " 
+							}
+							if (value1["county"]){
+								address += value1["county"] + ", " 
+							}
+							if(value1["state"]){
+								address += value1["state"] + ", " 
+							}
+							if (value1["country"]){
+								address += value1["country"] + ", " 
+							}
+							if (value1["pincode"]){
+								address += value1["pincode"];
+							}
 							frappe.query_report.set_filter_value('address', address);
 						} else {
 							frappe.query_report.set_filter_value('address', "");
