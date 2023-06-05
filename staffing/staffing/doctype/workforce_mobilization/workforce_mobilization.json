@@ -34,9 +34,11 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "release_date",
    "fieldtype": "Date",
-   "label": "Release Date"
+   "label": "Release Date",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_dof7r",
@@ -86,22 +88,26 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Active\nStandby\nReleased"
+   "options": "Active\nStandby\nReleased",
+   "read_only": 1
   },
   {
    "fieldname": "rate",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Rate"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "demobilization_date",
    "fieldtype": "Date",
-   "label": "Demobilization Date"
+   "label": "Demobilization Date",
+   "read_only": 1
   },
   {
    "fetch_from": "customer_code.customer_name",
@@ -131,7 +137,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-05 18:28:24.205868",
+ "modified": "2023-06-05 20:48:44.322855",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Workforce Mobilization",
