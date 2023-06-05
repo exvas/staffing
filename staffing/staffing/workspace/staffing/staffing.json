@@ -1,7 +1,8 @@
 {
  "charts": [],
- "content": "[{\"id\":\"Jobu9MC-ps\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Staffing</span>\",\"col\":12}},{\"id\":\"W2XG-TvR0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff\",\"col\":3}},{\"id\":\"6oWkIBNXlL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Sheet\",\"col\":3}},{\"id\":\"1hBLzXy-fK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Cost\",\"col\":3}},{\"id\":\"MmQnH5hGIx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"eWzX_ReOCa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\" Staffing Type\",\"col\":3}},{\"id\":\"7r8RkHIFvP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Project\",\"col\":3}},{\"id\":\"jXw_5m5dAf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Additional\",\"col\":3}}]",
+ "content": "[{\"id\":\"Jobu9MC-ps\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Staffing</span>\",\"col\":12}},{\"id\":\"W2XG-TvR0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff\",\"col\":3}},{\"id\":\"6oWkIBNXlL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Sheet\",\"col\":3}},{\"id\":\"1hBLzXy-fK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Cost\",\"col\":3}},{\"id\":\"MmQnH5hGIx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"eWzX_ReOCa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\" Staffing Type\",\"col\":3}},{\"id\":\"7r8RkHIFvP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staffing Project\",\"col\":3}},{\"id\":\"jXw_5m5dAf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Additional\",\"col\":3}},{\"id\":\"M9ZEa_RbKF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workforce Mobilization\",\"col\":3}}]",
  "creation": "2023-04-15 05:40:38.601832",
+ "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -11,7 +12,7 @@
  "is_hidden": 0,
  "label": "Staffing",
  "links": [],
- "modified": "2023-04-15 05:45:16.207811",
+ "modified": "2023-06-05 18:24:30.088408",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Staffing",
@@ -20,9 +21,20 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "Staff"
+  }
+ ],
  "sequence_id": 39.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Workforce Mobilization",
+   "link_to": "Workforce Mobilization",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",
