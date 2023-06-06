@@ -38,6 +38,57 @@ frappe.ui.form.on('Workforce Mobilization', {
 		}
 
 	},
+	employee_code:function(frm){
+		cur_frm.call({
+			doc:cur_frm.doc,
+			method:"get_document",
+			args:{
+
+			},
+			callback:function(r){
+				if (r.message){
+					frm.set_value('workforce_mobilization',r.message[0].name)
+				}
+				else{
+					frm.set_value('workforce_mobilization','')
+				}
+			}
+		})
+	},
+	staff_code:function(frm){
+		cur_frm.call({
+			doc:cur_frm.doc,
+			method:"get_document",
+			args:{
+
+			},
+			callback:function(r){
+				if (r.message){
+					frm.set_value('workforce_mobilization',r.message[0].name)
+				}
+				else{
+					frm.set_value('workforce_mobilization','')
+				}
+			}
+		})
+	},
+	on_submit:function(frm){
+		if(cur_frm.doc.workforce_mobilization){
+			cur_frm.call({
+				doc:cur_frm.doc,
+				method:"set_complete",
+				args:{
+	
+				},
+				callback:function(r){
+					
+				}
+			})
+
+		console.log("validate")
+		}
+	}
+
 	
 	
 });

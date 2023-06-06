@@ -12,6 +12,7 @@
   "mobilization_date",
   "release_date",
   "demobilization_date",
+  "workforce_mobilization",
   "column_break_dof7r",
   "status",
   "reference_type",
@@ -93,7 +94,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Active\nStandby\nReleased",
+   "options": "Active\nStandby\nReleased\nCompleted",
    "read_only": 1
   },
   {
@@ -132,12 +133,19 @@
    "options": "Workforce Mobilization",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "workforce_mobilization",
+   "fieldtype": "Link",
+   "label": "Workforce Mobilization",
+   "options": "Workforce Mobilization",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-05 20:48:44.322855",
+ "modified": "2023-06-06 21:29:37.256338",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Workforce Mobilization",

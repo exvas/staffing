@@ -12,6 +12,10 @@ frappe.listview_settings['Workforce Mobilization'] = {
         return [("Released"), "orange", "status,=,Released"];
   
       }
+      else if(doc.status === "Completed"){
+        return [("Completd"), "green", "status,=,Completed"];
+  
+      }
       
     },
     
