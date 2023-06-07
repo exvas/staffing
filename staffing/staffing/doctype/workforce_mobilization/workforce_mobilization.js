@@ -17,23 +17,25 @@ frappe.ui.form.on('Workforce Mobilization', {
 			cur_frm.set_df_property('release_date','read_only', 1);
 		}
 		if(frm.docstatus=1){
-			frm.add_custom_button(__("Update Demobilization Date"), () => { 
-				if(! cur_frm.doc.release_date){
-					cur_frm.set_df_property('demobilization_date','read_only', 0);
-					cur_frm.refresh_field("demobilization_date")
-					frm.set_value('status',"Standby")
-				}
-                
-            },'Update')
+			if(cur_frm.doc.status!="Completed"){
+				frm.add_custom_button(__("Update Demobilization Date"), () => { 
+					if(! cur_frm.doc.release_date){
+						cur_frm.set_df_property('demobilization_date','read_only', 0);
+						cur_frm.refresh_field("demobilization_date")
+						frm.set_value('status',"Standby")
+					}
+					
+				},'Update')
 
-			frm.add_custom_button(__("Update Release Date"), () => { 
-				if(! cur_frm.doc.demobilization_date){
-					cur_frm.set_df_property('release_date','read_only', 0);
-					cur_frm.refresh_field("release_date")
-					frm.set_value('status',"Released")
-				}
-                
-            },'Update')
+				frm.add_custom_button(__("Update Release Date"), () => { 
+					if(! cur_frm.doc.demobilization_date){
+						cur_frm.set_df_property('release_date','read_only', 0);
+						cur_frm.refresh_field("release_date")
+						frm.set_value('status',"Released")
+					}
+					
+				},'Update')
+			}
 		
 		}
 
