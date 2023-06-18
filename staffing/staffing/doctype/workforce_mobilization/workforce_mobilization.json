@@ -100,10 +100,12 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.is_a_new=='0'",
    "fieldname": "rate",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Rate"
+   "label": "Rate",
+   "mandatory_depends_on": "eval:doc.is_a_new=='0'"
   },
   {
    "allow_on_submit": 1,
@@ -121,11 +123,12 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.is_a_new=='0'",
    "fieldname": "customer_code",
    "fieldtype": "Link",
    "label": "Customer Code",
-   "options": "Customer",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.is_a_new=='0'",
+   "options": "Customer"
   },
   {
    "fieldname": "amended_from",
@@ -159,7 +162,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-18 11:04:40.558329",
+ "modified": "2023-06-18 19:28:11.527488",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Workforce Mobilization",
