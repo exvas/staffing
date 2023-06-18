@@ -13,9 +13,6 @@
   "release_date",
   "demobilization_date",
   "workforce_mobilization",
-  "customer_code",
-  "customer_name",
-  "rate",
   "column_break_dof7r",
   "status",
   "reference_type",
@@ -23,6 +20,11 @@
   "staff_name",
   "employee_code",
   "employee_name",
+  "trade",
+  "is_a_new",
+  "rate",
+  "customer_code",
+  "customer_name",
   "amended_from"
  ],
  "fields": [
@@ -140,12 +142,24 @@
    "label": "Workforce Mobilization",
    "options": "Workforce Mobilization",
    "read_only": 1
+  },
+  {
+   "fieldname": "trade",
+   "fieldtype": "Link",
+   "label": "Trade",
+   "options": "Staffing Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_a_new",
+   "fieldtype": "Check",
+   "label": "Is New"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-06 05:28:51.362155",
+ "modified": "2023-06-18 11:04:40.558329",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Workforce Mobilization",

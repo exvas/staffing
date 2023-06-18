@@ -89,6 +89,16 @@ frappe.ui.form.on('Workforce Mobilization', {
 
 		console.log("validate")
 		}
+	},
+	is_a_new:function(frm){
+		if(cur_frm.doc.is_a_new==1){
+			frm.set_value("status",'Standby')
+
+		}
+		if(cur_frm.doc.is_a_new==0){
+			frm.set_value("status",'Active')
+
+		}
 	}
 
 	
