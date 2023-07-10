@@ -38,6 +38,7 @@ frappe.ui.form.on("Sales Invoice", {
                                 },
                                 action(selections) {
                                     console.log(selections)
+                                    console.log("staffing executed")
                                     add_timesy(selections, cur_frm)
                                     d.dialog.hide()
                                 }
