@@ -103,14 +103,18 @@
                 {%= __("Deductions") %}
             </td>
 
-			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_deduction,"",2)  %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+                {%= format_number(data[data.length - 2].total_deduction,"",2)  %}
+            </td>
 		</tr>
          <tr>
 			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Total Before Tax") %}
             </td>
 
-			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_deduction,"",2)  %}</td>
+			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
+  
+            {%= format_number(data[data.length - 2].total_amount - data[data.length - 2].total_deduction,"",2)  %}</td>
 		</tr>
         <tr>
 			<td colspan="3"  class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">

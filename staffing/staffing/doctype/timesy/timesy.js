@@ -636,15 +636,44 @@ function compute_hours(d,cur_frm) {
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
             }else if(d.status === "Bad Weather"){
-                d.working_hour = 0
                 d.costing_hour = 0
                 d.billing_hour = 0
-                d.absent_hour = doc.absent_deduction_per_hour
-                d.friday_hour = 0
-                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                d.absent_hour = 0
+                d.friday_costing_hour = 0
+                d.overtime_hour = 0
+                d.working_hour = 0
                 cur_frm.refresh_field(d.parentfield)
                 total_costing(cur_frm)
+                // d.working_hour = 0
+                // d.costing_hour = 0
+                // d.billing_hour = 0
+                // d.absent_hour = doc.absent_deduction_per_hour
+                // d.friday_hour = 0
+                // d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
+                // cur_frm.refresh_field(d.parentfield)
+                // total_costing(cur_frm)
             }
+            else if(d.status === "Holiday Working Full Overtime"){
+                d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
+                d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
+                d.absent_hour = 0
+                d.friday_hour = 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour ? (d.working_hour) * doc.default_overtime_rate: 0
+                cur_frm.refresh_field(d.parentfield)
+                total_costing(cur_frm)
+                
+            }
+            else if(d.status === "Friday Working Full Overtime"){
+                d.costing_hour = doc.default_cost_rate_per_hour * d.working_hour
+                d.billing_hour = doc.default_billing_rate_per_hour * d.working_hour
+                d.absent_hour = 0
+                d.friday_hour = 0
+                d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour ? (d.working_hour) * doc.default_overtime_rate: 0
+                cur_frm.refresh_field(d.parentfield)
+                total_costing(cur_frm)
+                
+            }
+            
 
     })
 }
