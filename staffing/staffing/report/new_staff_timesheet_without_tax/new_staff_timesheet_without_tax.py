@@ -59,9 +59,20 @@ def execute(filters=None):
 					WHERE MONTH(T.start_date) {3} and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,final_months,filters.get("fiscal_year"),condition)
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
-		total_amount = total_absent = total_absent_deduction = 0
+		total_amount = total_absent = total_absent_deduction = total_deduction = 0
 		for x in data:
 			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
+			ttl=0
+			for m in filters.get("month"):
+				s=0
+				ded = frappe.db.sql("""select sum(c.amount) as amount from `tabTimesheeet Additional Supplier` as c inner join `tabTimesheet Additional` as p on 
+				p.name = c.parent where c.supplier=%s and p.month=%s and p.fiscal_year=%s and c.type='Deduction' and p.docstatus=1""",(filters.get("supplier"),m,filters.get("fiscal_year")),as_dict=1)
+				print("******************************************")
+				if ded:
+					if ded[0].amount:
+						s = ded[0].amount
+						ttl += s 
+			
 			sum = 0
 			absent = 0
 			for xx in timesy_details:
@@ -76,11 +87,12 @@ def execute(filters=None):
 			x['total_hour'] = sum
 			x['amount'] = x.default_billing_rate_per_hour * sum
 			x['absent'] = absent
-			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
+			x['total_absent_deduction_per_hour'] = ttl
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
 			x['date_format'] = date_format
 			total_amount += x['amount']
 			total_absent += x['total_absent_deduction_per_hour']
+			total_deduction += x['total_absent_deduction_per_hour']
 			total_absent_deduction += absent * x.absent_deduction_per_hour
 
 		if len(data) > 0:
@@ -89,7 +101,8 @@ def execute(filters=None):
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
 			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
 			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
-			data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
+			data[len(data)-1]['total_deduction'] =total_deduction
+
 
 	return columns, data
 
