@@ -87,6 +87,7 @@
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Amended From",
    "no_copy": 1,
    "options": "Timesy",
@@ -322,6 +323,7 @@
    "depends_on": "eval: doc.reference_type == 'Staff'",
    "fieldname": "total_working_hour",
    "fieldtype": "Float",
+   "hidden": 1,
    "label": "Total Working Hour",
    "read_only": 1
   },
@@ -330,6 +332,7 @@
    "depends_on": "eval: doc.reference_type == 'Staff'",
    "fieldname": "total_overtime_hour_staff",
    "fieldtype": "Float",
+   "hidden": 1,
    "label": "Total Overtime Hour",
    "read_only": 1
   },
@@ -379,18 +382,20 @@
   {
    "fieldname": "total_overtime_hours",
    "fieldtype": "Float",
-   "label": "Total Overtime Hours"
+   "label": "Total Overtime Hours",
+   "read_only": 1
   },
   {
    "fieldname": "total_working_hours",
    "fieldtype": "Float",
-   "label": "Total Working Hours"
+   "label": "Total Working Hours",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-15 17:33:50.192456",
+ "modified": "2023-07-16 19:39:00.986683",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

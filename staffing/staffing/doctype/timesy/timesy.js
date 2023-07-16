@@ -558,6 +558,9 @@ frappe.ui.form.on('Timesy Details', {
                 d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
 
             }
+            if(d.working_hour==cur_frm.doc.normal_working_hour){
+                d.ot_hour=0 
+            }
             if(d.status === "Friday Working Full Overtime" || d.status === "Holiday Working Full Overtime"){
                 d.ot_hour= d.working_hour 
             }
@@ -588,6 +591,9 @@ frappe.ui.form.on('Timesy Details', {
             if(d.working_hour>cur_frm.doc.normal_working_hour){
                 d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
 
+            }
+            if(d.working_hour==cur_frm.doc.normal_working_hour){
+                d.ot_hour=0 
             }
             if(d.status === "Friday Working Full Overtime" || d.status === "Holiday Working Full Overtime"){
                 d.ot_hour= d.working_hour 
@@ -634,9 +640,13 @@ function total_calculation(cur_frm){
     var total_hr =0
     var total_ded =0
     for(var i=0;i<table.length;i++){
-        total_ot += table[i].ot_hour
+        if(table[i].ot_hour){
+            total_ot += table[i].ot_hour
+        }
         total_hr += table[i].working_hour
-        total_ded += table[i].absent_hour
+        if (table[i].absent_hour){
+            total_ded += table[i].absent_hour
+        }
     }
     cur_frm.set_value("total_overtime_hours",total_ot)
     cur_frm.set_value("total_working_hours",total_hr)
@@ -762,7 +772,9 @@ function total_costing(cur_frm) {
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
-    cur_frm.doc.total_costing_rate_deduction = total_absent_hour
+    if (! cur_frm.doc.total_costing_rate_deduction){
+        cur_frm.doc.total_costing_rate_deduction = total_absent_hour
+    }
     cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
     cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
 
