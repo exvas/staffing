@@ -531,19 +531,16 @@ function get_designation(cur_frm, obj) {
 frappe.ui.form.on('Timesy Details', {
     absent_hour: function(frm, cdt, cdn) {
                         total_costing(cur_frm)
+                        total_calculation(cur_frm);
 
 	},
     timesy_details_remove: function(frm, cdt, cdn) {
                               total_costing(cur_frm)
+                              total_calculation(cur_frm);
 	},
     working_hour: function(frm, cdt, cdn) {
 
         var d = locals[cdt][cdn]
-        if(d.working_hour>cur_frm.doc.normal_working_hour){
-            d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
-
-        }
-        
         if(d.status === 'Friday'){
             d.working_hour = 0
             cur_frm.refresh_field(d.parentfield)
@@ -554,16 +551,59 @@ frappe.ui.form.on('Timesy Details', {
         }
         }
 
+
+
+        if(cur_frm.doc.reference_type=="Employee"){
+            if(d.working_hour>cur_frm.doc.normal_working_hour){
+                d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+
+            }
+            if(d.status === "Friday Working Full Overtime" || d.status === "Holiday Working Full Overtime"){
+                d.ot_hour= d.working_hour 
+            }
+            else{
+                if(d.working_hour>cur_frm.doc.normal_working_hour){
+                d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+
+            }
+            }
+            
+        }
+        else{
+            d.ot_hour=0
+        }
+        
+        total_calculation(cur_frm);
+        
+        
+
+
 	},
     status: function(frm, cdt, cdn) {
         var d = locals[cdt][cdn]
         if(cur_frm.doc.staffing_cost){
            compute_hours(d,cur_frm)
         }
-        if(d.working_hour>cur_frm.doc.normal_working_hour){
-            d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+        if(cur_frm.doc.reference_type=="Employee"){
+            if(d.working_hour>cur_frm.doc.normal_working_hour){
+                d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
 
+            }
+            if(d.status === "Friday Working Full Overtime" || d.status === "Holiday Working Full Overtime"){
+                d.ot_hour= d.working_hour 
+            }
+            else{
+                if(d.working_hour>cur_frm.doc.normal_working_hour){
+                d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+
+            }
+            }
+            
         }
+        else{
+            d.ot_hour=0
+        }
+        total_calculation(cur_frm);
 	},
     timesy_details_add: function(frm, cdt, cdn) {
       var d = locals[cdt][cdn]
@@ -586,6 +626,20 @@ frappe.ui.form.on('Timesy Details', {
         }
 	}
 });
+
+function total_calculation(cur_frm){
+    console.log("my function")
+    var table = cur_frm.doc.timesy_details
+    var total_ot =0
+    var total_hr =0
+    for(var i=0;i<table.length;i++){
+        total_ot += table[i].ot_hour
+        total_hr += table[i].working_hour
+    }
+    cur_frm.set_value("total_overtime_hours",total_ot)
+    cur_frm.set_value("total_working_hours",total_hr)
+    
+}
 var absent_deduction = 0
 function compute_hours(d,cur_frm) {
     frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_cost)
