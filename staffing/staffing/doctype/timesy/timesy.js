@@ -632,12 +632,17 @@ function total_calculation(cur_frm){
     var table = cur_frm.doc.timesy_details
     var total_ot =0
     var total_hr =0
+    var total_ded =0
     for(var i=0;i<table.length;i++){
         total_ot += table[i].ot_hour
         total_hr += table[i].working_hour
+        total_ded += table[i].absent_hour
     }
     cur_frm.set_value("total_overtime_hours",total_ot)
     cur_frm.set_value("total_working_hours",total_hr)
+   
+   
+    
     
 }
 var absent_deduction = 0
@@ -746,6 +751,7 @@ function total_costing(cur_frm) {
     var total_absent_hour = 0
     var total_overtime_hour = 0
     var total_working_hour = 0
+    
     var from_date = new Date(cur_frm.doc.start_date)
     var end_date = new Date(cur_frm.doc.end_date)
     var number_of_days = (new Date(end_date - from_date)).getDate()
@@ -756,6 +762,7 @@ function total_costing(cur_frm) {
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
+    cur_frm.doc.total_costing_rate_deduction = total_absent_hour
     cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
     cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
 
@@ -764,5 +771,5 @@ function total_costing(cur_frm) {
     cur_frm.doc.total_overtime_hour = total_overtime_hour
     cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
 
-    cur_frm.refresh_fields(['total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
+    cur_frm.refresh_fields(['total_costing_rate_deduction','total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
 }
