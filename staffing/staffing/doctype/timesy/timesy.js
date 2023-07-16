@@ -539,6 +539,11 @@ frappe.ui.form.on('Timesy Details', {
     working_hour: function(frm, cdt, cdn) {
 
         var d = locals[cdt][cdn]
+        if(d.working_hour>cur_frm.doc.normal_working_hour){
+            d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+
+        }
+        
         if(d.status === 'Friday'){
             d.working_hour = 0
             cur_frm.refresh_field(d.parentfield)
@@ -554,6 +559,10 @@ frappe.ui.form.on('Timesy Details', {
         var d = locals[cdt][cdn]
         if(cur_frm.doc.staffing_cost){
            compute_hours(d,cur_frm)
+        }
+        if(d.working_hour>cur_frm.doc.normal_working_hour){
+            d.ot_hour= d.working_hour - cur_frm.doc.normal_working_hour
+
         }
 	},
     timesy_details_add: function(frm, cdt, cdn) {

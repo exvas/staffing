@@ -42,6 +42,8 @@
   "charge_type",
   "charge_amount",
   "column_break_15",
+  "total_overtime_hours",
+  "total_working_hours",
   "total_billing_hour",
   "total_billing_rate_deduction",
   "total_absent_hour",
@@ -137,7 +139,8 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "TS-.YY.-"
+   "options": "TS-.YY.-",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
@@ -372,12 +375,22 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "total_overtime_hours",
+   "fieldtype": "Float",
+   "label": "Total Overtime Hours"
+  },
+  {
+   "fieldname": "total_working_hours",
+   "fieldtype": "Float",
+   "label": "Total Working Hours"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-11 20:47:36.002671",
+ "modified": "2023-07-15 17:33:50.192456",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

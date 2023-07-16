@@ -12,7 +12,8 @@
   "overtime_hour",
   "billing_hour",
   "absent_hour",
-  "status"
+  "status",
+  "ot_hour"
  ],
  "fields": [
   {
@@ -49,7 +50,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Working\nAbsent\nMedical\nHoliday\nHoliday Working\nFriday Working\nHoliday Working Full Overtime\nFriday Working Full Overtime\nFriday\nStandby\nStandby Pay\nRelease\nBad Weather",
+   "options": "Working\nAbsent\nMedical\nHoliday\nHoliday Working\nFriday Working\nFriday\nStandby\nStandby Pay\nRelease\nBad Weather",
    "read_only_depends_on": "eval: parent.status == 'Completed'"
   },
   {
@@ -78,12 +79,18 @@
    "in_list_view": 1,
    "label": "Absent Rate",
    "read_only": 1
+  },
+  {
+   "fieldname": "ot_hour",
+   "fieldtype": "Float",
+   "label": "OT Hour",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-13 07:25:11.701020",
+ "modified": "2023-07-16 12:16:05.122385",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",
