@@ -100,8 +100,8 @@ def execute(filters=None):
 			data[len(data)-1]['total_amount'] = total_amount
 			data[len(data)-1]['total_absent'] = total_absent
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
-			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent) * 0.15,2)
-			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction) * 0.15),2) + (total_amount - total_absent_deduction)
+			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_ded) * 0.15,2)
+			data[len(data)-1]['grand_total'] =round(((total_amount - total_ded) * 0.15),2) + (total_amount - total_ded)
 			data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
 			data[len(data)-1]['total_ded'] =total_ded
 

@@ -36,7 +36,9 @@
   "section_break_10",
   "timesy_details",
   "section_break_12",
+  "total_costing_rate_before_deduction",
   "total_costing_hour",
+  "manually_deduct",
   "total_costing_rate_deduction",
   "overtime_hours",
   "charge_type",
@@ -44,7 +46,9 @@
   "column_break_15",
   "total_overtime_hours",
   "total_working_hours",
+  "total_billing_rate_before_deduction",
   "total_billing_hour",
+  "manually_deduct_billing",
   "total_billing_rate_deduction",
   "total_absent_hour",
   "total_overtime_hour",
@@ -285,14 +289,16 @@
    "default": "0",
    "fieldname": "total_costing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )"
+   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )",
+   "read_only_depends_on": "eval:doc.manually_deduct==0"
   },
   {
    "default": "0",
    "depends_on": "eval: doc.reference_type == 'Staff'",
    "fieldname": "total_billing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)"
+   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)",
+   "read_only_depends_on": "eval:doc.manually_deduct_billing==0"
   },
   {
    "depends_on": "eval: doc.reference_type == 'Staff'",
@@ -390,12 +396,37 @@
    "fieldtype": "Float",
    "label": "Total Working Hours",
    "read_only": 1
+  },
+  {
+   "fieldname": "total_costing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Costing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_billing_rate_before_deduction",
+   "fieldtype": "Data",
+   "label": "Total Billing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "manually_deduct",
+   "fieldtype": "Check",
+   "label": "Manually Deduct"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "fieldname": "manually_deduct_billing",
+   "fieldtype": "Check",
+   "label": "Manually Deduct"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-16 19:39:00.986683",
+ "modified": "2023-07-17 19:03:03.236302",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

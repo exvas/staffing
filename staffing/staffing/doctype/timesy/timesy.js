@@ -160,6 +160,14 @@ function compute_total_values(cur_frm,normal_working_hour, absent,overtime_hour)
         })
 }
 frappe.ui.form.on('Timesy', {
+    manually_deduct:function(frm){
+        console.log("manually enter")
+        total_costing(cur_frm)
+    },
+    manually_deduct_billing:function(frm){
+        total_costing(cur_frm)
+
+    },
     normal_working_hour: function (frm, cdt, cdn) {
         var d = locals[cdt][cdn]
         var from_date = new Date(cur_frm.doc.start_date)
@@ -535,9 +543,13 @@ frappe.ui.form.on('Timesy Details', {
 
 	},
     timesy_details_remove: function(frm, cdt, cdn) {
-                              total_costing(cur_frm)
-                              total_calculation(cur_frm);
+        total_costing(cur_frm)
+        total_calculation(cur_frm);
 	},
+    after_timesy_details_remove:function(frm, cdt, cdn){
+        total_costing(cur_frm)
+        total_calculation(cur_frm);
+    },
     working_hour: function(frm, cdt, cdn) {
 
         var d = locals[cdt][cdn]
@@ -661,6 +673,7 @@ function compute_hours(d,cur_frm) {
         .then(doc => {
             absent_deduction = doc.absent_deduction_per_hour
             if(d.status === "Absent"){
+                console.log("absent")
                 d.working_hour = 0
                 d.costing_hour = 0
                 d.billing_hour = 0
@@ -772,16 +785,35 @@ function total_costing(cur_frm) {
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
     }
-    if (! cur_frm.doc.total_costing_rate_deduction){
+    console.log("nearrrr")
+    if(cur_frm.doc.manually_deduct==0){
         cur_frm.doc.total_costing_rate_deduction = total_absent_hour
+        cur_frm.refresh_field("total_costing_rate_deduction")
     }
-    cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour - cur_frm.doc.total_costing_rate_deduction
-    cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+    if(cur_frm.doc.manually_deduct_billing==0){
+        cur_frm.doc.total_billing_rate_deduction = total_absent_hour
+        cur_frm.refresh_field("total_billing_rate_deduction")
+    }
+   
+    cur_frm.doc.total_costing_rate_before_deduction = total_costing_hour
+    cur_frm.doc.total_billing_rate_before_deduction = total_billing_hour
+    if(cur_frm.doc.manually_deduct==0){
+    cur_frm.doc.total_costing_hour = total_costing_hour - total_absent_hour 
+    }
+    else{
+        cur_frm.doc.total_costing_hour = total_costing_hour - cur_frm.doc.total_costing_rate_deduction
+    }
+    if(cur_frm.doc.manually_deduct_billing==0){
+        cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
+    }
+    else{
+        cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+    }
 
     cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_working_hour = total_working_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
     cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
 
-    cur_frm.refresh_fields(['total_costing_rate_deduction','total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
+    cur_frm.refresh_fields(['total_billing_rate_before_deduction','total_costing_rate_before_deduction','total_costing_rate_deduction','total_overtime_hour_staff','total_costing_hour','total_billing_hour','total_absent_hour', 'total_friday_hour', 'total_overtime_hour','total_working_hour'])
 }
