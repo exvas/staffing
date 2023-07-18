@@ -64,6 +64,14 @@ class Timesy(Document):
             for i in self.timesy_details:
                 if i.working_hour == 0 and i.status == 'Working':
                     frappe.throw("Working Hour must be greater than 0 for Working")
+
+        total_deduction = 0
+        if self.total_costing_rate_deduction:
+            total_deduction += self.total_costing_rate_deduction
+        if self.ppe_deduction:
+            total_deduction += self.ppe_deduction
+        self.total_deduction = total_deduction
+
     @frappe.whitelist()
     def check_invoices(self):
         si = frappe.db.sql(""" SELECT COUNT(*) as count FROM `tabSales Invoice` SI INNER JOIN `tabTimesy List` TL ON TL.parent = SI.name WHERE TL.timesy = %s and SI.docstatus=1""", self.name,as_dict=1)
@@ -147,6 +155,7 @@ def generate_si(source_name, target_doc=None):
             "field_map": {
                 "start_date": "posting_date",
                 "end_date": "due_date",
+                "total_deduction":"discount_amount",
             }
         }
     }, ignore_permissions=True)
@@ -155,11 +164,11 @@ def generate_si(source_name, target_doc=None):
         "timesy": source_name,
         "staff_name": timesy.staff_name if timesy.reference_type == 'Staff' else timesy.employee_name,
         "staffing_project": timesy.staffing_project,
-        "total_costing_rate": timesy.total_costing_hour,
+        "total_costing_rate": timesy.total_costing_rate_before_deduction,
     })
     doc.append("items", {
         "item_code": timesy.item,
-        "rate": timesy.total_costing_hour
+        "rate": timesy.total_costing_rate_before_deduction
     })
     return doc
 
