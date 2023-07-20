@@ -40,6 +40,7 @@
   "total_costing_hour",
   "manually_deduct",
   "total_costing_rate_deduction",
+  "ppe_deduction",
   "total_deduction",
   "overtime_hours",
   "charge_type",
@@ -428,12 +429,17 @@
    "fieldtype": "Float",
    "label": "Total Working Hour",
    "read_only": 1
+  },
+  {
+   "fieldname": "ppe_deduction",
+   "fieldtype": "Currency",
+   "label": "PPE Deduction"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-18 20:28:50.325421",
+ "modified": "2023-07-20 10:10:39.845762",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
