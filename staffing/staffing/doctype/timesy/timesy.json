@@ -36,9 +36,7 @@
   "section_break_10",
   "timesy_details",
   "section_break_12",
-  "total_costing_rate_before_deduction",
   "total_costing_hour",
-  "manually_deduct",
   "total_costing_rate_deduction",
   "ppe_deduction",
   "total_deduction",
@@ -46,12 +44,11 @@
   "charge_type",
   "charge_amount",
   "column_break_15",
-  "total_overtime_hours",
-  "total_working_hours",
   "total_working_hour",
-  "total_billing_rate_before_deduction",
+  "total_working_hours",
+  "total_overtime_hours",
   "total_billing_hour",
-  "manually_deduct_billing",
+  "additions",
   "total_billing_rate_deduction",
   "total_absent_hour",
   "total_overtime_hour",
@@ -93,7 +90,6 @@
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Amended From",
    "no_copy": 1,
    "options": "Timesy",
@@ -291,16 +287,14 @@
    "default": "0",
    "fieldname": "total_costing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )",
-   "read_only_depends_on": "eval:doc.manually_deduct==0"
+   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )"
   },
   {
    "default": "0",
    "depends_on": "eval: doc.reference_type == 'Staff'",
    "fieldname": "total_billing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)",
-   "read_only_depends_on": "eval:doc.manually_deduct_billing==0"
+   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)"
   },
   {
    "depends_on": "eval: doc.reference_type == 'Staff'",
@@ -379,67 +373,47 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval: doc.reference_type == 'Employee'",
+   "depends_on": "eval:doc.reference_type==\"Employee\"",
    "fieldname": "total_overtime_hours",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Overtime Hours",
    "read_only": 1
   },
   {
    "fieldname": "total_working_hours",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "hidden": 1,
    "label": "Total Working Hours",
    "read_only": 1
   },
   {
-   "fieldname": "total_costing_rate_before_deduction",
-   "fieldtype": "Currency",
-   "label": "Total Costing Rate Before Deduction",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval: doc.reference_type == 'Staff'",
-   "fieldname": "total_billing_rate_before_deduction",
-   "fieldtype": "Data",
-   "label": "Total Billing Rate Before Deduction",
-   "read_only": 1
-  },
-  {
    "default": "0",
-   "fieldname": "manually_deduct",
-   "fieldtype": "Check",
-   "label": "Manually Deduct"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval: doc.reference_type == 'Staff'",
-   "fieldname": "manually_deduct_billing",
-   "fieldtype": "Check",
-   "label": "Manually Deduct"
-  },
-  {
-   "fieldname": "total_deduction",
-   "fieldtype": "Currency",
-   "label": "Total Deduction",
-   "read_only": 1
-  },
-  {
    "fieldname": "total_working_hour",
    "fieldtype": "Float",
-   "label": "Total Working Hour",
-   "read_only": 1
+   "label": "Total Working Hour"
+  },
+  {
+   "depends_on": "eval:doc.reference_type==\"Staff\"",
+   "fieldname": "additions",
+   "fieldtype": "Currency",
+   "label": "Total Billing Rate Additions"
   },
   {
    "fieldname": "ppe_deduction",
    "fieldtype": "Currency",
    "label": "PPE Deduction"
+  },
+  {
+   "fieldname": "total_deduction",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Deduction"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-20 10:10:39.845762",
+ "modified": "2023-07-23 12:42:08.318569",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",

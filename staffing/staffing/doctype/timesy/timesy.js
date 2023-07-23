@@ -168,6 +168,10 @@ frappe.ui.form.on('Timesy', {
         total_costing(cur_frm)
 
     },
+    additions:function(frm){
+        total_costing(cur_frm)
+
+    },
     normal_working_hour: function (frm, cdt, cdn) {
         var d = locals[cdt][cdn]
         var from_date = new Date(cur_frm.doc.start_date)
@@ -808,6 +812,13 @@ function total_costing(cur_frm) {
     }
     else{
         cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+    }
+    if(cur_frm.doc.additions){
+        cur_frm.doc.total_billing_hour = total_billing_hour + cur_frm.doc.additions
+        
+    }
+    else{
+        cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
     }
 
     cur_frm.doc.total_absent_hour = total_absent_hour
