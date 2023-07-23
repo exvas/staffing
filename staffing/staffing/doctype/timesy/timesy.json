@@ -137,8 +137,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "TS-.YY.-",
-   "reqd": 1
+   "options": "TS-.YY.-"
   },
   {
    "allow_on_submit": 1,
@@ -378,7 +377,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-23 11:37:57.347789",
+ "modified": "2023-07-23 12:14:51.317884",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
