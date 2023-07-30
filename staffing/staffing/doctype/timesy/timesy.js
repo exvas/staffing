@@ -416,14 +416,16 @@ cur_frm.clear_table("monthly_timesheet")
          cur_frm.set_query("employee_code", () => {
             return {
                 filters: {
-                    status: 'Active'
+                    status: 'Active',
+                    company:cur_frm.doc.company
                 }
             }
         })
         cur_frm.set_query("staff_code", () => {
             return {
                 filters: {
-                    status: 'Active'
+                    status: 'Active',
+                    company:cur_frm.doc.company
                 }
             }
         })
@@ -510,6 +512,13 @@ cur_frm.clear_table("monthly_timesheet")
         }
 
 	},
+    reference_type:function(frm){
+        if(!cur_frm.doc.company){
+            frm.doc.reference_type=''
+            cur_frm.refresh_field("reference_type")
+            frappe.throw("Please select Company first")
+        }
+    },
 })
 function get_designation(cur_frm, obj) {
      frappe.db.count('Staffing Cost', obj)
