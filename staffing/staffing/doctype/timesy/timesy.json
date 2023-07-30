@@ -36,7 +36,9 @@
   "section_break_10",
   "timesy_details",
   "section_break_12",
+  "total_costing_rate_before_deduction",
   "total_costing_hour",
+  "manually_deduct",
   "total_costing_rate_deduction",
   "ppe_deduction",
   "total_deduction",
@@ -47,8 +49,10 @@
   "total_working_hour",
   "total_working_hours",
   "total_overtime_hours",
+  "total_billing_rate_before_deduction",
   "total_billing_hour",
   "additions",
+  "manually_deduct_billing",
   "total_billing_rate_deduction",
   "total_absent_hour",
   "total_overtime_hour",
@@ -408,12 +412,35 @@
    "fieldtype": "Currency",
    "hidden": 1,
    "label": "Total Deduction"
+  },
+  {
+   "fieldname": "total_costing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Costing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "manually_deduct",
+   "fieldtype": "Check",
+   "label": "Manually Deduct"
+  },
+  {
+   "fieldname": "total_billing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Billing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "manually_deduct_billing",
+   "fieldtype": "Data",
+   "label": "Manually Deduct Billing"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-23 12:42:08.318569",
+ "modified": "2023-07-30 18:56:39.230711",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
