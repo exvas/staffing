@@ -50,7 +50,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Working\nAbsent\nMedical\nHoliday\nHoliday Working\nFriday Working\nFriday\nStandby\nStandby Pay\nRelease\nBad Weather",
+   "options": "Working\nAbsent\nMedical\nHoliday\nHoliday Working\nFriday Working\nHoliday Working Full Overtime\nFriday Working Full Overtime\nFriday\nStandby\nStandby Pay\nRelease\nBad Weather",
    "read_only_depends_on": "eval: parent.status == 'Completed'"
   },
   {
@@ -89,7 +89,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-23 11:35:00.408179",
+ "modified": "2023-07-30 22:12:49.716586",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy Details",

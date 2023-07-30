@@ -385,12 +385,49 @@
    "fieldname": "ppe_deduction",
    "fieldtype": "Currency",
    "label": "PPE Deduction"
+  },
+  {
+   "fieldname": "total_deduction",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Deduction"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "fieldname": "total_billing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Billing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_costing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Costing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "manually_deduct",
+   "fieldtype": "Check",
+   "label": "Manually Deduct"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "fieldname": "manually_deduct_billing",
+   "fieldtype": "Check",
+   "label": "Manually Deduct"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
+<<<<<<< HEAD
  "modified": "2023-07-30 20:38:36.733964",
+=======
+ "modified": "2023-07-30 22:43:11.156206",
+>>>>>>> 642eee0e52444508b0885619ff52e0ce94e67844
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
