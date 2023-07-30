@@ -36,16 +36,23 @@
   "section_break_10",
   "timesy_details",
   "section_break_12",
+  "total_costing_rate_before_dedcution",
   "total_costing_hour",
+  "manually_deduct",
   "total_costing_rate_deduction",
   "ppe_deduction",
+  "total_deduction",
   "overtime_hours",
   "charge_type",
   "charge_amount",
   "column_break_15",
   "total_working_hour",
+  "total_working_hours",
+  "total_overtime_hours",
+  "total_billing_rate_before_deduction",
   "total_billing_hour",
   "additions",
+  "manually_deduct_billing",
   "total_billing_rate_deduction",
   "total_absent_hour",
   "total_overtime_hour",
@@ -393,17 +400,9 @@
    "label": "Total Deduction"
   },
   {
-   "allow_on_submit": 1,
-   "depends_on": "eval: doc.reference_type == 'Staff'",
-   "fieldname": "total_billing_rate_before_deduction",
+   "fieldname": "total_costing_rate_before_dedcution",
    "fieldtype": "Currency",
-   "label": "Total Billing Rate Before Deduction",
-   "read_only": 1
-  },
-  {
-   "fieldname": "total_costing_rate_before_deduction",
-   "fieldtype": "Currency",
-   "label": "Total Costing Rate Before Deduction",
+   "label": "Total Costing Rate Before Dedcution",
    "read_only": 1
   },
   {
@@ -413,8 +412,27 @@
    "label": "Manually Deduct"
   },
   {
+   "fieldname": "total_working_hours",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Total Working Hours"
+  },
+  {
+   "fieldname": "total_overtime_hours",
+   "fieldtype": "Float",
+   "label": "Total Overtime Hours",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.reference_type==\"Staff\"",
+   "fieldname": "total_billing_rate_before_deduction",
+   "fieldtype": "Currency",
+   "label": "Total Billing Rate Before Deduction",
+   "read_only": 1
+  },
+  {
    "default": "0",
-   "depends_on": "eval: doc.reference_type == 'Staff'",
+   "depends_on": "eval:doc.reference_type==\"Staff\"",
    "fieldname": "manually_deduct_billing",
    "fieldtype": "Check",
    "label": "Manually Deduct"
@@ -423,7 +441,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-30 22:43:11.156206",
+ "modified": "2023-07-30 21:28:25.098561",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
