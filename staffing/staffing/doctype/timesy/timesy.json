@@ -154,7 +154,8 @@
    "default": "0",
    "fieldname": "total_absent_hour",
    "fieldtype": "Currency",
-   "label": "Total Absent Amount"
+   "label": "Total Absent Amount",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_15",
@@ -291,14 +292,16 @@
    "default": "0",
    "fieldname": "total_costing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )"
+   "label": "Total Costing Rate Deduction ( Total Client Rate Deduction )",
+   "read_only_depends_on": "eval:doc.manually_deduct==0"
   },
   {
    "default": "0",
    "depends_on": "eval: doc.reference_type == 'Staff'",
    "fieldname": "total_billing_rate_deduction",
    "fieldtype": "Currency",
-   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)"
+   "label": "Total Billing Rate Deduction ( Total Supplier Rate  Deduction)",
+   "read_only_depends_on": "eval:doc.manually_deduct_billing==0"
   },
   {
    "depends_on": "eval: doc.reference_type == 'Staff'",
@@ -380,7 +383,8 @@
    "default": "0",
    "fieldname": "total_working_hour",
    "fieldtype": "Float",
-   "label": "Total Working Hour"
+   "label": "Total Working Hour",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.reference_type==\"Staff\"",
@@ -441,7 +445,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-30 21:28:25.098561",
+ "modified": "2023-07-31 05:43:11.119076",
  "modified_by": "Administrator",
  "module": "Staffing",
  "name": "Timesy",
