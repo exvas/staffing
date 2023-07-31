@@ -479,6 +479,7 @@ cur_frm.clear_table("monthly_timesheet")
 
 	},
     total_absent_hour: function(frm) {
+        console.log("yes")
         frappe.db.get_doc("Staffing Cost", cur_frm.doc.staffing_cost)
               .then(doc => {
 
@@ -486,8 +487,12 @@ cur_frm.clear_table("monthly_timesheet")
 
              cur_frm.refresh_fields(['total_overtime_hour'])
         })
+        total_costing(cur_frm)
 
 	},
+    manually_deduct_absent:function(frm){
+        total_costing(cur_frm)
+    },
     total_costing_rate_deduction: function(frm) {
         if(cur_frm.doc.skip_timesheet){
             var from_date = new Date(cur_frm.doc.start_date)
@@ -782,6 +787,7 @@ function compute_hours(d,cur_frm) {
     })
 }
 function total_costing(cur_frm) {
+    console.log('working')
     var total_costing_hour = 0
     var total_billing_hour = 0
     var total_absent_hour = 0
@@ -797,6 +803,10 @@ function total_costing(cur_frm) {
         total_billing_hour += cur_frm.doc.timesy_details[x].billing_hour
         total_overtime_hour += cur_frm.doc.timesy_details[x].overtime_hour
         total_absent_hour += cur_frm.doc.timesy_details[x].absent_hour
+    }
+    if(cur_frm.doc.manually_deduct_absent==1){
+        total_absent_hour=0
+        total_absent_hour = cur_frm.doc.total_absent_hour
     }
     console.log("nearrrr")
     if(cur_frm.doc.manually_deduct==0){
@@ -830,7 +840,15 @@ function total_costing(cur_frm) {
         cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
     }
 
-    cur_frm.doc.total_absent_hour = total_absent_hour
+    if(cur_frm.doc.manually_deduct_absent==0){
+        cur_frm.doc.total_absent_hour = total_absent_hour
+        cur_frm.refresh_field("total_absent_hour")
+    }
+    // else{
+    //     cur_frm.doc.total_billing_rate_deduction = total_absent_hour
+    //     cur_frm.refresh_field("total_billing_rate_deduction")
+    // }
+    // cur_frm.doc.total_absent_hour = total_absent_hour
     cur_frm.doc.total_working_hour = total_working_hour
     cur_frm.doc.total_overtime_hour = total_overtime_hour
     cur_frm.doc.total_overtime_hour_staff = total_working_hour >= (cur_frm.doc.normal_working_hour * number_of_days) ? total_working_hour - (cur_frm.doc.normal_working_hour * number_of_days) : 0
