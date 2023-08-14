@@ -184,6 +184,10 @@ frappe.ui.form.on('Timesy', {
         }
         total_costing(cur_frm)
     },
+    include_in_total_costing_rate:function(frm){
+        total_costing(cur_frm)
+
+    },
     skip_timesheet: function (frm, cdt, cdn) {
         var d = locals[cdt][cdn]
       if(cur_frm.doc.monthly_timesheet.length === 0 && cur_frm.doc.holiday_list){
@@ -817,7 +821,8 @@ function total_costing(cur_frm) {
         cur_frm.doc.total_billing_rate_deduction = total_absent_hour
         cur_frm.refresh_field("total_billing_rate_deduction")
     }
-   
+    console.log("my func")
+    console.log(total_costing_hour)
     cur_frm.doc.total_costing_rate_before_deduction = total_costing_hour
     cur_frm.doc.total_billing_rate_before_deduction = total_billing_hour
     if(cur_frm.doc.manually_deduct==0){
@@ -843,6 +848,9 @@ function total_costing(cur_frm) {
     if(cur_frm.doc.manually_deduct_absent==0){
         cur_frm.doc.total_absent_hour = total_absent_hour
         cur_frm.refresh_field("total_absent_hour")
+    }
+    if(cur_frm.doc.include_in_total_costing_rate){
+        cur_frm.doc.total_costing_hour = cur_frm.doc.total_costing_hour + cur_frm.doc.charge_amount
     }
     // else{
     //     cur_frm.doc.total_billing_rate_deduction = total_absent_hour
