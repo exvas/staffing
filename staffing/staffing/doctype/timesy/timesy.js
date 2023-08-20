@@ -675,13 +675,14 @@ function total_calculation(cur_frm){
     var total_ded =0
     for(var i=0;i<table.length;i++){
         if(table[i].ot_hour){
-            total_ot += table[i].ot_hour
+            total_ot += float(table[i].ot_hour)
         }
         total_hr += table[i].working_hour
         if (table[i].absent_hour){
             total_ded += table[i].absent_hour
         }
     }
+    console.log("overtime Hour ",total_ot)
     cur_frm.set_value("total_overtime_hours",total_ot)
     cur_frm.set_value("total_working_hours",total_hr)
    
@@ -743,7 +744,7 @@ function compute_hours(d,cur_frm) {
                 d.working_hour = 0
                 d.costing_hour = 0
                 d.billing_hour = 0
-                d.absent_hour = doc.absent_deduction_per_hour
+                d.absent_hour = 0
                 d.friday_hour = 0
                 d.overtime_hour = cur_frm.doc.reference_type === 'Employee' && d.working_hour > cur_frm.doc.normal_working_hour? (d.working_hour - cur_frm.doc.normal_working_hour) * doc.default_overtime_rate: 0
                 cur_frm.refresh_field(d.parentfield)
@@ -835,14 +836,18 @@ function total_costing(cur_frm) {
         cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
     }
     else{
+        console.log(total_billing_hour, cur_frm.doc.total_billing_rate_deduction,"^^^^^^^^^^^^^^^^^")
+        var kk = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+        console.log("KKK",kk)
         cur_frm.doc.total_billing_hour = total_billing_hour - cur_frm.doc.total_billing_rate_deduction
+        cur_frm.refresh_field("total_billing_hour")
     }
     if(cur_frm.doc.additions){
-        cur_frm.doc.total_billing_hour = total_billing_hour + cur_frm.doc.additions
+        cur_frm.doc.total_billing_hour = cur_frm.doc.total_billing_hour + cur_frm.doc.additions
         
     }
     else{
-        cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
+        cur_frm.doc.total_billing_hour = cur_frm.doc.total_billing_hour - total_absent_hour
     }
 
     if(cur_frm.doc.manually_deduct_absent==0){
