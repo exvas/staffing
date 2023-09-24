@@ -611,6 +611,7 @@ frappe.ui.form.on('Timesy Details', {
         }
         
         total_calculation(cur_frm);
+        console.log("clicked")
         
         
 
@@ -675,13 +676,14 @@ function total_calculation(cur_frm){
     var total_ded =0
     for(var i=0;i<table.length;i++){
         if(table[i].ot_hour){
-            total_ot += float(table[i].ot_hour)
+            total_ot += parseFloat(table[i].ot_hour)
         }
         total_hr += table[i].working_hour
         if (table[i].absent_hour){
             total_ded += table[i].absent_hour
         }
     }
+    console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
     console.log("overtime Hour ",total_ot)
     cur_frm.set_value("total_overtime_hours",total_ot)
     cur_frm.set_value("total_working_hours",total_hr)
