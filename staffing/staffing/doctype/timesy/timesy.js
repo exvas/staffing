@@ -816,6 +816,8 @@ function total_costing(cur_frm) {
         total_absent_hour = cur_frm.doc.total_absent_hour
     }
     console.log("nearrrr")
+    console.log(total_absent_hour)
+
     if(cur_frm.doc.manually_deduct==0){
         cur_frm.doc.total_costing_rate_deduction = total_absent_hour
         cur_frm.refresh_field("total_costing_rate_deduction")
@@ -834,6 +836,9 @@ function total_costing(cur_frm) {
     else{
         cur_frm.doc.total_costing_hour = total_costing_hour - cur_frm.doc.total_costing_rate_deduction
     }
+    console.log("&&&&&&&&&&&")
+    console.log(total_absent_hour)
+    console.log(total_billing_hour)
     if(cur_frm.doc.manually_deduct_billing==0){
         cur_frm.doc.total_billing_hour = total_billing_hour - total_absent_hour
     }
@@ -849,7 +854,7 @@ function total_costing(cur_frm) {
         
     }
     else{
-        cur_frm.doc.total_billing_hour = cur_frm.doc.total_billing_hour - total_absent_hour
+        // cur_frm.doc.total_billing_hour = cur_frm.doc.total_billing_hour - total_absent_hour
     }
 
     if(cur_frm.doc.manually_deduct_absent==0){

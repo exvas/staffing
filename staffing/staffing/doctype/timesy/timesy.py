@@ -189,6 +189,8 @@ def generate_pi(source_name, target_doc=None):
     # doc = frappe.get_doc(doctype, obj).insert()
     # return doc.name
     timesy = frappe.get_doc("Timesy", source_name)
+    i_name = frappe.db.get_value("Item",timesy.item,"item_name")
+    uom = frappe.db.get_value("Item",timesy.item,"stock_uom")
     doc = get_mapped_doc("Timesy", source_name, {
         "Timesy": {
             "doctype": "Purchase Invoice",
@@ -210,6 +212,8 @@ def generate_pi(source_name, target_doc=None):
     })
     doc.append("items", {
         "item_code": timesy.item,
+        "item_name":i_name,
+        "uom":uom,
         "qty": 1,
         "rate": timesy.total_billing_hour
 
