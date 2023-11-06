@@ -146,6 +146,8 @@ def generate_si(source_name, target_doc=None):
     # doc = frappe.get_doc(doctype, obj).insert()
     # return doc.name
     timesy = frappe.get_doc("Timesy", source_name)
+    print("workingggg ...")
+    print(timesy.total_costing_rate_before_deduction)
     doc = get_mapped_doc("Timesy", source_name, {
         "Timesy": {
             "doctype": "Sales Invoice",
@@ -168,7 +170,10 @@ def generate_si(source_name, target_doc=None):
     })
     doc.append("items", {
         "item_code": timesy.item,
-        "rate": timesy.total_costing_rate_before_deduction
+        "rate": timesy.total_costing_rate_before_deduction,
+        "amount": timesy.total_costing_rate_before_deduction,
+        "qty":1
+
     })
     return doc
 
