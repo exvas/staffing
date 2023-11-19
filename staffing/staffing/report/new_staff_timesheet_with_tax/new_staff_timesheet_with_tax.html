@@ -47,16 +47,12 @@
             <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Rate Hours") %}
             </td>
-            {% if data[0].total_absent_deduction_per_hour %}
             <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Deductions") %}
             </td>
-            {% endif %}
-            {% if data[0].additions %}
             <td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">
                 {%= __("Additions") %}
             </td>
-            {% endif %}
 			<td class="text-center" style="border: 1px solid black;width: 10%;font-size:8px">{%= __("Total Amount") %}</td>
 		</tr>
         {% for(var i=0, l=data.length; i<l; i++) { %}
@@ -74,22 +70,26 @@
                     <td class="text-center" style="border: 1px solid black;font-size:8px">
                         {%= data[i].default_billing_rate_per_hour %}
                     </td>
-                    {% if data[i].total_absent_deduction_per_hour %}
                     <td class="text-center" style="border: 1px solid black;font-size:8px">
-                        {%= data[i].total_absent_deduction_per_hour %}
+                        {% if data[i].total_absent_deduction_per_hour %}
+                            {%= data[i].total_absent_deduction_per_hour %}
+                        {% else %}
+                            {%= "0.00" %}
+                        {% endif %}
                     </td>
-                    {% endif %}
-                    {% if data[i].additions %}
                     <td class="text-center" style="border: 1px solid black;font-size:8px">
-                        {%= data[i].additions %}
+                        {% if data[i].additions %}
+                            {%= data[i].additions %}
+                        {% else %}
+                            {%= "0.00" %}
+                        {% endif %}
                     </td>
-                    {% endif %}
                     <td  class="text-center" style="border: 1px solid black;font-size:8px">{{ format_number(data[i].amount ,"",2)}}</td>
                 </tr>
             {% } %}
 		{% } %}
     <tr>
-			<td colspan="34" rowspan="6" style="border: 1px solid black;width: 1%;font-size:8px">
+			<td colspan="35" rowspan="6" style="border: 1px solid black;width: 1%;font-size:8px">
                 <br>
                 <span style="margin-left: 10%">F-Friday</span>
                 <span style="margin-left: 10%">H-Holiday</span>
