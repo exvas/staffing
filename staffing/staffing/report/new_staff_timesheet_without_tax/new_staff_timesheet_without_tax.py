@@ -61,7 +61,7 @@ def execute(filters=None):
 					WHERE MONTH(T.start_date) {3} and YEAR(T.start_date) = '{4}' {5}""".format(fields,type,inner_join_filter,final_months,filters.get("fiscal_year"),condition)
 		print(query)
 		data += frappe.db.sql(query, as_dict=1)
-		total_amount = total_absent = total_absent_deduction = total_deduction = total_ded = additions = 0
+		total_amount = total_absent = total_absent_deduction = total_deduction = total_ded = additions = tada = 0
 		for x in data:
 			timesy_details = frappe.db.sql(""" SELECT DAY(date) as day_of_the_month, working_hour, status FROM `tabTimesy Details` WHERE parent=%s""", x.name, as_dict=1)
 			ttl=0
@@ -89,7 +89,10 @@ def execute(filters=None):
 			x['total_hour'] = sum
 			x['amount'] = x.default_billing_rate_per_hour * sum
 			x['absent'] = absent
-			x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
+			x['tada'] = x['total_billing_rate_deduction'] + x['total_absent_hour']
+			tada += x['tada']
+			x['total_absent_deduction_per_hour'] = x['tada']
+			# x['total_absent_deduction_per_hour'] = absent * x.absent_deduction_per_hour
 			x['net_total'] = x['amount'] - x['total_absent_deduction_per_hour']
 			if x.additions:
 				x['net_total'] = x['net_total'] + x.additions
@@ -107,9 +110,10 @@ def execute(filters=None):
 			data[len(data)-1]['total_absent'] = total_absent
 			data[len(data)-1]['subtotal_without_vat_1'] = total_amount - total_absent
 			data[len(data)-1]['fifteen_percent'] =round((total_amount - total_absent + additions) * 0.15,2)
-			data[len(data)-1]['grand_total'] =round(((total_amount - total_absent_deduction + additions) * 0.15),2) + (total_amount - total_absent_deduction + additions)
+			data[len(data)-1]['grand_total'] =round(((total_amount - tada + additions) * 0.15),2) + (total_amount - tada + additions)
 			data[len(data)-1]['total_deduction'] =round(total_absent_deduction,2)
 			data[len(data)-1]['total_ded'] =total_ded
+			data[len(data)-1]['sum_tada'] =tada
 
 
 	return columns, data
@@ -152,6 +156,8 @@ def get_fields(type):
 		fields = "T.employee_code as employee," \
 				 "T.employee_name as employee_staff_name," \
 				 "T.additions,"\
+				 "T.total_billing_rate_deduction,"\
+				 "T.total_absent_hour,"\
 				 "E.designation,T.name," \
 				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
@@ -160,6 +166,8 @@ def get_fields(type):
 		fields = "T.staff_code as employee," \
 				 "T.staff_name as employee_staff_name," \
 				 "T.additions,"\
+				 "T.total_billing_rate_deduction,"\
+				 "T.total_absent_hour,"\
 				 "E.designation,T.name," \
 				 "SC.default_billing_rate_per_hour," \
 				 "SC.absent_deduction_per_hour"
